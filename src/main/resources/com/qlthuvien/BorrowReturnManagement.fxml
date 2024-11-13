@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+
+<TabPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.qlthuvien.controller_admin.BorrowReturnManagementController" stylesheets="@styles.css" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="30">
+    <!-- Tab for Normal Borrow/Return -->
+    <Tab text="📚 Borrow/Return Normal" closable="false">
+        <fx:include source="BorrowReturnNormalTab.fxml"/>
+    </Tab>
+
+    <!-- Tab for QR Borrow/Return with icon -->
+    <Tab text="🔍 Borrow/Return with QR" closable="false">
+        <fx:include source="BorrowReturnWithQRTab.fxml"/>
+    </Tab>
+</TabPane>
