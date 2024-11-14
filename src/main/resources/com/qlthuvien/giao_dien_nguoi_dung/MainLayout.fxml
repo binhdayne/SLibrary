@@ -12,12 +12,16 @@
     <!-- Left Sidebar Menu -->
     <left>
         <VBox alignment="CENTER" styleClass="menu-sidebar">
-            <Button fx:id="btnHome" onAction="#showHomeScreen" prefHeight="31.0" prefWidth="86.0" styleClass="menu-button" text="Home" />
-            <Button fx:id="btnDocuments" onAction="#showDocumentsScreen" prefHeight="24.0" prefWidth="82.0" styleClass="menu-button" text="Documents" />
-            <Button fx:id="btnUsers" onAction="#showUsersScreen" prefHeight="26.0" prefWidth="84.0" styleClass="menu-button" text="Users" />
-            <Button fx:id="btnLoans" onAction="#showLoansScreen" prefHeight="30.0" prefWidth="88.0" styleClass="menu-button" text="Loans" />
-            <Button fx:id="btnSettings" onAction="#showSettingsScreen" prefHeight="29.0" prefWidth="89.0" styleClass="menu-button" text="Settings" />
-            <Button fx:id="btnlogout" onAction="#showLogoutScreen" prefHeight="29.0" prefWidth="89.0" styleClass="menu-button" text="Logout" />
+            <ImageView fx:id="logoImage" fitWidth="100" preserveRatio="true" style="-fx-margin-bottom: 20;">
+                <image>
+                    <Image url="@../../../icons/users.png" />
+                </image>
+            </ImageView>
+
+            <!-- Add a Label for displaying the user ID -->
+            <Label fx:id="userIdLabel" styleClass="label-user-id" text="User ID: " />
+            <Button fx:id="btnHome" onAction="#showHomeScreen" prefHeight="26.0" prefWidth="84.0" styleClass="menu-button" text="Home" />
+            <Button fx:id="btnUsers" onAction="#showProfileScreen" prefHeight="26.0" prefWidth="84.0" styleClass="menu-button" text="Profile" />
         </VBox>
     </left>
 
@@ -26,10 +30,14 @@
         <VBox fx:id="contentArea" alignment="CENTER" spacing="20" styleClass="content-area">
             <Label styleClass="label-header" text="Welcome to the Library Management System" />
             <Label styleClass="label-subheader" text="Your portal to all things books and learning" />
-            <HBox alignment="CENTER" spacing="20">
-                <Button fx:id="exploreDocuments" onAction="#showDocumentsScreen" styleClass="action-button" text="Explore Documents" />
-                <Button fx:id="manageLoans" onAction="#showLoansScreen" styleClass="action-button" text="Manage Loans" />
-            </HBox>
+
+            <!-- Labels to display user information -->
+            <Label fx:id="nameLabel" text="Name: " />
+            <Label fx:id="emailLabel" text="Email: " />
+            <Label fx:id="phoneLabel" text="Phone: " />
+            <Label fx:id="userNameLabel" text="Username: " />
+
+            <HBox alignment="CENTER" spacing="20" />
         </VBox>
     </center>
 </BorderPane>
