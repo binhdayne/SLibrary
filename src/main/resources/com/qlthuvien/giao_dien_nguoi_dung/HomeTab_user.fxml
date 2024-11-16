@@ -1,135 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox spacing="20" style="-fx-padding: 20; -fx-background-color: #F9F9F9;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
-    <!-- Featured Books Section -->
-    <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-padding: 20 0 10 0; -fx-text-fill: #333333;" text="Bestselling Books" />
+<VBox spacing="20" style="-fx-padding: 20; -fx-background-color: #F9F9F9;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlthuvien.controller_user.HomeTabUser">
 
-    <!-- ScrollPane for the list of books -->
+    <!-- Thanh tìm kiếm -->
+    <HBox alignment="CENTER" spacing="10">
+        <TextField fx:id="searchField" promptText="Title or Author" />
+        <Button fx:id="searchButton" onAction="#searchBooks" text="Search" />
+    </HBox>
+
+    <!-- Tiêu đề -->
+    <Label prefHeight="25.0" prefWidth="103.0" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 1 0 1 20; -fx-text-fill: #333333;" text="All Books">
+        <font>
+            <Font size="11.0" />
+        </font>
+    </Label>
+
+    <!-- Danh sách sách -->
     <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: transparent;">
-        <VBox fx:id="bestsellingBooksList" spacing="10" style="-fx-padding: 10;">
-
-            <!-- Example of a single book entry, repeat for each bestselling book -->
-            <HBox alignment="CENTER_LEFT" spacing="10" styleClass="book-item">
-                <!-- Thumbnail or Image for the book (optional) -->
-                <ImageView fx:id="bookCover1" fitHeight="75" fitWidth="50">
-                    <image>
-                        <Image url="@../../icons/bookCover1.png" />
-                    </image>
-                </ImageView>
-
-
-                <VBox>
-                    <Label styleClass="book-title" text="Book Title 1" />
-                    <Label styleClass="book-author" text="Author Name" />
-                </VBox>
-            </HBox>
-
-            <!-- Repeat HBox for each book in your bestselling list -->
-            <HBox alignment="CENTER_LEFT" spacing="10" styleClass="book-item">
-                <!-- Thumbnail or Image for the book -->
-                <ImageView fx:id="bookCover2" fitHeight="75" fitWidth="50">
-                    <image>
-                        <Image url="@../../icons/bookCover2.png" />
-                    </image>
-                </ImageView>
-
-                <VBox>
-                    <Label styleClass="book-title" text="Book Title 2" />
-                    <Label styleClass="book-author" text="Author Name 2" />
-                </VBox>
-            </HBox>
-            <HBox styleClass="book-item" spacing="10" alignment="CENTER_LEFT">
-                <!-- Thumbnail or Image for the book -->
-                <ImageView fx:id="bookCover3" fitWidth="50" fitHeight="75">
-                    <image>
-                        <Image url="@../../icons/bookCover1.png"/>
-                    </image>
-                </ImageView>
-
-                <VBox>
-                    <Label styleClass="book-title" text="Book Title 2" />
-                    <Label styleClass="book-author" text="Author Name 2" />
-                </VBox>
-            </HBox>
-            <HBox styleClass="book-item" spacing="10" alignment="CENTER_LEFT">
-                <!-- Thumbnail or Image for the book -->
-                <ImageView fx:id="bookCover4" fitWidth="50" fitHeight="75">
-                    <image>
-                        <Image url="@../../icons/bookCover1.png"/>
-                    </image>
-                </ImageView>
-
-                <VBox>
-                    <Label styleClass="book-title" text="Book Title 2" />
-                    <Label styleClass="book-author" text="Author Name 2" />
-                </VBox>
-            </HBox>
-            <HBox styleClass="book-item" spacing="10" alignment="CENTER_LEFT">
-                <!-- Thumbnail or Image for the book -->
-                <ImageView fx:id="bookCover5" fitWidth="50" fitHeight="75">
-                    <image>
-                        <Image url="@../../icons/bookCover1.png"/>
-                    </image>
-                </ImageView>
-
-                <VBox>
-                    <Label styleClass="book-title" text="Book Title 2" />
-                    <Label styleClass="book-author" text="Author Name 2" />
-                </VBox>
-            </HBox>
-
-            <HBox styleClass="book-item" spacing="10" alignment="CENTER_LEFT">
-                <!-- Thumbnail or Image for the book -->
-                <ImageView fx:id="bookCover6" fitWidth="50" fitHeight="75">
-                    <image>
-                        <Image url="@../../icons/bookCover1.png"/>
-                    </image>
-                </ImageView>
-
-                <VBox>
-                    <Label styleClass="book-title" text="Book Title 2" />
-                    <Label styleClass="book-author" text="Author Name 2" />
-                </VBox>
-            </HBox>
-
-            <HBox styleClass="book-item" spacing="10" alignment="CENTER_LEFT">
-                <!-- Thumbnail or Image for the book -->
-                <ImageView fx:id="bookCover7" fitWidth="50" fitHeight="75">
-                    <image>
-                        <Image url="@../../icons/bookCover1.png"/>
-                    </image>
-                </ImageView>
-
-                <VBox>
-                    <Label styleClass="book-title" text="Book Title 2" />
-                    <Label styleClass="book-author" text="Author Name 2" />
-                </VBox>
-            </HBox>
-
-            <HBox styleClass="book-item" spacing="10" alignment="CENTER_LEFT">
-                <!-- Thumbnail or Image for the book -->
-                <ImageView fx:id="bookCover8" fitWidth="50" fitHeight="75">
-                    <image>
-                        <Image url="@../../icons/bookCover1.png"/>
-                    </image>
-                </ImageView>
-
-                <VBox>
-                    <Label styleClass="book-title" text="Book Title 2" />
-                    <Label styleClass="book-author" text="Author Name 2" />
-                </VBox>
-            </HBox>
-
-
-
-
+        <VBox fx:id="bestsellingBooksList" prefHeight="360.0" prefWidth="393.0" spacing="10" style="-fx-padding: 10;">
         </VBox>
     </ScrollPane>
+
+    <!-- Chi tiết sách được chọn -->
+    <VBox fx:id="selectedBookDetails" spacing="10" style="-fx-padding: 20; -fx-background-color: #EFEFEF;">
+        <HBox spacing="15">
+            <!-- Bìa sách -->
+            <ImageView fx:id="bookThumbnail" fitHeight="166.0" fitWidth="108.0" />
+
+            <!-- Thông tin sách -->
+            <VBox alignment="TOP_LEFT" spacing="10">
+                <Label fx:id="bookTitleLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Title" />
+                <Label fx:id="bookAuthorLabel" style="-fx-font-size: 14px;" text="Author" />
+                <Label fx:id="bookDescriptionLabel" style="-fx-font-size: 12px; -fx-padding: 5;" text="Description" wrapText="true" />
+            </VBox>
+        </HBox>
+
+        <!-- Nút Add Book -->
+        <Button fx:id="addBookButton" onAction="#addBook" style="-fx-font-size: 14px; -fx-padding: 5 10;" text="Add Book" />
+    </VBox>
 </VBox>
