@@ -88,3 +88,21 @@
     -fx-font-size: 16px;
     -fx-text-fill: #666666; /* Màu chữ phụ */
 }
+.book-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.book-author {
+    -fx-font-size: 12px;
+    -fx-text-fill: #555;
+}
+
+.book-item {
+    -fx-padding: 10;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dddddd;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
