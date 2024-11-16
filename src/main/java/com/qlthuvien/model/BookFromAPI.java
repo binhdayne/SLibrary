@@ -6,43 +6,6 @@ public class BookFromAPI extends Document {
     private String publishedDate;
     private String description;
 
-    /**
-     * Constructor BookFromAPI with 0 parameters.
-     */
-    public BookFromAPI() {
-        super();
-        this.isbn = "";
-        this.publisher = "";
-        this.publishedDate = "";
-        this.description = "";
-    }
-
-    /**
-     * Constructor BookFromAPI with 4 parameters.
-     * @param isbn ISBN
-     * @param publisher nha xuat ban
-     * @param publishedDate ngay xuat ban
-     * @param description mo ta
-     */
-    public BookFromAPI(String isbn, String publisher, String publishedDate, String description) {
-        super();
-        this.isbn = isbn;
-        this.publisher = publisher;
-        this.publishedDate = publishedDate;
-        this.description = description;
-    }
-
-    /**
-     * Constructor BookFromAPI with 8 parameters.
-     * @param id id
-     * @param title tieu de
-     * @param author tac gia
-     * @param status trang thai
-     * @param isbn ISBN
-     * @param publisher nha xuat ban
-     * @param publishedDate ngay xuat ban
-     * @param description mo ta
-     */
     public BookFromAPI(int id, String title, String author, String status, String isbn, String publisher, String publishedDate, String description) {
         super(id, title, author, status);
         this.isbn = isbn;
@@ -84,9 +47,6 @@ public class BookFromAPI extends Document {
         this.description = description;
     }
 
-    /**
-     * Print information of BookFromAPI.
-     */
     @Override
     public void printInfo() {
         System.out.println("Book [ID=" + getId() + ", Title=" + getTitle() + ", Author=" + getAuthor() +

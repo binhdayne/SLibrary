@@ -19,7 +19,7 @@ public class DatabaseTask<T> extends Task<T> {
 
     @Override
     protected T call() throws Exception {
-        // trễ 1s
+        // trễ 6s
         Thread.sleep(1000);
         // Thực hiện truy vấn cơ sở dữ liệu trong luồng riêng
         return databaseQuery.call();

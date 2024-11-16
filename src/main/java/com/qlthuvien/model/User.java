@@ -6,23 +6,6 @@ public class User {
     private String email;
     private String phone;
 
-    /**
-     * Constructor User with 0 parameters.
-     */
-    public User() {
-        this.membershipId = "";
-        this.name = "";
-        this.email = "";
-        this.phone = "";
-    }
-
-    /**
-     * Constructor User with 4 parameters.
-     * @param membershipId membershipid
-     * @param name tên
-     * @param email email
-     * @param phone sdt
-     */
     public User(String membershipId, String name, String email, String phone) {
         this.membershipId = membershipId;
         this.name = name;
@@ -34,7 +17,7 @@ public class User {
         return membershipId;
     }
 
-    public void setMembershipId(String membershipId) {
+    public void setmembershipId(String membershipId) {
         this.membershipId = membershipId;
     }
 

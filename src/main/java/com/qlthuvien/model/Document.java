@@ -6,36 +6,6 @@ public abstract class Document {
     private String author;
     private String status;
 
-    /**
-     * Constructor Document with 0 parameters.
-     */
-    public Document() {
-        this.id = 0;
-        this.title = "";
-        this.author = "";
-        this.status = "";
-    }
-
-    /**
-     * Constructor Document with 3 parameters.
-     * @param title tieu de
-     * @param author tac gia
-     * @param status trang thai
-     */
-    public Document(String title, String author, String status) {
-        super();
-        this.title = title;
-        this.author = author;
-        this.status = status;
-    }
-
-    /**
-     * Constructor Document with 4 parameters.
-     * @param id id
-     * @param title tieu de
-     * @param author tac gia
-     * @param status trang thai
-     */
     public Document(int id, String title, String author, String status) {
         this.id = id;
         this.title = title;

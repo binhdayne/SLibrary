@@ -10,27 +10,6 @@ public class BorrowReturn {
     private LocalDate returnDate;
     private String status;
 
-    /**
-     * Constructor BorrowReturn with 0 parameters.
-     */
-    public BorrowReturn() {
-        this.membershipId = "";
-        this.documentId = 0;
-        this.documentType = "";
-        this.borrowDate = LocalDate.now();
-        this.returnDate = LocalDate.now();
-        this.status = "";
-    }
-
-    /**
-     * Constructor BorrowReturn with 6 parameters.
-     * @param membershipId ID thẻ thành viên
-     * @param documentId ID tài liệu
-     * @param documentType Loại tài liệu
-     * @param borrowDate ngày mượn
-     * @param returnDate ngày trả
-     * @param status trạng thái
-     */
     public BorrowReturn(String membershipId, int documentId, String documentType, LocalDate borrowDate, LocalDate returnDate, String status) {
         this.membershipId = membershipId;
         this.documentId = documentId;
