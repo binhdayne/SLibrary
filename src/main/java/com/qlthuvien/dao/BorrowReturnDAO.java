@@ -212,8 +212,7 @@ public class BorrowReturnDAO {
 
     // Lấy thông tin mượn của tài liệu
     public BorrowReturn getBorrowInfo(String documentType, int documentId) throws SQLException {
-        String query = "SELECT * FROM borrow_return WHERE document_type = ? AND document_id = ? AND status = 'Borrowed'";
-
+        String query = "SELECT * FROM borrow_return WHERE document_type = ? AND document_id = ? AND status = 'Borrowed' or 'Waiting'";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, documentType);
             stmt.setInt(2, documentId);
@@ -235,14 +234,14 @@ public class BorrowReturnDAO {
     }
 
     // Phương thức hỗ trợ để xác định bảng dựa trên loại tài liệu
-    private String getDocumentTable(String documentType) {
-        switch (documentType.toUpperCase()) {
+    public String getDocumentTable(String documentType) {
+        switch (documentType) {
             case "BOOK":
                 return "books";
             case "MAGAZINE":
                 return "magazines";
-            case "THESIS":
-                return "theses";
+            case "BOOK_FROM_API":
+                return "books_from_api"; // Thêm ánh xạ cho loại tài liệu này
             default:
                 throw new IllegalArgumentException("Unknown document type: " + documentType);
         }
