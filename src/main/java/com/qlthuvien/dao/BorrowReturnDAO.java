@@ -107,7 +107,6 @@ public class BorrowReturnDAO {
         return transactions;
     }
 
-    // Lấy danh sách giao dịch của một user cụ thể
     public List<BorrowReturn> getTransactionsByUser(String membershipId) throws SQLException {
         List<BorrowReturn> transactions = new ArrayList<>();
         String query = "SELECT * FROM borrow_return WHERE membership_id = ?";
@@ -129,7 +128,6 @@ public class BorrowReturnDAO {
         return transactions;
     }
 
-    // Lấy danh sách giao dịch theo loại tài liệu cụ thể
     public List<BorrowReturn> getTransactionsByDocumentType(String documentType) throws SQLException {
         List<BorrowReturn> transactions = new ArrayList<>();
         String query = "SELECT * FROM borrow_return WHERE document_type = ?";
@@ -212,8 +210,7 @@ public class BorrowReturnDAO {
 
     // Lấy thông tin mượn của tài liệu
     public BorrowReturn getBorrowInfo(String documentType, int documentId) throws SQLException {
-        String query = "SELECT * FROM borrow_return WHERE document_type = ? AND document_id = ? AND status = 'Borrowed'";
-
+        String query = "SELECT * FROM borrow_return WHERE document_type = ? AND document_id = ? AND status = 'Borrowed' or 'Waiting'";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, documentType);
             stmt.setInt(2, documentId);
@@ -235,16 +232,40 @@ public class BorrowReturnDAO {
     }
 
     // Phương thức hỗ trợ để xác định bảng dựa trên loại tài liệu
-    private String getDocumentTable(String documentType) {
-        switch (documentType.toUpperCase()) {
+    public String getDocumentTable(String documentType) {
+        switch (documentType) {
             case "BOOK":
                 return "books";
             case "MAGAZINE":
                 return "magazines";
             case "THESIS":
                 return "theses";
+            case "BOOK_FROM_API":
+                return "books_from_api"; // Thêm ánh xạ cho loại tài liệu này
             default:
                 throw new IllegalArgumentException("Unknown document type: " + documentType);
         }
     }
+
+    public List<BorrowReturn> getByStatus(String status) throws SQLException {
+        String query = "SELECT * FROM borrow_return WHERE status = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, status);
+            try (ResultSet rs = stmt.executeQuery()) {
+                List<BorrowReturn> results = new ArrayList<>();
+                while (rs.next()) {
+                    results.add(new BorrowReturn(
+                            rs.getString("membership_id"),
+                            rs.getInt("document_id"),
+                            rs.getString("document_type"),
+                            rs.getDate("borrow_date").toLocalDate(),
+                            rs.getDate("return_date") != null ? rs.getDate("return_date").toLocalDate() : null,
+                            rs.getString("status")
+                    ));
+                }
+                return results;
+            }
+        }
+    }
+
 }
