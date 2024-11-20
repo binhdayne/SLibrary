@@ -16,3 +16,10 @@ This project is a library management system developed in Java. The project is a 
 - **Dương Thanh Bình** 
 - **Nguyễn Hải Dương**
 - **Nguyễn Huy Hiệp**
+
+  ## How to install ?
+  Step 1: First, you need to download our project and connect it to your MySQL database. In MySQL, you need to create a new schema and run the db_ql_thu_vien.sql script.
+  Step 2: After running and connecting, please modify the MySQL connection part in our code at the following files: src/main/java/com/qlthuvien/utils/DBConnection.java,
+src/main/java/com/qlthuvien/login/Login_Utils.java,
+src/main/java/com/qlthuvien/controller_user/HomeTabUser.java.
+  Step 3: Enter the account you want to create in MySQL and start using Slibrary!
