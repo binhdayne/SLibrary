@@ -2,11 +2,9 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlthuvien.controller_user.MainUserController">
@@ -34,33 +32,12 @@
     <!-- Main Content Area -->
     <center>
         <VBox fx:id="contentArea" alignment="CENTER" spacing="20" styleClass="content-area">
-
-            <!-- Profile Information Section with existing labels -->
-            <Label fx:id="profileHeader" styleClass="header-label" text="User Profile" />
-            <Separator prefWidth="300" />
-
-            <!-- Existing Labels for user information -->
-            <Label fx:id="nameLabel" text="Name: " />
-            <Label fx:id="emailLabel" text="Email: " />
-            <Label fx:id="phoneLabel" text="Phone: " />
-            <Label fx:id="userNameLabel" text="Username: " />
-
-            <!-- Additional Details Section -->
-            <Separator prefWidth="300" />
-            <Label styleClass="label-info" text="Membership Type:" />
-            <Label fx:id="membershipTypeLabel" text="Standard" />
-
-            <Label styleClass="label-info" text="Join Date:" />
-            <Label fx:id="joinDateLabel" text="01/01/2023" />
-
-            <Label styleClass="label-info" text="Last Login:" />
-            <Label fx:id="lastLoginLabel" text="11/10/2023 10:45 AM" />
-
-            <!-- Edit Profile Button -->
-            <HBox alignment="CENTER" spacing="10">
-                <Button fx:id="btnEditProfile" onAction="#editUser" styleClass="action-button" text="Edit Profile" />
-            </HBox>
-
+            <!-- Image Display Section -->
+            <ImageView fitHeight="700" fitWidth="900" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../../../icons/rain.gif" />
+                </image>
+            </ImageView>
         </VBox>
     </center>
 </BorderPane>

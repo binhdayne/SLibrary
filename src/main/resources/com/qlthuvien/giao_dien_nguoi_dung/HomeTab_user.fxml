@@ -43,8 +43,9 @@
                 <Label fx:id="bookDescriptionLabel" style="-fx-font-size: 12px; -fx-padding: 5;" text="Description" wrapText="true" />
             </VBox>
         </HBox>
+        <Label fx:id="bookISBNLabel" text="ISBN: " />
 
         <!-- Nút Add Book -->
-        <Button fx:id="addBookButton" onAction="#addBook" style="-fx-font-size: 14px; -fx-padding: 5 10;" text="Add Book" />
+        <Button fx:id="borrowBookButton" onAction="#borrowBook" style="-fx-font-size: 14px; -fx-padding: 5 10;" text="Borrow Book" />
     </VBox>
 </VBox>

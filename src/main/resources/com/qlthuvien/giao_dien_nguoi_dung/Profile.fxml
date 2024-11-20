@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -19,59 +18,35 @@
         <VBox spacing="10">
             <Label style="-fx-font-weight: bold;" text="Total Borrowed:" />
             <HBox spacing="5">
-                <Label fx:id="totalBorrowedLabel" text="0">
-               <HBox.margin>
-                  <Insets top="3.0" />
-               </HBox.margin></Label>
-                <!-- Thêm ImageView cho rank ở đây -->
-                <ImageView fx:id="rankImageView" fitHeight="23.0" fitWidth="26.0" y="1.0">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-               <viewport>
-                  <Rectangle2D />
-               </viewport></ImageView>
+                <Label fx:id="totalBorrowedLabel" text="0" />
+                <ImageView fx:id="rankImageView" fitHeight="23.0" fitWidth="26.0" />
             </HBox>
         </VBox>
         <VBox spacing="10">
             <Label style="-fx-font-weight: bold;" text="Total Returned:" />
-            <Label fx:id="totalReturnedLabel" text="0">
-            <VBox.margin>
-               <Insets top="3.0" />
-            </VBox.margin></Label>
+            <Label fx:id="totalReturnedLabel" text="0" />
         </VBox>
         <VBox spacing="10">
             <Label style="-fx-font-weight: bold;" text="Pending Returns:" />
-            <Label fx:id="pendingReturnsLabel" text="0">
-            <VBox.margin>
-               <Insets top="3.0" />
-            </VBox.margin></Label>
+            <Label fx:id="pendingReturnsLabel" text="0" />
         </VBox>
     </HBox>
 
     <!-- User Info Section -->
     <VBox spacing="10" style="-fx-border-color: gray; -fx-border-width: 2; -fx-padding: 10;">
         <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="User Information" />
-
-        <!-- Name -->
         <HBox spacing="10">
             <Label style="-fx-pref-width: 80px;" text="Name:" />
             <TextField fx:id="nameField" disable="true" promptText="Enter name" />
         </HBox>
-
-        <!-- Email -->
         <HBox spacing="10">
             <Label style="-fx-pref-width: 80px;" text="Email:" />
             <TextField fx:id="emailField" disable="true" promptText="Enter email" />
         </HBox>
-
-        <!-- Phone -->
         <HBox spacing="10">
             <Label style="-fx-pref-width: 80px;" text="Phone:" />
             <TextField fx:id="phoneField" disable="true" promptText="Enter phone number" />
         </HBox>
-
-        <!-- Edit and Save Buttons -->
         <HBox spacing="10">
             <Button fx:id="editButton" onAction="#enableEdit" text="Edit" />
             <Button fx:id="saveButton" disable="true" onAction="#saveUserInfo" text="Save" />
@@ -79,14 +54,32 @@
     </VBox>
 
     <!-- Borrow/Return Table -->
-    <TableView fx:id="borrowReturnTable" style="-fx-pref-height: 200px;">
-        <columns>
-            <TableColumn fx:id="membershipIdColumn" prefWidth="150" text="Membership ID" />
-            <TableColumn fx:id="documentTypeColumn" prefWidth="150" text="Document Type" />
-            <TableColumn fx:id="documentIdColumn" prefWidth="150" text="Document ID" />
-            <TableColumn fx:id="borrowDateColumn" prefWidth="150" text="Borrow Date" />
-            <TableColumn fx:id="returnDateColumn" prefWidth="150" text="Return Date" />
-            <TableColumn fx:id="statusColumn" prefWidth="100" text="Status" />
-        </columns>
-    </TableView>
+    <VBox spacing="10">
+        <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Borrow/Return History" />
+        <TableView fx:id="borrowReturnTable" style="-fx-pref-height: 200px;">
+            <columns>
+                <TableColumn fx:id="membershipIdColumn" prefWidth="150" text="Membership ID" />
+                <TableColumn fx:id="documentTypeColumn" prefWidth="150" text="Document Type" />
+                <TableColumn fx:id="documentIdColumn" prefWidth="150" text="Document ID" />
+                <TableColumn fx:id="borrowDateColumn" prefWidth="150" text="Borrow Date" />
+                <TableColumn fx:id="returnDateColumn" prefWidth="150" text="Return Date" />
+                <TableColumn fx:id="statusColumn" prefWidth="100" text="Status" />
+            </columns>
+        </TableView>
+    </VBox>
+
+    <!-- Waiting Borrow Table -->
+    <VBox spacing="10">
+        <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Waiting Borrow List" />
+        <TableView fx:id="waitingBorrowTable" style="-fx-pref-height: 200px;">
+            <columns>
+                <TableColumn fx:id="waitingDocumentIdColumn" prefWidth="150" text="Document ID" />
+                <TableColumn fx:id="waitingDocumentTypeColumn" prefWidth="150" text="Document Type" />
+                <TableColumn fx:id="waitingStatusColumn" prefWidth="150" text="Status" />
+            </columns>
+        </TableView>
+        <HBox spacing="10">
+            <Button fx:id="deleteWaitingButton" onAction="#deleteWaitingDocument" text="Delete Selected" />
+        </HBox>
+    </VBox>
 </VBox>
