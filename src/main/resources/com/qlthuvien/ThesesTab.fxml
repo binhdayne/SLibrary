@@ -34,6 +34,7 @@
         <Button text="Add Thesis" onAction="#addThesis" styleClass="action-button"/>
         <Button text="Edit Thesis" onAction="#editThesis" styleClass="action-button"/>
         <Button text="Delete Thesis" onAction="#deleteThesis" styleClass="action-button"/>
+        <Button fx:id="generateQRButton" text="Generate QR Code" onAction="#generateQR" styleClass="action-button" disable="true"/>
     </HBox>
 
     <!-- Status Label for displaying feedback messages -->
