@@ -45,6 +45,7 @@
     <HBox spacing="10">
         <Button text="Add Book" onAction="#addBook"/>
         <Button text="Delete Book" onAction="#deleteBook"/>
+        <Button fx:id="generateQRButton" text="Generate QR Code" onAction="#generateQR" disable="true"/>
     </HBox>
 
     <Label fx:id="statusLoadDataLabel" text="Status" style="-fx-font-size: 14px; -fx-padding: 5px;"/>
