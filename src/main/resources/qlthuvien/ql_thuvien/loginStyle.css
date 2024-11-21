@@ -1,0 +1,20 @@
+/* Áp dụng hình nền cho toàn AnchorPane */
+.root {
+    -fx-background-image: url("../../../icons/FirstGif.gif"); /* Đường dẫn tới ảnh */
+    -fx-background-size: cover; /* Đảm bảo hình nền phủ toàn bộ */
+    -fx-background-position: center; /* Đặt hình nền ở trung tâm */
+    -fx-background-repeat: no-repeat; /* Không lặp lại hình nền */
+}
+
+/* TabPane với hiệu ứng làm mờ */
+.tab-pane {
+    -fx-background-color: rgba(255, 255, 255, 0.8); /* Màu nền trắng mờ */
+    -fx-background-radius: 10; /* Bo góc */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 0, 0); /* Bóng đổ */
+    -fx-padding: 10;
+}
+
+/* Tabs nội dung bên trong */
+.tab-content-area {
+    -fx-background-color: transparent; /* Nền trong suốt */
+}

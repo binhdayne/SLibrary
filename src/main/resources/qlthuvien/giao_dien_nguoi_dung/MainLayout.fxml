@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlthuvien.controller_user.MainUserController">
+    <!-- Left Sidebar Menu -->
+    <left>
+        <VBox alignment="CENTER" spacing="10" styleClass="menu-sidebar">
+            <ImageView fx:id="logoImage" fitWidth="100" preserveRatio="true" style="-fx-margin-bottom: 20;">
+                <image>
+                    <Image url="@../../../icons/users.png" />
+                </image>
+            </ImageView>
+
+            <!-- Add a Label for displaying the user ID -->
+            <Label fx:id="userIdLabel" styleClass="label-user-id" text="User ID: " />
+            <Button fx:id="btnHome" onAction="#showHomeScreen" prefHeight="26.0" prefWidth="84.0" styleClass="menu-button" text="Home" />
+            <Button fx:id="btnUsers" onAction="#showProfileScreen" prefHeight="26.0" prefWidth="84.0" styleClass="menu-button" text="Profile" />
+         <Button fx:id="btnDocuments" onAction="#showDocumentsScreen" prefHeight="26.0" prefWidth="84.0" styleClass="menu-button" text="Documents" />
+            <Button fx:id="btnSettings" onAction="#showSettingsScreen" prefHeight="26.0" prefWidth="84.0" styleClass="menu-button" text="Settings" />
+
+            <!-- Logout button -->
+            <Button fx:id="btnLogout" onAction="#showLogoutScreen" prefHeight="26.0" prefWidth="84.0" styleClass="menu-button" text="Logout" />
+        </VBox>
+    </left>
+
+    <!-- Main Content Area -->
+    <center>
+        <VBox fx:id="contentArea" alignment="CENTER" spacing="20" styleClass="content-area">
+            <!-- Image Display Section -->
+            <ImageView fitHeight="700" fitWidth="900" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../../../icons/rain.gif" />
+                </image>
+            </ImageView>
+        </VBox>
+    </center>
+</BorderPane>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.qlthuvien.controller_user.MagazinesController" spacing="15" style="-fx-padding: 20; -fx-background-color: #f4f4f9;" stylesheets="@styles.css">
+    <Label text="Manage Magazines" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2a9df4;"/>
+
+    <!-- Magazine Information Form arranged in two rows, two columns -->
+    <GridPane hgap="15" vgap="15">
+        <!-- First row: Title, Author -->
+        <Label text="Title:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-text-fill: #333333;"/>
+        <TextField fx:id="titleInput" promptText="Enter magazine title" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Author:" GridPane.columnIndex="2" GridPane.rowIndex="0" style="-fx-text-fill: #333333;"/>
+        <TextField fx:id="authorInput" promptText="Enter author" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+
+        <!-- Second row: Publisher, Issue Number -->
+        <Label text="Publisher:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-text-fill: #333333;"/>
+        <TextField fx:id="publisherInput" promptText="Enter publisher" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <Label text="Issue Number:" GridPane.columnIndex="2" GridPane.rowIndex="1" style="-fx-text-fill: #333333;"/>
+        <TextField fx:id="issueNumberInput" promptText="Enter issue number" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+    </GridPane>
+
+    <!-- Action Buttons below the form -->
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Add Magazine" onAction="#addMagazine" styleClass="action-button"/>
+        <Button text="Edit Magazine" onAction="#editMagazine" styleClass="action-button"/>
+        <Button text="Delete Magazine" onAction="#deleteMagazine" styleClass="action-button"/>
+    </HBox>
+
+    <!-- Status Label for feedback messages -->
+    <Label fx:id="statusLabel" text="Status" style="-fx-font-size: 14px; -fx-text-fill: #2a9df4; -fx-padding: 5px;"/>
+
+    <!-- Table for displaying magazine list -->
+    <TableView fx:id="magazinesTable" style="-fx-pref-height: 300px;">
+        <columns>
+            <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
+            <TableColumn fx:id="titleColumn" text="Title" prefWidth="150"/>
+            <TableColumn fx:id="authorColumn" text="Author" prefWidth="150"/>
+            <TableColumn fx:id="publisherColumn" text="Publisher" prefWidth="150"/>
+            <TableColumn fx:id="issueNumberColumn" text="Issue Number" prefWidth="100"/>
+            <TableColumn fx:id="statusColumn" text="Status" prefWidth="100"/>
+        </columns>
+    </TableView>
+</VBox>
