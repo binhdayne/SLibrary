@@ -1,5 +1,6 @@
 package com.qlthuvien.controller_admin;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -7,14 +8,18 @@ import com.qlthuvien.dao.ThesisDAO;
 import com.qlthuvien.model.Thesis;
 import com.qlthuvien.utils.DBConnection;
 import com.qlthuvien.utils.DatabaseTask;
+import com.qlthuvien.utils.QRCodeGenerator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class ThesisController {
 
@@ -41,6 +46,8 @@ public class ThesisController {
     private TextField titleInput, authorInput, supervisorInput, universityInput;
     @FXML
     private Label statusLabel;
+    @FXML
+    private Button generateQRButton;
     
     /**
      * Constructor for ThesisController.
@@ -87,6 +94,9 @@ public class ThesisController {
                 authorInput.setText(selectedThesis.getAuthor());
                 supervisorInput.setText(selectedThesis.getSupervisor());
                 universityInput.setText(selectedThesis.getUniversity());
+                generateQRButton.setDisable(false);
+            } else {
+                generateQRButton.setDisable(true);
             }
         });
     }
@@ -206,5 +216,39 @@ public class ThesisController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);
         alert.show();
+    }
+    
+    /**
+     * Generates a QR code for the selected thesis.
+     * Shows a file chooser dialog to save the QR code as a PNG file.
+     * Uses QRCodeGenerator to generate the QR code and save it to the specified file.
+     * Shows success/error message based on the result of the QR code generation.
+     */
+    @FXML
+    public void generateQR() {
+        Thesis selectedThesis = thesesTable.getSelectionModel().getSelectedItem();
+        if (selectedThesis == null) {
+            showError("No thesis selected");
+            return;
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save QR Code");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG Files", "*.png"));
+        File file = fileChooser.showSaveDialog(new Stage());
+
+        if (file != null) {
+            try {
+                String qrContent = "Type: THESIS, ID: " + selectedThesis.getId() + 
+                                 ", Title: " + selectedThesis.getTitle() +
+                                 ", Author: " + selectedThesis.getAuthor() + 
+                                 ", Supervisor: " + selectedThesis.getSupervisor() +
+                                 ", University: " + selectedThesis.getUniversity();
+                QRCodeGenerator.generateQRCode(qrContent, file.getAbsolutePath());
+                showSuccess("QR Code generated successfully!");
+            } catch (Exception e) {
+                showError("Error generating QR code: " + e.getMessage());
+            }
+        }
     }
 }

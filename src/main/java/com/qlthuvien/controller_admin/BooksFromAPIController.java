@@ -1,5 +1,6 @@
 package com.qlthuvien.controller_admin;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -8,14 +9,18 @@ import com.qlthuvien.dao.BookFromAPIDAO;
 import com.qlthuvien.model.BookFromAPI;
 import com.qlthuvien.utils.DBConnection;
 import com.qlthuvien.utils.DatabaseTask;
+import com.qlthuvien.utils.QRCodeGenerator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class BooksFromAPIController {
 
@@ -29,6 +34,8 @@ public class BooksFromAPIController {
     private TableColumn<BookFromAPI, String> isbnColumn, titleColumn, authorColumn, publisherColumn, publishedDateColumn, statusColumn;
     @FXML
     private Label statusApiLabel, statusLoadDataLabel;
+    @FXML
+    private Button generateQRButton;
 
     private BookFromAPIDAO bookFromAPIDAO;
     
@@ -66,6 +73,15 @@ public class BooksFromAPIController {
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         refreshBooksTable();
+        booksTable.setOnMouseClicked(event -> {
+            BookFromAPI selectedBook = booksTable.getSelectionModel().getSelectedItem();
+            if (selectedBook != null) {
+                generateQRButton.setDisable(false);
+                // ... code hiện tại
+            } else {
+                generateQRButton.setDisable(true);
+            }
+        });
     }
     
     /**
@@ -174,5 +190,40 @@ public class BooksFromAPIController {
         alert.setTitle(title);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    
+    /**
+     * Generates QR code for the selected book.
+     * Shows a file chooser dialog to save the QR code as a PNG file.
+     * Uses QRCodeGenerator to generate the QR code and save it to the specified file.
+     * Shows success/error message based on the result of the QR code generation.
+     */
+    @FXML
+    public void generateQR() {
+        BookFromAPI selectedBook = booksTable.getSelectionModel().getSelectedItem();
+        if (selectedBook == null) {
+            showAlert("Error", "No book selected", Alert.AlertType.ERROR);
+            return;
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save QR Code");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG Files", "*.png"));
+        File file = fileChooser.showSaveDialog(new Stage());
+
+        if (file != null) {
+            try {
+                String qrContent = "Type: API_BOOK, ID: " + selectedBook.getId() + 
+                                 ", ISBN: " + selectedBook.getIsbn() +
+                                 ", Title: " + selectedBook.getTitle() +
+                                 ", Author: " + selectedBook.getAuthor() + 
+                                 ", Publisher: " + selectedBook.getPublisher() +
+                                 ", Published Date: " + selectedBook.getPublishedDate();
+                QRCodeGenerator.generateQRCode(qrContent, file.getAbsolutePath());
+                showAlert("Success", "QR Code generated successfully!", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                showAlert("Error", "Error generating QR code: " + e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
     }
 }
