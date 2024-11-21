@@ -1,30 +1,23 @@
 package com.qlthuvien.controller_admin;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.List;
-
 import com.qlthuvien.dao.BorrowReturnDAO;
 import com.qlthuvien.dao.UserDAO;
 import com.qlthuvien.dao.WaitingBorrowDAO;
 import com.qlthuvien.model.BorrowReturn;
 import com.qlthuvien.model.User;
+import com.qlthuvien.model.WaitingBorrow;
 import com.qlthuvien.utils.DBConnection;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.List;
 
 public class BorrowReturnNormalController {
 
@@ -45,6 +38,20 @@ public class BorrowReturnNormalController {
     private TableColumn<BorrowReturn, String> statusColumn;
 
     @FXML
+    private TableView<WaitingBorrow> waitingBorrowTable;
+
+    @FXML
+    private TableColumn<WaitingBorrow, String> membershipIdWaitingColumn;
+    @FXML
+    private TableColumn<WaitingBorrow, String> documentIdWaitingColumn;
+    @FXML
+    private TableColumn<WaitingBorrow, String> documentTypeWaitingColumn;
+    @FXML
+    private TableColumn<WaitingBorrow, LocalDate> borrowDateWaitingColumn;
+    @FXML
+    private TableColumn<WaitingBorrow, String> statusWaitingColumn;
+
+    @FXML
     private TextField membershipIdInput, documentIdInput;
     @FXML
     private ComboBox<String> documentTypeInput;
@@ -56,15 +63,14 @@ public class BorrowReturnNormalController {
     private Button borrowButton, returnButton;
     @FXML
     private GridPane documentFormPane;
+    @FXML
+    private TabPane mainTabPane;
 
     private Connection connection;
     private BorrowReturnDAO borrowReturnDAO;
     private UserDAO userDAO;
     private WaitingBorrowDAO waitingBorrowDAO;
 
-    /**
-     * Connect to the database and initialize the DAOs.
-     */
     public BorrowReturnNormalController() {
         connection = DBConnection.getConnection();
         borrowReturnDAO = new BorrowReturnDAO(connection);
@@ -72,10 +78,6 @@ public class BorrowReturnNormalController {
         waitingBorrowDAO = new WaitingBorrowDAO(connection); // Thêm DAO mới
     }
 
-    /**
-     * Initializes the controller and sets up the table view columns and document type options.
-     * Binds table column widths and sets up property value factories for data display.  
-     */
     @FXML
     public void initialize() {
         // Initialize ComboBox for document type
@@ -99,10 +101,6 @@ public class BorrowReturnNormalController {
 
         refreshBorrowReturnTable();
     }
-    
-    /**
-     * Checks if the membership ID is valid and retrieves user information.
-     */
     @FXML
     private void checkMembershipId() {
         try {
@@ -130,9 +128,6 @@ public class BorrowReturnNormalController {
         }
     }
 
-    /**
-     * Checks if the document details are valid and retrieves document details.
-     */
     @FXML
     private void checkDocumentDetails() {
         try {
@@ -153,10 +148,7 @@ public class BorrowReturnNormalController {
             showError("Invalid document ID.");
         }
     }
-    
-    /**
-     * Handles the borrowing of a document.
-     */
+
     @FXML
     public void borrowDocument() {
         if (membershipIdInput.getText().isEmpty() ||
@@ -179,20 +171,19 @@ public class BorrowReturnNormalController {
             int documentId = Integer.parseInt(documentIdInput.getText());
             String documentType = documentTypeInput.getValue();
 
-            // Check if the document is in 'Waiting' status and belongs to the membership ID
+            // Kiểm tra trạng thái Waiting trong bảng waiting_borrow
             boolean isWaiting = waitingBorrowDAO.isDocumentWaiting(membershipId, documentId, documentType);
             if (!isWaiting) {
                 showError("The document is not in 'Waiting' status or does not belong to this membership ID.");
                 return;
             }
-            
-            // Check if the user has expired waiting documents
+
             if (waitingBorrowDAO.hasExpiredWaiting(membershipId)) {
                 showError("You have expired waiting documents. Please resolve them before borrowing.");
                 return;
             }
 
-            // Initialize a new BorrowReturn object
+            // Tạo đối tượng BorrowReturn
             BorrowReturn newBorrow = new BorrowReturn(
                     membershipId,
                     documentId,
@@ -202,13 +193,13 @@ public class BorrowReturnNormalController {
                     "Borrowed"
             );
 
-            // Add the new borrow transaction to the borrow_return table
+            // Thêm vào bảng borrow_return qua DAO
             borrowReturnDAO.borrowDocument(newBorrow);
 
-            // Update the document status in the waiting_borrow table to 'Borrowed'
+            // Cập nhật trạng thái trong bảng waiting_borrow thành 'Borrowed'
             waitingBorrowDAO.updateDocumentStatus(documentId, "Borrowed");
 
-            // Display a success message and refresh the table
+            // Hiển thị thông báo thành công và làm mới bảng
             showSuccess("Document borrowed successfully!");
             refreshBorrowReturnTableForUser(membershipId);
 
@@ -219,9 +210,8 @@ public class BorrowReturnNormalController {
         }
     }
 
-    /**
-     * Handles the return of a borrowed document.
-     */
+
+
     @FXML
     public void returnDocument() {
         BorrowReturn selectedTransaction = borrowReturnTable.getSelectionModel().getSelectedItem();
@@ -247,9 +237,6 @@ public class BorrowReturnNormalController {
         }
     }
 
-    /**
-     * Refreshes the borrow return table for all users.
-     */
     private void refreshBorrowReturnTable() {
         try {
             List<BorrowReturn> transactions = borrowReturnDAO.getAll();
@@ -259,10 +246,6 @@ public class BorrowReturnNormalController {
         }
     }
 
-    /**
-     * Refreshes the borrow return table for a specific user.
-     * @param membershipId The membership ID of the user
-     */
     private void refreshBorrowReturnTableForUser(String membershipId) {
         try {
             List<BorrowReturn> transactions = borrowReturnDAO.getTransactionsByUser(membershipId);
@@ -271,10 +254,7 @@ public class BorrowReturnNormalController {
             showError(e.getMessage());
         }
     }
-    
-    /**
-     * Clears user information and disables input fields.
-     */
+
     private void clearUserInfo() {
         nameLabel.setText("N/A");
         emailLabel.setText("N/A");
@@ -289,20 +269,12 @@ public class BorrowReturnNormalController {
         returnButton.setDisable(true);
     }
 
-    /**
-     * Displays an error message dialog.
-     * @param message The error message to display
-     */
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setContentText(message);
         alert.show();
     }
 
-    /**
-     * Displays a success message dialog.
-     * @param message The success message to display
-     */
     private void showSuccess(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);
