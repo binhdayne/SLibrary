@@ -1,0 +1,90 @@
+/* styles.css */
+
+.tab-pane {
+    -fx-background-color: #EBDFEB; /* Nền tổng thể nhẹ nhàng */
+    -fx-padding: 10;
+    -fx-background-radius: 10; /* Bo góc nền chính */
+}
+
+.tab {
+    -fx-background-color: #FBA2D0; /* Màu nền của tab */
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6C7EE1; /* Màu chữ */
+}
+
+.tab:selected {
+    -fx-background-color: #F0BD74; /* Màu khi tab được chọn */
+    -fx-text-fill: #6C7EE1;
+}
+
+.tab:hover {
+    -fx-background-color: #F0BD74; /* Màu khi hover */
+}
+
+.fx-include {
+    -fx-background-color: #FFFFFF; /* Nền nội dung của tab */
+    -fx-padding: 15;
+    -fx-background-radius: 0 0 10 10; /* Bo góc dưới */
+}
+
+.button {
+    -fx-background-color: #70C2B4; /* Nút có màu xanh mint */
+    -fx-text-fill: white; /* Chữ trắng trên nút */
+    -fx-background-radius: 8;
+    -fx-font-weight: bold;
+}
+
+.button:hover {
+    -fx-background-color: #92B9E3; /* Hiệu ứng hover cho nút */
+}
+
+/* styles.css */
+
+.menu-sidebar {
+    -fx-background-color: #70C2B4; /* Màu nền sidebar */
+    -fx-padding: 20;
+    -fx-spacing: 15;
+}
+
+.menu-button {
+    -fx-background-color: #FBA2D0; /* Màu nền nút sidebar */
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.menu-button:hover {
+    -fx-background-color: #F0BD74; /* Màu khi hover */
+}
+
+.action-button {
+    -fx-background-color: #6C7EE1; /* Màu nền cho nút hành động */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16;
+}
+
+.action-button:hover {
+    -fx-background-color: #92B9E3; /* Màu khi hover cho nút hành động */
+}
+
+#contentArea {
+    -fx-background-color: #EBDFEB; /* Nền cho khu vực chính */
+    -fx-padding: 15;
+}
+
+.label-header {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6C7EE1; /* Màu chữ chính */
+}
+
+.label-subheader {
+    -fx-font-size: 16px;
+    -fx-text-fill: #666666; /* Màu chữ phụ */
+}
