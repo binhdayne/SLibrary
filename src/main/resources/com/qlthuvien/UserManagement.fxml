@@ -1,45 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.qlthuvien.controller_admin.UserController" spacing="10" style="-fx-padding: 10;" stylesheets="@styles.css">
-    <Label text="Manage Users" style="-fx-font-size: 18px;"/>
+<VBox spacing="10" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlthuvien.controller_admin.UserController">
+    <padding>
+        <Insets bottom="10" left="10" right="10" top="10" />
+    </padding>
 
-    <GridPane hgap="10" vgap="10">
-        <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <TextField fx:id="nameInput" promptText="Enter user name" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+    <!-- Top Section -->
+    <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="User Management" VBox.vgrow="NEVER" />
 
-        <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-        <TextField fx:id="emailInput" promptText="Enter user email" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-
-        <Label text="Phone:" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
-        <TextField fx:id="phoneInput" promptText="Enter phone number" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
-
-        <Label text="Membership ID:" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-        <TextField fx:id="membershipIdInput" promptText="Enter membership ID" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-    </GridPane>
-
-    <HBox spacing="10">
-        <Button text="Add User" onAction="#addUser"/>
-        <Button text="Edit User" onAction="#editUser"/>
-        <Button text="Delete User" onAction="#deleteUser"/>
-    </HBox>
-
-    <Label fx:id="statusLabel" text="Status" style="-fx-font-size: 14px; -fx-padding: 5px;"/>
-
-    <TableView fx:id="usersTable" style="-fx-pref-height: 300px;">
+    <!-- Center Section: User Table -->
+    <TableView fx:id="usersTable" prefHeight="400" prefWidth="600" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="nameColumn" text="Name" prefWidth="150" />
-            <TableColumn fx:id="emailColumn" text="Email" prefWidth="200" />
-            <TableColumn fx:id="phoneColumn" text="Phone" prefWidth="150" />
-            <TableColumn fx:id="membershipIdColumn" text="Membership ID" prefWidth="150" />
+            <TableColumn fx:id="nameColumn" text="Name" />
+            <TableColumn fx:id="emailColumn" text="Email" />
+            <TableColumn fx:id="phoneColumn" text="Phone" />
+            <TableColumn fx:id="membershipIdColumn" text="Membership ID" />
+            <TableColumn fx:id="passwordColumn" text="Password" />
+            <TableColumn fx:id="usernameColumn" text="Username" />
         </columns>
     </TableView>
+
+    <!-- Bottom Section: User Form -->
+    <VBox spacing="10">
+        <padding>
+            <Insets bottom="10" left="10" right="10" top="10" />
+        </padding>
+        <GridPane hgap="10" vgap="10">
+            <Label text="Name:" />
+            <TextField fx:id="nameInput" GridPane.columnIndex="1" />
+
+            <Label text="Email:" GridPane.rowIndex="1" />
+            <TextField fx:id="emailInput" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+            <Label text="Phone:" GridPane.rowIndex="2" />
+            <TextField fx:id="phoneInput" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+            <Label text="Membership ID:" GridPane.rowIndex="3" />
+            <TextField fx:id="membershipIdInput" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+            <Label text="Password:" GridPane.rowIndex="4" />
+            <TextField fx:id="usernameInput" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+            <Label text="Username:" GridPane.rowIndex="5" />
+            <TextField fx:id="passwordInput" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+        </GridPane>
+
+        <HBox alignment="CENTER" spacing="10">
+            <Button fx:id="addUserButton" onAction="#addUser" text="Add User" />
+            <Button fx:id="editUserButton" onAction="#editUser" text="Edit User" />
+            <Button fx:id="deleteUserButton" onAction="#deleteUser" text="Delete User" />
+        </HBox>
+
+        <Label fx:id="statusLabel" style="-fx-text-fill: green;" text="" />
+    </VBox>
 </VBox>

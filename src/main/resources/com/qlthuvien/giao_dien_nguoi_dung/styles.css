@@ -1,61 +1,55 @@
 /* styles.css */
 
-/* Nền tổng thể và Tab Pane */
 .tab-pane {
-    -fx-background-color: #C9DCDC; /* Màu xanh nhạt từ bảng màu */
+    -fx-background-color: #EBDFEB; /* Nền tổng thể nhẹ nhàng */
     -fx-padding: 10;
     -fx-background-radius: 10; /* Bo góc nền chính */
 }
 
-/* Tab mặc định */
 .tab {
-    -fx-background-color: #9DB1B5; /* Màu xanh trung tính */
+    -fx-background-color: #FBA2D0; /* Màu nền của tab */
     -fx-font-size: 16px;
     -fx-font-weight: bold;
-    -fx-text-fill: #F5F5E1; /* Màu chữ trắng ngà */
+    -fx-text-fill: #6C7EE1; /* Màu chữ */
 }
 
-/* Tab khi được chọn */
 .tab:selected {
-    -fx-background-color: #E2E8D5; /* Màu xanh ngả vàng nhạt */
-    -fx-text-fill: #9DB1B5; /* Màu xanh trung tính */
+    -fx-background-color: #F0BD74; /* Màu khi tab được chọn */
+    -fx-text-fill: #6C7EE1;
 }
 
-/* Tab khi hover */
 .tab:hover {
-    -fx-background-color: #E2E8D5; /* Giữ màu hover giống màu chọn */
+    -fx-background-color: #F0BD74; /* Màu khi hover */
 }
 
-/* Khu vực nội dung trong Tab */
 .fx-include {
-    -fx-background-color: #FFFFFF; /* Nền trắng */
+    -fx-background-color: #FFFFFF; /* Nền nội dung của tab */
     -fx-padding: 15;
     -fx-background-radius: 0 0 10 10; /* Bo góc dưới */
 }
 
-/* Nút */
 .button {
-    -fx-background-color: #F47461; /* Màu cam nhạt từ bảng màu */
-    -fx-text-fill: white; /* Chữ trắng */
+    -fx-background-color: #70C2B4; /* Nút có màu xanh mint */
+    -fx-text-fill: white; /* Chữ trắng trên nút */
     -fx-background-radius: 8;
     -fx-font-weight: bold;
 }
 
 .button:hover {
-    -fx-background-color: #9DB1B5; /* Màu xanh trung tính khi hover */
+    -fx-background-color: #92B9E3; /* Hiệu ứng hover cho nút */
 }
 
-/* Sidebar */
+/* styles.css */
+
 .menu-sidebar {
-    -fx-background-color: #9DB1B5; /* Màu xanh trung tính cho sidebar */
+    -fx-background-color: #70C2B4; /* Màu nền sidebar */
     -fx-padding: 20;
     -fx-spacing: 15;
 }
 
-/* Nút trong Sidebar */
 .menu-button {
-    -fx-background-color: #F47461; /* Màu cam nhạt */
-    -fx-text-fill: #FFFFFF; /* Chữ trắng */
+    -fx-background-color: #FBA2D0; /* Màu nền nút sidebar */
+    -fx-text-fill: #FFFFFF;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-background-radius: 8;
@@ -63,12 +57,11 @@
 }
 
 .menu-button:hover {
-    -fx-background-color: #E2E8D5; /* Màu hover */
+    -fx-background-color: #F0BD74; /* Màu khi hover */
 }
 
-/* Nút hành động */
 .action-button {
-    -fx-background-color: #4E6667; /* Màu xanh đậm từ bảng màu */
+    -fx-background-color: #6C7EE1; /* Màu nền cho nút hành động */
     -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
@@ -77,24 +70,39 @@
 }
 
 .action-button:hover {
-    -fx-background-color: #9DB1B5; /* Màu hover là xanh trung tính */
+    -fx-background-color: #92B9E3; /* Màu khi hover cho nút hành động */
 }
 
-/* Khu vực chính */
 #contentArea {
-    -fx-background-color: #C9DCDC; /* Màu nền xanh nhạt */
+    -fx-background-color: #EBDFEB; /* Nền cho khu vực chính */
     -fx-padding: 15;
 }
 
-/* Tiêu đề */
 .label-header {
     -fx-font-size: 24px;
     -fx-font-weight: bold;
-    -fx-text-fill: #4E6667; /* Màu xanh đậm */
+    -fx-text-fill: #6C7EE1; /* Màu chữ chính */
 }
 
-/* Phụ đề */
 .label-subheader {
     -fx-font-size: 16px;
-    -fx-text-fill: #666666; /* Màu xám nhạt */
+    -fx-text-fill: #666666; /* Màu chữ phụ */
+}
+.book-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.book-author {
+    -fx-font-size: 12px;
+    -fx-text-fill: #555;
+}
+
+.book-item {
+    -fx-padding: 10;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dddddd;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
 }

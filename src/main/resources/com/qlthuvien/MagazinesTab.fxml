@@ -34,7 +34,6 @@
         <Button text="Add Magazine" onAction="#addMagazine" styleClass="action-button"/>
         <Button text="Edit Magazine" onAction="#editMagazine" styleClass="action-button"/>
         <Button text="Delete Magazine" onAction="#deleteMagazine" styleClass="action-button"/>
-        <Button fx:id="generateQRButton" text="Generate QR Code" onAction="#generateQR" styleClass="action-button" disable="true"/>
     </HBox>
 
     <!-- Status Label for feedback messages -->
@@ -52,4 +51,3 @@
         </columns>
     </TableView>
 </VBox>
-

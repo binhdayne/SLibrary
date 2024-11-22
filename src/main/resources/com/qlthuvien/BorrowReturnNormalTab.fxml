@@ -11,6 +11,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.qlthuvien.controller_admin.BorrowReturnNormalController" spacing="15" style="-fx-padding: 20;" stylesheets="@styles.css">
     <Label text="Borrow/Return Management" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
 
