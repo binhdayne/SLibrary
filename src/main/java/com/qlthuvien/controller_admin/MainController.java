@@ -1,21 +1,31 @@
 package com.qlthuvien.controller_admin;
 
-import java.io.IOException;
-
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import com.qlthuvien.dao.ChartDAO;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 public class MainController {
 
     @FXML
     private VBox contentArea;
-
+    @FXML
+    private ScrollPane scrollPane;
+    @FXML
+    private ScrollPane scrollPaneHome;
     @FXML
     private Button btnHome, btnDocuments, btnUsers, btnLoans, btnSettings, btnlogout;
 
@@ -27,23 +37,48 @@ public class MainController {
 //        fadeTransition.setFromValue(0);
 //        fadeTransition.setToValue(1);
 //        fadeTransition.play();
-//    }
+//
 
-    /**
-     * Initializes the controller.
-     * Sets the Home button as the default active button when the application starts.
-     */
     @FXML
     public void initialize() {
         setActiveButton(btnHome);
+        // Xóa nội dung cũ của ScrollPane
+        scrollPane.setContent(null);
+
+// Tạo biểu đồ cột
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setLabel("Membership ID");
+
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel("Số lượt mượn");
+
+        BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+        barChart.setTitle("Số lượt mượn sách theo thành viên");
+
+// Lấy dữ liệu từ ChartDAO
+        Map<String, Integer> borrowCounts = ChartDAO.getBorrowCountsByMembership();
+
+// Sắp xếp dữ liệu theo thứ tự giảm dần và giới hạn 10 mục
+        List<Map.Entry<String, Integer>> sortedBorrowCounts = borrowCounts.entrySet().stream()
+                .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue())) // Sắp xếp giảm dần
+                .limit(10) // Giới hạn 10 mục
+                .toList();
+
+// Thêm dữ liệu đã sắp xếp vào biểu đồ
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Lượt mượn");
+
+        for (Map.Entry<String, Integer> entry : sortedBorrowCounts) {
+            series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
+        }
+        barChart.getData().add(series);
+
+// Đưa biểu đồ vào ScrollPane
+        scrollPane.setContent(barChart);
+
     }
 
-    /**
-     * Sets the visual state of the active navigation button.
-     * Removes the active style from the previous button and applies it to the new one.
-     *
-     * @param button The button to be set as active
-     */
+    // Phương thức để đặt nút hiện tại là active và thay đổi giao diện
     private void setActiveButton(Button button) {
         if (activeButton != null) {
             activeButton.getStyleClass().remove("active-button");
@@ -52,11 +87,7 @@ public class MainController {
         activeButton = button;
     }
 
-    /**
-     * Displays the Home screen in the content area.
-     * Loads and displays the HomeScreen.fxml content.
-     * Sets the Home button as active in the navigation.
-     */
+    // Sự kiện khi nhấn nút Home
     @FXML
     public void showHomeScreen() {
         setActiveButton(btnHome);
@@ -69,11 +100,9 @@ public class MainController {
         }
     }
 
-    /**
-     * Displays the Documents management screen in the content area.
-     * Loads and displays the DocumentManagement.fxml content.
-     * Sets the Documents button as active in the navigation.
-     */
+
+
+    // Sự kiện khi nhấn nút Documents
     @FXML
     public void showDocumentsScreen() {
         setActiveButton(btnDocuments);
@@ -86,11 +115,7 @@ public class MainController {
         }
     }
 
-    /**
-     * Displays the Users management screen in the content area.
-     * Loads and displays the UserManagement.fxml content.
-     * Sets the Users button as active in the navigation.
-     */
+    // Sự kiện khi nhấn nút Users
     @FXML
     public void showUsersScreen() {
         setActiveButton(btnUsers);
@@ -99,15 +124,12 @@ public class MainController {
             Node userManagement = FXMLLoader.load(getClass().getResource("/com/qlthuvien/UserManagement.fxml"));
             contentArea.getChildren().add(userManagement);
         } catch (IOException e) {
+
             e.printStackTrace();
         }
     }
 
-    /**
-     * Displays the Loans management screen in the content area.
-     * Loads and displays the BorrowReturnManagement.fxml content.
-     * Sets the Loans button as active in the navigation.
-     */
+    // Sự kiện khi nhấn nút Loans
     @FXML
     public void showLoansScreen() {
         setActiveButton(btnLoans);
@@ -120,11 +142,7 @@ public class MainController {
         }
     }
 
-    /**
-     * Displays the Settings screen in the content area.
-     * Creates and displays a simple label for the Settings screen.
-     * Sets the Settings button as active in the navigation.
-     */
+    // Sự kiện khi nhấn nút Settings
     @FXML
     public void showSettingsScreen() {
         setActiveButton(btnSettings);
@@ -134,16 +152,14 @@ public class MainController {
         contentArea.getChildren().add(settingsLabel);
     }
 
-    /**
-     * Handles the logout process.
-     * Returns to the login screen (FirstScreen.fxml) when the logout button is clicked.
-     * Closes the current session and displays the login interface.
-     */
     @FXML
     public void showLogoutScreen() {
         try {
+            // Tải giao diện đăng nhập
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/qlthuvien/FirstScreen.fxml"));
             Scene loginScene = new Scene(loader.load());
+
+            // Lấy Stage hiện tại và thay đổi scene sang màn hình đăng nhập
             Stage currentStage = (Stage) contentArea.getScene().getWindow();
             currentStage.setScene(loginScene);
             currentStage.show();
