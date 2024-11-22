@@ -190,20 +190,20 @@ public class Login_Utils {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle(title);
 
-        // Tạo hiệu ứng FadeTransition cho root mới
-        FadeTransition fadeIn = new FadeTransition(Duration.millis(500), root[0]);
-        fadeIn.setFromValue(0.0); // Bắt đầu với độ mờ 0
-        fadeIn.setToValue(1.0);   // Kết thúc với độ mờ 1
-        fadeIn.setOnFinished(evt -> stage.setScene(new Scene(root[0], 1000, 700))); // Thay đổi scene sau hiệu ứng
-
-        // Đặt hiệu ứng FadeTransition cho root hiện tại trước khi thay đổi
+        // Hiệu ứng fade-out cho scene hiện tại
         Parent currentRoot = stage.getScene().getRoot();
         FadeTransition fadeOut = new FadeTransition(Duration.millis(500), currentRoot);
-        fadeOut.setFromValue(1.0); // Bắt đầu với độ mờ 1
-        fadeOut.setToValue(0.0);   // Kết thúc với độ mờ 0
+        fadeOut.setFromValue(1.0);
+        fadeOut.setToValue(0.0);
         fadeOut.setOnFinished(evt -> {
+            // Thay đổi scene
             stage.setScene(new Scene(root[0], 835, 520));
-            fadeIn.play(); // Phát hiệu ứng fade-in sau khi fade-out xong
+
+            // Hiệu ứng fade-in cho scene mới
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(500), root[0]);
+            fadeIn.setFromValue(0.0);
+            fadeIn.setToValue(1.0);
+            fadeIn.play(); // Phát hiệu ứng fade-in
         });
 
         fadeOut.play(); // Phát hiệu ứng fade-out
