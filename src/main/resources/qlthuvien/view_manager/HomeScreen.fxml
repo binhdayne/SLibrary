@@ -6,6 +6,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
 
 <VBox spacing="20" style="-fx-padding: 20; -fx-background-color: #F9F9F9;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
     <!-- Featured Books Section -->
@@ -20,7 +21,7 @@
                 <!-- Thumbnail or Image for the book (optional) -->
                 <ImageView fx:id="bookCover1" fitHeight="75" fitWidth="50">
                     <image>
-                        <Image url="@../../icons/bookCover1.png" />
+                        <Image url="@../../../icons/bookCover1.png" />
                     </image>
                 </ImageView>
 
@@ -36,7 +37,7 @@
                 <!-- Thumbnail or Image for the book -->
                 <ImageView fx:id="bookCover2" fitHeight="75" fitWidth="50">
                     <image>
-                        <Image url="@../../icons/bookCover2.png" />
+                        <Image url="@../../../icons/bookCover2.png" />
                     </image>
                 </ImageView>
 
@@ -49,7 +50,7 @@
                 <!-- Thumbnail or Image for the book -->
                 <ImageView fx:id="bookCover3" fitWidth="50" fitHeight="75">
                     <image>
-                        <Image url="@../../icons/bookCover1.png"/>
+                        <Image url="@../../../icons/bookCover1.png"/>
                     </image>
                 </ImageView>
 
@@ -62,7 +63,7 @@
                 <!-- Thumbnail or Image for the book -->
                 <ImageView fx:id="bookCover4" fitWidth="50" fitHeight="75">
                     <image>
-                        <Image url="@../../icons/bookCover1.png"/>
+                        <Image url="@../../../icons/bookCover1.png"/>
                     </image>
                 </ImageView>
 
@@ -75,7 +76,7 @@
                 <!-- Thumbnail or Image for the book -->
                 <ImageView fx:id="bookCover5" fitWidth="50" fitHeight="75">
                     <image>
-                        <Image url="@../../icons/bookCover1.png"/>
+                        <Image url="@../../../icons/bookCover1.png"/>
                     </image>
                 </ImageView>
 
@@ -89,7 +90,7 @@
                 <!-- Thumbnail or Image for the book -->
                 <ImageView fx:id="bookCover6" fitWidth="50" fitHeight="75">
                     <image>
-                        <Image url="@../../icons/bookCover1.png"/>
+                        <Image url="@../../../icons/bookCover1.png"/>
                     </image>
                 </ImageView>
 
@@ -103,7 +104,7 @@
                 <!-- Thumbnail or Image for the book -->
                 <ImageView fx:id="bookCover7" fitWidth="50" fitHeight="75">
                     <image>
-                        <Image url="@../../icons/bookCover1.png"/>
+                        <Image url="@../../../icons/bookCover1.png"/>
                     </image>
                 </ImageView>
 
@@ -117,7 +118,7 @@
                 <!-- Thumbnail or Image for the book -->
                 <ImageView fx:id="bookCover8" fitWidth="50" fitHeight="75">
                     <image>
-                        <Image url="@../../icons/bookCover1.png"/>
+                        <Image url="@../../../icons/bookCover1.png"/>
                     </image>
                 </ImageView>
 
@@ -133,3 +134,4 @@
         </VBox>
     </ScrollPane>
 </VBox>
+

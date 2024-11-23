@@ -9,10 +9,10 @@
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.qlthuvien.controller_admin.BorrowReturnWithQRController" style="-fx-padding: 20;" spacing="10">
     <Label text="Borrow/Return with QR Code" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
 
-    <!-- Button để nhập QR Code -->
+    <!-- Button to import QR Code -->
     <Button text="Import QR Code" onAction="#importQRCode"/>
 
-    <!-- GridPane hiển thị thông tin QR sau khi giải mã -->
+    <!-- GridPane to display QR code information after decoding -->
     <GridPane hgap="10" vgap="10" style="-fx-border-width: 1; -fx-padding: 10;">
         <Label text="QR Content:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
         <Label fx:id="qrContentLabel" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
@@ -25,7 +25,7 @@
         <Button text="Check" onAction="#checkMembershipId" GridPane.columnIndex="2" GridPane.rowIndex="2" fx:id="checkButton"/>
     </GridPane>
 
-    <!-- GridPane hiển thị thông tin người dùng -->
+    <!-- GridPane to display user information -->
     <GridPane hgap="10" vgap="10" style=" -fx-border-width: 1; -fx-padding: 10;">
         <Label text="User Name:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
         <Label fx:id="userNameLabel" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
@@ -37,6 +37,6 @@
         <Label fx:id="userEmailLabel" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
     </GridPane>
 
-    <!-- Button để mượn hoặc trả tài liệu -->
+    <!-- Button to borrow or return document -->
     <Button text="Submit" onAction="#processTransaction" disable="true" fx:id="submitButton"/>
 </VBox>

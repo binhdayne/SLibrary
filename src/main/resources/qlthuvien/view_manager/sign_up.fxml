@@ -16,7 +16,7 @@
             <children>
                 <ImageView fitHeight="180.0" fitWidth="180.0" layoutX="35.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../../../../../../Documents/Zalo Received Files/QL_ThuVien/src/main/resources/icons/home.png" />
+                        <Image url="@../../../../../../../../Documents/Zalo Received Files/QL_ThuVien/src/main/resources/icons/home.png" />
                     </image>
                 </ImageView>
                 <Label layoutX="74.0" layoutY="260.0" style="-fx-font-weight: bold;" text="0364 291 428" textFill="#ffffff">
