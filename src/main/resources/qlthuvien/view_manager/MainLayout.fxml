@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlthuvien.controller_admin.MainController">
+    <!-- Left Sidebar Menu -->
+    <left>
+        <VBox alignment="CENTER" prefHeight="822.0" prefWidth="206.0" styleClass="menu-sidebar">
+         <ImageView fitHeight="65.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../icons/home.png" />
+            </image>
+         </ImageView>
+            <Button fx:id="btnHome" onAction="#showHomeScreen" prefHeight="25.0" prefWidth="86.0" styleClass="menu-button" text="Home" />
+         <ImageView fitHeight="46.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../icons/documents.png" />
+            </image>
+         </ImageView>
+            <Button fx:id="btnDocuments" onAction="#showDocumentsScreen" prefHeight="38.0" prefWidth="110.0" styleClass="menu-button" text="Documents" />
+            <ImageView fx:id="logoImage" fitHeight="51.0" fitWidth="100" preserveRatio="true" style="-fx-margin-bottom: 20;">
+            <image>
+               <Image url="@../../icons/users.png" />
+            </image></ImageView>
+            <Button fx:id="btnUsers" onAction="#showUsersScreen" prefHeight="26.0" prefWidth="84.0" styleClass="menu-button" text="Users" />
+         <ImageView fitHeight="72.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../icons/loans.png" />
+            </image>
+         </ImageView>
+            <Button fx:id="btnLoans" onAction="#showLoansScreen" prefHeight="30.0" prefWidth="88.0" styleClass="menu-button" text="Loans" />
+         <ImageView fitHeight="63.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../icons/Logout.png" />
+            </image>
+         </ImageView>
+         <Button fx:id="btnlogout" onAction="#showLogoutScreen" prefHeight="29.0" prefWidth="89.0" styleClass="menu-button" text="Logout" />
+        </VBox>
+    </left>
+
+    <!-- Main Content Area -->
+    <center>
+        <VBox fx:id="contentArea" prefHeight="822.0" prefWidth="3879.0" spacing="20" style="-fx-padding: 20; -fx-background-color: #F9F9F9;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
+            <!-- Featured Books Section -->
+            <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-padding: 20 0 10 0; -fx-text-fill: #333333;" text="Bestselling Books" />
+
+            <!-- ScrollPane for the list of books -->
+            <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: transparent;">
+                <VBox fx:id="bestsellingBooksList" spacing="10" style="-fx-padding: 10;">
+
+                    <!-- Example of a single book entry, repeat for each bestselling book -->
+                    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="book-item">
+                        <!-- Thumbnail or Image for the book (optional) -->
+                        <ImageView fx:id="bookCover1" fitHeight="75" fitWidth="50">
+                            <image>
+                                <Image url="@../../icons/bookCover1.png" />
+                            </image>
+                        </ImageView>
+
+
+                        <VBox>
+                            <Label styleClass="book-title" text="Book Title 1" />
+                            <Label styleClass="book-author" text="Author Name" />
+                        </VBox>
+                    </HBox>
+
+                    <!-- Repeat HBox for each book in your bestselling list -->
+                    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="book-item">
+                        <!-- Thumbnail or Image for the book -->
+                        <ImageView fx:id="bookCover2" fitHeight="75" fitWidth="50">
+                            <image>
+                                <Image url="@../../icons/bookCover2.png" />
+                            </image>
+                        </ImageView>
+
+                        <VBox>
+                            <Label styleClass="book-title" text="Book Title 2" />
+                            <Label styleClass="book-author" text="Author Name 2" />
+                        </VBox>
+                    </HBox>
+                    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="book-item">
+                        <!-- Thumbnail or Image for the book -->
+                        <ImageView fx:id="bookCover3" fitHeight="75" fitWidth="50">
+                            <image>
+                                <Image url="@../../icons/bookCover1.png" />
+                            </image>
+                        </ImageView>
+
+                        <VBox>
+                            <Label styleClass="book-title" text="Book Title 2" />
+                            <Label styleClass="book-author" text="Author Name 2" />
+                        </VBox>
+                    </HBox>
+                    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="book-item">
+                        <!-- Thumbnail or Image for the book -->
+                        <ImageView fx:id="bookCover4" fitHeight="75" fitWidth="50">
+                            <image>
+                                <Image url="@../../icons/bookCover1.png" />
+                            </image>
+                        </ImageView>
+
+                        <VBox>
+                            <Label styleClass="book-title" text="Book Title 2" />
+                            <Label styleClass="book-author" text="Author Name 2" />
+                        </VBox>
+                    </HBox>
+                    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="book-item">
+                        <!-- Thumbnail or Image for the book -->
+                        <ImageView fx:id="bookCover5" fitHeight="75" fitWidth="50">
+                            <image>
+                                <Image url="@../../icons/bookCover1.png" />
+                            </image>
+                        </ImageView>
+
+                        <VBox>
+                            <Label styleClass="book-title" text="Book Title 2" />
+                            <Label styleClass="book-author" text="Author Name 2" />
+                        </VBox>
+                    </HBox>
+
+                    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="book-item">
+                        <!-- Thumbnail or Image for the book -->
+                        <ImageView fx:id="bookCover6" fitHeight="75" fitWidth="50">
+                            <image>
+                                <Image url="@../../icons/bookCover1.png" />
+                            </image>
+                        </ImageView>
+
+                        <VBox>
+                            <Label styleClass="book-title" text="Book Title 2" />
+                            <Label styleClass="book-author" text="Author Name 2" />
+                        </VBox>
+                    </HBox>
+
+                    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="book-item">
+                        <!-- Thumbnail or Image for the book -->
+                        <ImageView fx:id="bookCover7" fitHeight="75" fitWidth="50">
+                            <image>
+                                <Image url="@../../icons/bookCover1.png" />
+                            </image>
+                        </ImageView>
+
+                        <VBox>
+                            <Label styleClass="book-title" text="Book Title 2" />
+                            <Label styleClass="book-author" text="Author Name 2" />
+                        </VBox>
+                    </HBox>
+
+                    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="book-item">
+                        <!-- Thumbnail or Image for the book -->
+                        <ImageView fx:id="bookCover8" fitHeight="75" fitWidth="50">
+                            <image>
+                                <Image url="@../../icons/bookCover1.png" />
+                            </image>
+                        </ImageView>
+
+                        <VBox>
+                            <Label styleClass="book-title" text="Book Title 2" />
+                            <Label styleClass="book-author" text="Author Name 2" />
+                        </VBox>
+                    </HBox>
+
+
+
+
+                </VBox>
+            </ScrollPane>
+        </VBox>
+
+    </center>
+</BorderPane>
