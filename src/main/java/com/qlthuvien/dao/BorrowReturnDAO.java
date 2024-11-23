@@ -1,11 +1,13 @@
 package com.qlthuvien.dao;
 
 import com.qlthuvien.model.BorrowReturn;
+import com.qlthuvien.utils.DBConnection;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class BorrowReturnDAO {
 
@@ -266,6 +268,28 @@ public class BorrowReturnDAO {
                 return results;
             }
         }
+    }
+    public static List<Map<String, String>> getWaitingBorrowedItems() {
+        List<Map<String, String>> items = new ArrayList<>();
+        String sql = "SELECT membership_id, document_id, document_type, borrow_date, status FROM waiting_borrow WHERE status = 'Waiting'";
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                items.add(Map.of(
+                        "membership_id", rs.getString("membership_id"),
+                        "document_id", rs.getString("document_id"),
+                        "document_type", rs.getString("document_type"),
+                        "borrow_date", rs.getString("borrow_date"),
+                        "status", rs.getString("status")
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return items;
     }
 
 }
