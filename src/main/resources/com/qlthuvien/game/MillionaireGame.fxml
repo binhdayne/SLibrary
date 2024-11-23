@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.qlthuvien.game.MillionaireGameController" spacing="20" alignment="CENTER" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/17.0.6">
+    <Label text="Ai Là Triệu Phú" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+    <Label fx:id="lblQuestion" text="Câu hỏi sẽ xuất hiện ở đây" wrapText="true" style="-fx-font-size: 16px;" />
+    <VBox alignment="CENTER" spacing="10">
+        <Button text="A. Câu trả lời 1" fx:id="btnAnswerA" onAction="#handleAnswerA" />
+        <Button text="B. Câu trả lời 2" fx:id="btnAnswerB" onAction="#handleAnswerB" />
+        <Button text="C. Câu trả lời 3" fx:id="btnAnswerC" onAction="#handleAnswerC" />
+        <Button text="D. Câu trả lời 4" fx:id="btnAnswerD" onAction="#handleAnswerD" />
+    </VBox>
+</VBox>
