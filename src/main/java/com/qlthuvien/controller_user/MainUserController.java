@@ -1,4 +1,6 @@
 package com.qlthuvien.controller_user;
+import com.qlthuvien.game.MillionaireGameController;
+import com.qlthuvien.login.Login_Utils;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,6 +26,8 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.sql.SQLException;
+
+import static com.qlthuvien.login.Login_Utils.changeScene2;
 
 public class MainUserController {
 
@@ -85,7 +89,7 @@ private String getImagePath(LocalTime time) {
     @FXML
     public void initialize() {
         setActiveButton(btnHome);
-        btnGame.setOnAction(event -> launchSnakeGame());
+//        btnGame.setOnAction(event -> startGame());
         // Lấy thời gian hiện tại
         LocalTime now = LocalTime.now();
 
@@ -228,23 +232,28 @@ private void showDocumentsScreen() {
             e.printStackTrace();
         }
     }
+
     @FXML
-    public void launchSnakeGame() {
+    private void onGameButtonClicked(ActionEvent event) {
+        setActiveButton(btnGame);
+        contentArea.getChildren().clear();
         try {
-            // Tạo một Stage mới mỗi khi nhấn nút
-            Stage gameStage = new Stage();
+            // Tạo FXMLLoader và tải FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/qlthuvien/game/MillionaireGame.fxml"));
+            Node userManagement = loader.load();
 
-            // Khởi động SnakeGame
-            SnakeGame snakeGame = new SnakeGame();
+            // Lấy controller từ loader
+            MillionaireGameController profileController = loader.getController();
+            
 
-            // Reset trạng thái game
-            snakeGame.resetGameState(); // Hàm để reset trạng thái (thêm ở bên dưới)
-
-            snakeGame.start(gameStage);
-        } catch (Exception e) {
+            // Thêm giao diện profile vào contentArea
+            contentArea.getChildren().add(userManagement);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
 
 
 }
