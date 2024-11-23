@@ -7,81 +7,94 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.Tab?>
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.qlthuvien.controller_admin.BorrowReturnNormalController" spacing="15" style="-fx-padding: 20;" stylesheets="@styles.css">
-    <Label text="Borrow/Return Management" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+<VBox spacing="15" style="-fx-padding: 20;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlthuvien.controller_admin.BorrowReturnNormalController">
+    <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Borrow/Return Management" />
 
     <!-- Bố cục nhập liệu tài liệu và thông tin người dùng -->
     <HBox spacing="20">
 
         <!-- Form nhập liệu -->
-        <GridPane hgap="15" vgap="10" style="-fx-border-color: lightgray; -fx-border-width: 2; -fx-padding: 10;">
-            <Label text="Membership ID:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-pref-width: 100px;"/>
-            <TextField fx:id="membershipIdInput" promptText="Enter membership ID" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-            <Button text="Check" onAction="#checkMembershipId" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+        <GridPane hgap="15" style="-fx-border-color: lightgray; -fx-border-width: 2; -fx-padding: 10;" vgap="10">
+            <Label style="-fx-pref-width: 100px;" text="Membership ID:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="membershipIdInput" promptText="Enter membership ID" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Button onAction="#checkMembershipId" text="Check" GridPane.columnIndex="2" GridPane.rowIndex="0" />
 
-            <Label text="Document Type:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-pref-width: 100px;"/>
-            <ComboBox fx:id="documentTypeInput" GridPane.columnIndex="1" GridPane.rowIndex="1" promptText="Select document type"/>
+            <Label style="-fx-pref-width: 100px;" text="Document Type:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <ComboBox fx:id="documentTypeInput" promptText="Select document type" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-            <Label text="Document ID:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-pref-width: 100px;"/>
-            <TextField fx:id="documentIdInput" promptText="Enter document ID" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-            <Button text="Check" onAction="#checkDocumentDetails" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+            <Label style="-fx-pref-width: 100px;" text="Document ID:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField fx:id="documentIdInput" promptText="Enter document ID" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button onAction="#checkDocumentDetails" text="Check" GridPane.columnIndex="2" GridPane.rowIndex="2" />
 
-            <Label text="Borrow Date:" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-pref-width: 100px;"/>
-            <DatePicker fx:id="borrowDateInput" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            <Label style="-fx-pref-width: 100px;" text="Borrow Date:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <DatePicker fx:id="borrowDateInput" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-            <Label text="Return Date:" GridPane.columnIndex="0" GridPane.rowIndex="4" style="-fx-pref-width: 100px;"/>
-            <DatePicker fx:id="returnDateInput" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+            <Label style="-fx-pref-width: 100px;" text="Return Date:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <DatePicker fx:id="returnDateInput" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
         </GridPane>
 
         <!-- Phần hiển thị thông tin người dùng và thông tin tài liệu -->
         <VBox spacing="10" style="-fx-border-color: gray; -fx-border-width: 2; -fx-padding: 10;">
             <!-- Phần thông tin người dùng -->
             <VBox spacing="10" style="-fx-border-color: lightgray; -fx-border-width: 1; -fx-padding: 10;">
-                <Label text="User Information" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="User Information" />
                 <HBox spacing="10">
-                    <Label text="Name:" style="-fx-pref-width: 80px;"/>
-                    <Label fx:id="nameLabel" text="N/A" style="-fx-font-size: 14px;"/>
+                    <Label style="-fx-pref-width: 80px;" text="Name:" />
+                    <Label fx:id="nameLabel" style="-fx-font-size: 14px;" text="N/A" />
                 </HBox>
                 <HBox spacing="10">
-                    <Label text="Email:" style="-fx-pref-width: 80px;"/>
-                    <Label fx:id="emailLabel" text="N/A" style="-fx-font-size: 14px;"/>
+                    <Label style="-fx-pref-width: 80px;" text="Email:" />
+                    <Label fx:id="emailLabel" style="-fx-font-size: 14px;" text="N/A" />
                 </HBox>
                 <HBox spacing="10">
-                    <Label text="Phone:" style="-fx-pref-width: 80px;"/>
-                    <Label fx:id="phoneLabel" text="N/A" style="-fx-font-size: 14px;"/>
+                    <Label style="-fx-pref-width: 80px;" text="Phone:" />
+                    <Label fx:id="phoneLabel" style="-fx-font-size: 14px;" text="N/A" />
                 </HBox>
             </VBox>
 
             <!-- Phần thông tin tài liệu -->
             <VBox spacing="10" style="-fx-border-color: lightgray; -fx-border-width: 1; -fx-padding: 10;">
-                <Label text="Document Information" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
-                <Label fx:id="documentDetailsLabel" text="N/A" style="-fx-font-size: 14px;"/>
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Document Information" />
+                <Label fx:id="documentDetailsLabel" style="-fx-font-size: 14px;" text="N/A" />
             </VBox>
         </VBox>
+        <VBox fx:id="waitingVBox" alignment="CENTER" prefHeight="252.0" prefWidth="195.0" spacing="10" />
+
     </HBox>
 
     <!-- Các nút chức năng -->
     <HBox spacing="15">
-        <Button text="Borrow Document" onAction="#borrowDocument" disable="true" fx:id="borrowButton"/>
-        <Button text="Return Document" onAction="#returnDocument" disable="true" fx:id="returnButton"/>
+        <Button fx:id="borrowButton" disable="true" onAction="#borrowDocument" text="Borrow Document" />
+        <Button fx:id="returnButton" disable="true" onAction="#returnDocument" text="Return Document" />
     </HBox>
 
     <!-- Bảng hiển thị các giao dịch mượn/trả tài liệu -->
     <TableView fx:id="borrowReturnTable" style="-fx-pref-height: 200px;">
         <columns>
-            <TableColumn fx:id="membershipIdColumn" text="Membership ID" prefWidth="150"/>
-            <TableColumn fx:id="documentTypeColumn" text="Document Type" prefWidth="150"/>
-            <TableColumn fx:id="documentIdColumn" text="Document ID" prefWidth="150"/>
-            <TableColumn fx:id="borrowDateColumn" text="Borrow Date" prefWidth="150"/>
-            <TableColumn fx:id="returnDateColumn" text="Return Date" prefWidth="150"/>
-            <TableColumn fx:id="statusColumn" text="Status" prefWidth="100"/>
+            <TableColumn fx:id="membershipIdColumn" prefWidth="150" text="Membership ID" />
+            <TableColumn fx:id="documentTypeColumn" prefWidth="150" text="Document Type" />
+            <TableColumn fx:id="documentIdColumn" prefWidth="150" text="Document ID" />
+            <TableColumn fx:id="borrowDateColumn" prefWidth="150" text="Borrow Date" />
+            <TableColumn fx:id="returnDateColumn" prefWidth="150" text="Return Date" />
+            <TableColumn fx:id="statusColumn" prefWidth="100" text="Status" />
         </columns>
     </TableView>
 </VBox>
