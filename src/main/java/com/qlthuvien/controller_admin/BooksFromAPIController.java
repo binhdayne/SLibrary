@@ -10,7 +10,9 @@ import com.qlthuvien.model.BookFromAPI;
 import com.qlthuvien.utils.DBConnection;
 import com.qlthuvien.utils.DatabaseTask;
 import com.qlthuvien.utils.QRCodeGenerator;
+import com.qlthuvien.utils.StarAnimationUtil;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -21,6 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
 
 public class BooksFromAPIController {
 
@@ -36,6 +39,8 @@ public class BooksFromAPIController {
     private Label statusApiLabel, statusLoadDataLabel;
     @FXML
     private Button generateQRButton;
+    @FXML
+    private VBox starContainer;
 
     private BookFromAPIDAO bookFromAPIDAO;
     
@@ -77,11 +82,17 @@ public class BooksFromAPIController {
             BookFromAPI selectedBook = booksTable.getSelectionModel().getSelectedItem();
             if (selectedBook != null) {
                 generateQRButton.setDisable(false);
-                // ... code hiện tại
+                
             } else {
                 generateQRButton.setDisable(true);
             }
         });
+        // Create star animation
+        if (starContainer != null) {
+            Platform.runLater(() -> {
+                StarAnimationUtil.createStarAnimation(starContainer);
+            });
+        }
     }
     
     /**
