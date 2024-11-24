@@ -9,7 +9,9 @@ import com.qlthuvien.model.Thesis;
 import com.qlthuvien.utils.DBConnection;
 import com.qlthuvien.utils.DatabaseTask;
 import com.qlthuvien.utils.QRCodeGenerator;
+import com.qlthuvien.utils.StarAnimationUtil;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -18,6 +20,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -48,6 +51,8 @@ public class ThesisController {
     private Label statusLabel;
     @FXML
     private Button generateQRButton;
+    @FXML
+    private VBox starContainer;
     
     /**
      * Constructor for ThesisController.
@@ -66,13 +71,19 @@ public class ThesisController {
      */
     @FXML
     public void initialize() {
-        // Set column widths based on table size
+        
         idColumn.prefWidthProperty().bind(thesesTable.widthProperty().multiply(0.05));
+        
         titleColumn.prefWidthProperty().bind(thesesTable.widthProperty().multiply(0.25));
+        
         authorColumn.prefWidthProperty().bind(thesesTable.widthProperty().multiply(0.2));
+        
         supervisorColumn.prefWidthProperty().bind(thesesTable.widthProperty().multiply(0.2));
+        
         universityColumn.prefWidthProperty().bind(thesesTable.widthProperty().multiply(0.2));
+        
         statusColumn.prefWidthProperty().bind(thesesTable.widthProperty().multiply(0.1));
+        
 
         // Link columns to Thesis properties
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -99,6 +110,12 @@ public class ThesisController {
                 generateQRButton.setDisable(true);
             }
         });
+        // Create Star animation
+        if (starContainer != null) {
+            Platform.runLater(() -> {
+                StarAnimationUtil.createStarAnimation(starContainer);
+            });
+        }
     }
     
     /**
