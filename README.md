@@ -39,6 +39,10 @@ This project is a library management system developed in Java. The project is a 
 - Document: shows all books in the library. Combines a search bar for users.
 - Game: there will be 10 questions to choose the answer related to the library and books
 
+  ## UML Diagram
+
+  ![java](https://github.com/user-attachments/assets/3f8485d2-76db-4270-aa2f-019d7adc73f8)
+
   ## How to install ?
 - Step 1: First, you need to download our project and connect it to your MySQL database. In MySQL, you need to create a new schema and run the db_ql_thu_vien.sql script.
 - Step 2: After running and connecting, please modify the MySQL connection part in our code at the following files: src/main/java/com/qlthuvien/utils/DBConnection.java,
