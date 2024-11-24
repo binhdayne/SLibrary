@@ -1,5 +1,10 @@
 package com.qlthuvien.controller_admin;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.List;
+
 import com.qlthuvien.dao.BorrowReturnDAO;
 import com.qlthuvien.dao.UserDAO;
 import com.qlthuvien.dao.WaitingBorrowDAO;
@@ -7,20 +12,24 @@ import com.qlthuvien.model.BorrowReturn;
 import com.qlthuvien.model.User;
 import com.qlthuvien.model.WaitingBorrow;
 import com.qlthuvien.utils.DBConnection;
-import javafx.beans.property.SimpleStringProperty;
+import com.qlthuvien.utils.StarAnimationUtil;
+
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
 
 public class BorrowReturnNormalController {
 
@@ -69,7 +78,8 @@ public class BorrowReturnNormalController {
     @FXML
     private TabPane mainTabPane;
     @FXML
-    private VBox waitingVBox;
+    private VBox starContainer;
+
     private Connection connection;
     private BorrowReturnDAO borrowReturnDAO;
     private UserDAO userDAO;
@@ -79,7 +89,7 @@ public class BorrowReturnNormalController {
         connection = DBConnection.getConnection();
         borrowReturnDAO = new BorrowReturnDAO(connection);
         userDAO = new UserDAO(connection);
-        waitingBorrowDAO = new WaitingBorrowDAO(connection); // Thêm DAO mới
+        waitingBorrowDAO = new WaitingBorrowDAO(connection); // Add new DAO
     }
 
     @FXML
@@ -104,48 +114,13 @@ public class BorrowReturnNormalController {
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         refreshBorrowReturnTable();
-
-// Lấy dữ liệu từ DAO
-        List<Map<String, String>> waitingItems = BorrowReturnDAO.getWaitingBorrowedItems();
-
-// Tạo TableView
-        TableView<Map<String, String>> tableView = new TableView<>();
-
-// Tạo các cột với Callback
-        TableColumn<Map<String, String>, String> membershipIdColumn = new TableColumn<>("Membership ID");
-        membershipIdColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().get("membership_id"))
-        );
-
-        TableColumn<Map<String, String>, String> documentIdColumn = new TableColumn<>("Document ID");
-        documentIdColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().get("document_id"))
-        );
-
-        TableColumn<Map<String, String>, String> documentTypeColumn = new TableColumn<>("Document Type");
-        documentTypeColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().get("document_type"))
-        );
-
-        TableColumn<Map<String, String>, String> borrowDateColumn = new TableColumn<>("Borrow Date");
-        borrowDateColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().get("borrow_date"))
-        );
-
-        TableColumn<Map<String, String>, String> statusColumn = new TableColumn<>("Status");
-        statusColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().get("status"))
-        );
-
-// Thêm các cột vào TableView
-        tableView.getColumns().addAll(membershipIdColumn, documentIdColumn, documentTypeColumn, borrowDateColumn, statusColumn);
-
-// Thêm dữ liệu vào TableView
-        ObservableList<Map<String, String>> observableList = FXCollections.observableArrayList(waitingItems);
-        tableView.setItems(observableList);
-
-// Thêm TableView vào VBox
-        waitingVBox.getChildren().add(tableView);
+        
+        // Create Star animation
+        if (starContainer != null) {
+            Platform.runLater(() -> {
+                StarAnimationUtil.createStarAnimation(starContainer);
+            });
+        }
     }
     @FXML
     private void checkMembershipId() {
@@ -217,7 +192,7 @@ public class BorrowReturnNormalController {
             int documentId = Integer.parseInt(documentIdInput.getText());
             String documentType = documentTypeInput.getValue();
 
-            // Kiểm tra trạng thái Waiting trong bảng waiting_borrow
+            // Check the 'Waiting' status in the waiting_borrow table
             boolean isWaiting = waitingBorrowDAO.isDocumentWaiting(membershipId, documentId, documentType);
             if (!isWaiting) {
                 showError("The document is not in 'Waiting' status or does not belong to this membership ID.");
@@ -229,23 +204,23 @@ public class BorrowReturnNormalController {
                 return;
             }
 
-            // Tạo đối tượng BorrowReturn
+            // Create a BorrowReturn object
             BorrowReturn newBorrow = new BorrowReturn(
                     membershipId,
                     documentId,
                     documentType,
                     borrowDateInput.getValue(),
-                    null, // Return date chưa xác định
+                    null, // Return date is not determined
                     "Borrowed"
             );
 
-            // Thêm vào bảng borrow_return qua DAO
+            // Add to the borrow_return table via DAO
             borrowReturnDAO.borrowDocument(newBorrow);
 
-            // Cập nhật trạng thái trong bảng waiting_borrow thành 'Borrowed'
+            // Update the status in the waiting_borrow table to 'Borrowed'
             waitingBorrowDAO.updateDocumentStatus(documentId, "Borrowed");
 
-            // Hiển thị thông báo thành công và làm mới bảng
+            // Show success message and refresh the table
             showSuccess("Document borrowed successfully!");
             refreshBorrowReturnTableForUser(membershipId);
 
