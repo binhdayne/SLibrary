@@ -9,7 +9,9 @@ import com.qlthuvien.model.Book;
 import com.qlthuvien.utils.DBConnection;
 import com.qlthuvien.utils.DatabaseTask;
 import com.qlthuvien.utils.QRCodeGenerator;
+import com.qlthuvien.utils.StarAnimationUtil;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -18,6 +20,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -49,16 +52,14 @@ public class BooksController {
     @FXML
     private Button generateQRButton;
 
-    
+    @FXML
+    private VBox starContainer;
+
     public BooksController() {
         connection = DBConnection.getConnection();
         bookDAO = new BookDAO(connection);
     }
-    
-    /**
-     * Initializes the controller and sets up the TableView.
-     * Configures column widths, cell value factories, and selection handling.
-     */
+
     @FXML
     public void initialize() {
         idColumn.prefWidthProperty().bind(booksTable.widthProperty().multiply(0.10));
@@ -74,7 +75,7 @@ public class BooksController {
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         refreshBooksTable();
-        // Handle book selection
+
         booksTable.setOnMouseClicked(event -> {
             Book selectedBook = booksTable.getSelectionModel().getSelectedItem();
             if (selectedBook != null) {
@@ -86,13 +87,15 @@ public class BooksController {
                 generateQRButton.setDisable(true);
             }
         });
+
+        // Create star animation
+        if (starContainer != null) {
+            Platform.runLater(() -> {
+                StarAnimationUtil.createStarAnimation(starContainer);
+            });
+        }
     }
-    
-    /**
-     * Adds a new book to the library system.
-     * Creates a new Book object from input fields and saves it to the database.
-     * Updates the table view and shows success/error message.
-     */
+
 
     @FXML
     public void addBook() {
@@ -105,12 +108,6 @@ public class BooksController {
             showError(e.getMessage());
         }
     }
-    
-    /**
-     * Updates the selected book's information in the database.
-     * Takes values from input fields and updates the corresponding book record.
-     * Shows error message if no book is selected.
-     */
 
     @FXML
     public void editBook() {
@@ -132,11 +129,6 @@ public class BooksController {
         }
     }
 
-    /**
-     * Deletes the selected book from the library system.
-     * Removes the book record from the database and updates the table view.
-     * Shows error message if no book is selected.
-     */
     @FXML
     public void deleteBook() {
         Book selectedBook = booksTable.getSelectionModel().getSelectedItem();
@@ -153,13 +145,7 @@ public class BooksController {
             showError(e.getMessage());
         }
     }
-    
-    /**
-     * Generates a QR code for the selected book.
-     * QR code contains book details including ID, title, author, and genre.
-     * Allows user to choose save location for the generated QR code image.
-     * Shows error message if no book is selected or if generation fails.
-     */
+
     @FXML
     public void generateQR() {
         Book selectedBook = booksTable.getSelectionModel().getSelectedItem();
@@ -185,11 +171,6 @@ public class BooksController {
         }
     }
 
-    /**
-     * Refreshes the books table with current data from the database.
-     * Uses DatabaseTask for asynchronous loading to prevent UI freezing.
-     * Updates status label to show loading progress.
-     */
     private void refreshBooksTable() {
         statusLabel.setText("Loading...");
 
@@ -207,24 +188,18 @@ public class BooksController {
                 }
         );
     }
-    
-    /**
-     * Displays an error message dialog to the user.
-     * @param message The error message to be displayed
-     */
+
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setContentText(message);
         alert.show();
     }
-    
-    /**
-     * Displays a success message dialog to the user.
-     * @param message The success message to be displayed
-     */
+
     private void showSuccess(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);
         alert.show();
     }
+
+    
 }
