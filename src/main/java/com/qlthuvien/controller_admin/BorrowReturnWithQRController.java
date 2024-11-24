@@ -38,16 +38,16 @@ public class BorrowReturnWithQRController {
     private String documentType;
     private int documentId;
     private String currentStatus;
-    
+
     /**
-     * Constructor BorrowReturnWithQRController.        
+     * Constructor BorrowReturnWithQRController.
      */
     public BorrowReturnWithQRController() {
         connection = DBConnection.getConnection();
         borrowReturnDAO = new BorrowReturnDAO(connection);
         userDAO = new UserDAO(connection);
     }
-    
+
     /**
      * Import QR code.
      */
@@ -98,7 +98,7 @@ public class BorrowReturnWithQRController {
             }
         }
     }
-    
+
     /**
      * Check membership ID.
      */
@@ -117,7 +117,7 @@ public class BorrowReturnWithQRController {
             showError("Error checking membership ID: " + e.getMessage());
         }
     }
-    
+
     /**
      * Process the transaction.
      */

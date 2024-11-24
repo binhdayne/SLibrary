@@ -1,23 +1,18 @@
 package com.qlthuvien.controller_admin;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-
 import com.qlthuvien.dao.UserDAO;
 import com.qlthuvien.model.User;
 import com.qlthuvien.utils.DBConnection;
 import com.qlthuvien.utils.StarAnimationUtil;
-
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 public class UserController {
 
@@ -39,15 +34,13 @@ public class UserController {
     private TableColumn<User, String> passwordColumn;
     @FXML
     private TableColumn<User, String> usernameColumn;
-
+    @FXML
+    private VBox starContainer;
     @FXML
     private TextField nameInput, emailInput, phoneInput, membershipIdInput, passwordInput, usernameInput;
 
     @FXML
     private Label statusLabel;
-
-    @FXML
-    private VBox starContainer;
 
     public UserController() {
         connection = DBConnection.getConnection();
@@ -87,15 +80,14 @@ public class UserController {
                 passwordInput.setText(selectedUser.getPassword());
             }
         });
-        
+
         // create star animation
-        
+
         if (starContainer != null) {
             Platform.runLater(() -> {
-               StarAnimationUtil.createStarAnimation(starContainer);
+                StarAnimationUtil.createStarAnimation(starContainer);
             });
         }
-   
     }
 
     @FXML
@@ -158,9 +150,9 @@ public class UserController {
 
     private void refreshUsersTable() {
         try {
-            // Get all users from the database
+            // Lấy danh sách toàn bộ người dùng từ cơ sở dữ liệu
             List<User> users = userDAO.getAll();
-            usersTable.getItems().setAll(users); // Display the list in the table
+            usersTable.getItems().setAll(users); // Hiển thị danh sách trong bảng
         } catch (SQLException e) {
             showError(e.getMessage());
         }

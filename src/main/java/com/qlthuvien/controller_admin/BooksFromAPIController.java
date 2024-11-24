@@ -4,14 +4,15 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import com.google.zxing.Result;
 import com.qlthuvien.api.GoogleBooksAPI;
 import com.qlthuvien.dao.BookFromAPIDAO;
 import com.qlthuvien.model.BookFromAPI;
 import com.qlthuvien.utils.DBConnection;
 import com.qlthuvien.utils.DatabaseTask;
 import com.qlthuvien.utils.QRCodeGenerator;
-import com.qlthuvien.utils.StarAnimationUtil;
 
+import com.qlthuvien.utils.StarAnimationUtil;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -21,9 +22,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.scene.layout.VBox;
 
 public class BooksFromAPIController {
 
@@ -40,10 +43,11 @@ public class BooksFromAPIController {
     @FXML
     private Button generateQRButton;
     @FXML
+    private ImageView bookCoverImageView;
+    @FXML
     private VBox starContainer;
-
     private BookFromAPIDAO bookFromAPIDAO;
-    
+
     /**
      * Constructor for BooksFromAPIController.
      * Initializes database connection and BookFromAPIDAO instance.
@@ -52,7 +56,7 @@ public class BooksFromAPIController {
         Connection connection = DBConnection.getConnection();  // Get connection from DBConnection
         this.bookFromAPIDAO = new BookFromAPIDAO(connection);  // Pass connection to DAO
     }
-    
+
     /**
      * Initializes the controller and sets up the TableView columns.
      * Configures column widths as percentages of table width and sets up cell value factories.
@@ -78,15 +82,21 @@ public class BooksFromAPIController {
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         refreshBooksTable();
+
+        // Handle row selection
         booksTable.setOnMouseClicked(event -> {
             BookFromAPI selectedBook = booksTable.getSelectionModel().getSelectedItem();
             if (selectedBook != null) {
+                populateBookDetails(selectedBook); // Populate fields with selected book details
+                fetchAndDisplayBookCover(selectedBook.getIsbn()); // Fetch and display the book cover
                 generateQRButton.setDisable(false);
-                
             } else {
+                clearBookDetails();
+                bookCoverImageView.setImage(null);
                 generateQRButton.setDisable(true);
             }
         });
+
         // Create star animation
         if (starContainer != null) {
             Platform.runLater(() -> {
@@ -94,41 +104,83 @@ public class BooksFromAPIController {
             });
         }
     }
-    
-    /**
-     * Fetches book information from Google Books API using ISBN.
-     * Updates the input fields with fetched book details if found.
-     * Updates status label to show progress and results of the API call.
-     */
+
+    private void populateBookDetails(BookFromAPI book) {
+        isbnInput.setText(book.getIsbn());
+        titleInput.setText(book.getTitle());
+        authorInput.setText(book.getAuthor());
+        publisherInput.setText(book.getPublisher());
+        publishedDateInput.setText(book.getPublishedDate());
+        descriptionInput.setText(book.getDescription());
+    }
+
+    private void clearBookDetails() {
+        isbnInput.clear();
+        titleInput.clear();
+        authorInput.clear();
+        publisherInput.clear();
+        publishedDateInput.clear();
+        descriptionInput.clear();
+    }
+
     @FXML
     public void fetchFromAPI() {
         String isbn = isbnInput.getText();
         statusApiLabel.setText("Fetching from API...");
 
         DatabaseTask.run(
-                () -> GoogleBooksAPI.fetchBookByISBN(isbn),
+                () -> GoogleBooksAPI.fetchBookByISBN(isbn), // Fetch book details from API
                 book -> {
                     if (book != null) {
+                        // Populate the input fields with book details
                         titleInput.setText(book.getTitle());
                         authorInput.setText(book.getAuthor());
                         publisherInput.setText(book.getPublisher());
                         publishedDateInput.setText(book.getPublishedDate());
                         descriptionInput.setText(book.getDescription());
+
+                        // Display the book cover in the ImageView
+                        displayBookCover(book.getBookCover());
                         statusApiLabel.setText("Book fetched successfully from API.");
                     } else {
                         statusApiLabel.setText("No book found for this ISBN.");
+                        bookCoverImageView.setImage(null); // Clear the cover view
                     }
                 },
-                exception -> statusApiLabel.setText("Error fetching book from API: " + exception.getMessage())
+                exception -> {
+                    statusApiLabel.setText("Error fetching book from API: " + exception.getMessage());
+                    bookCoverImageView.setImage(null); // Clear the cover view on error
+                }
         );
     }
-    
-    /**
-     * Adds a new book to the database using information from input fields.
-     * Creates a new BookFromAPI object and saves it to the database.
-     * Refreshes the table view and shows success/error message.
-     * Sets default status as "available" for new books.
-     */
+
+    private void fetchAndDisplayBookCover(String isbn) {
+        DatabaseTask.run(
+                () -> GoogleBooksAPI.fetchBookByISBN(isbn), // Fetch book details from API
+                book -> {
+                    if (book != null && book.getBookCover() != null) {
+                        displayBookCover(book.getBookCover());
+                    } else {
+                        bookCoverImageView.setImage(null); // Clear the ImageView if no thumbnail is found
+                    }
+                },
+                exception -> {
+                    System.err.println("Error fetching book cover: " + exception.getMessage());
+                    bookCoverImageView.setImage(null); // Clear the ImageView on error
+                }
+        );
+    }
+
+    private void displayBookCover(String thumbnailUrl) {
+        try {
+            Image bookCoverImage = new Image(thumbnailUrl);
+            bookCoverImageView.setImage(bookCoverImage); // Set the image in the ImageView
+        } catch (Exception e) {
+            System.err.println("Error loading book cover: " + e.getMessage());
+            bookCoverImageView.setImage(null);
+        }
+    }
+
     @FXML
     public void addBook() {
         try {
@@ -149,7 +201,7 @@ public class BooksFromAPIController {
             showAlert("Error", "Error adding book: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-    
+
     /**
      * Deletes the selected book from the database.
      * Removes book record using ISBN as the identifier.
@@ -171,7 +223,7 @@ public class BooksFromAPIController {
             showAlert("Error", "No book selected for deletion.", Alert.AlertType.ERROR);
         }
     }
-    
+
     /**
      * Refreshes the books table with current data from the database.
      * Uses DatabaseTask for asynchronous loading to prevent UI freezing.
@@ -189,7 +241,7 @@ public class BooksFromAPIController {
                 exception -> statusLoadDataLabel.setText("Error fetching books: " + exception.getMessage())
         );
     }
-    
+
     /**
      * Displays an alert dialog to the user.
      * @param title The title of the alert dialog
@@ -202,7 +254,7 @@ public class BooksFromAPIController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-    
+
     /**
      * Generates QR code for the selected book.
      * Shows a file chooser dialog to save the QR code as a PNG file.
@@ -224,12 +276,12 @@ public class BooksFromAPIController {
 
         if (file != null) {
             try {
-                String qrContent = "Type: API_BOOK, ID: " + selectedBook.getId() + 
-                                 ", ISBN: " + selectedBook.getIsbn() +
-                                 ", Title: " + selectedBook.getTitle() +
-                                 ", Author: " + selectedBook.getAuthor() + 
-                                 ", Publisher: " + selectedBook.getPublisher() +
-                                 ", Published Date: " + selectedBook.getPublishedDate();
+                String qrContent = "Type: API_BOOK, ID: " + selectedBook.getId() +
+                        ", ISBN: " + selectedBook.getIsbn() +
+                        ", Title: " + selectedBook.getTitle() +
+                        ", Author: " + selectedBook.getAuthor() +
+                        ", Publisher: " + selectedBook.getPublisher() +
+                        ", Published Date: " + selectedBook.getPublishedDate();
                 QRCodeGenerator.generateQRCode(qrContent, file.getAbsolutePath());
                 showAlert("Success", "QR Code generated successfully!", Alert.AlertType.INFORMATION);
             } catch (Exception e) {

@@ -5,10 +5,6 @@ import javafx.scene.paint.Color;
 
 
 public class BorrowReturnManagementController {
-
-    /**
-     * Khoi tao cua BorroReturnManagementController.
-     */
     public void initialize() {
         DropShadow shadow = new DropShadow();
         shadow.setColor(Color.web("#1a73e8"));

@@ -9,8 +9,8 @@ import com.qlthuvien.model.Thesis;
 import com.qlthuvien.utils.DBConnection;
 import com.qlthuvien.utils.DatabaseTask;
 import com.qlthuvien.utils.QRCodeGenerator;
-import com.qlthuvien.utils.StarAnimationUtil;
 
+import com.qlthuvien.utils.StarAnimationUtil;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -20,6 +20,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -44,7 +45,12 @@ public class ThesisController {
     private TableColumn<Thesis, String> universityColumn;
     @FXML
     private TableColumn<Thesis, String> statusColumn;
-
+    @FXML
+    private ImageView thesisCoverImageView;
+    @FXML
+    private Button editCoverButton;
+    @FXML
+    private Label coverPathLabel;
     @FXML
     private TextField titleInput, authorInput, supervisorInput, universityInput;
     @FXML
@@ -52,8 +58,9 @@ public class ThesisController {
     @FXML
     private Button generateQRButton;
     @FXML
+    private Button selectCoverButton;
+    @FXML
     private VBox starContainer;
-    
     /**
      * Constructor for ThesisController.
      * Initializes database connection and ThesisDAO instance.
@@ -62,7 +69,7 @@ public class ThesisController {
         connection = DBConnection.getConnection();
         thesisDAO = new ThesisDAO(connection);
     }
-    
+
     /**
      * Initializes the controller and sets up the TableView.
      * Configures column widths as percentages of table width,
@@ -71,21 +78,7 @@ public class ThesisController {
      */
     @FXML
     public void initialize() {
-        
-        idColumn.prefWidthProperty().bind(thesesTable.widthProperty().multiply(0.05));
-        
-        titleColumn.prefWidthProperty().bind(thesesTable.widthProperty().multiply(0.25));
-        
-        authorColumn.prefWidthProperty().bind(thesesTable.widthProperty().multiply(0.2));
-        
-        supervisorColumn.prefWidthProperty().bind(thesesTable.widthProperty().multiply(0.2));
-        
-        universityColumn.prefWidthProperty().bind(thesesTable.widthProperty().multiply(0.2));
-        
-        statusColumn.prefWidthProperty().bind(thesesTable.widthProperty().multiply(0.1));
-        
-
-        // Link columns to Thesis properties
+        // Set up columns
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
@@ -93,44 +86,117 @@ public class ThesisController {
         universityColumn.setCellValueFactory(new PropertyValueFactory<>("university"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        // Load initial data from database
+        // Load theses into the table
         refreshThesesTable();
 
-        // Handle event when clicking on a row in the table
+        // Handle table selection
         thesesTable.setOnMouseClicked(event -> {
             Thesis selectedThesis = thesesTable.getSelectionModel().getSelectedItem();
             if (selectedThesis != null) {
-                // Populate input fields with selected thesis data
+                // Populate input fields
                 titleInput.setText(selectedThesis.getTitle());
                 authorInput.setText(selectedThesis.getAuthor());
                 supervisorInput.setText(selectedThesis.getSupervisor());
                 universityInput.setText(selectedThesis.getUniversity());
+                coverPathLabel.setText(selectedThesis.getCoverPath()); // Display the cover path
+                displayThesisCover(selectedThesis.getCoverPath());     // Display the cover image
+                editCoverButton.setDisable(false); // Enable the Edit Cover button
                 generateQRButton.setDisable(false);
             } else {
-                generateQRButton.setDisable(true);
+                clearFields();
             }
         });
-        // Create Star animation
+
+        // Create star animation
         if (starContainer != null) {
             Platform.runLater(() -> {
                 StarAnimationUtil.createStarAnimation(starContainer);
             });
         }
+
+        selectCoverButton.setOnAction(event -> selectThesisCover());
+        editCoverButton.setOnAction(event -> editThesisCover());
     }
-    
-    /**
-     * Adds a new thesis to the library system.
-     * Creates a new Thesis object from input fields and saves it to the database.
-     * Sets default status as "available" for new theses.
-     * Updates the table view and shows success/error message.
-     * 
-     * @throws SQLException if database operation fails
-     */
+
+    @FXML
+    private void selectThesisCover() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Magazine Cover Image");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
+        );
+
+        File selectedFile = fileChooser.showOpenDialog(new Stage());
+        if (selectedFile != null) {
+            coverPathLabel.setText(selectedFile.getAbsolutePath());
+            displayThesisCover(selectedFile.getAbsolutePath()); // Preview the selected cover
+        } else {
+            coverPathLabel.setText(""); // Clear if no file is selected
+        }
+    }
+
+    @FXML
+    private void editThesisCover() {
+        Thesis selectedThesis = thesesTable.getSelectionModel().getSelectedItem();
+        if (selectedThesis == null) {
+            showError("No thesis selected to edit the cover.");
+            return;
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Thesis Cover Image");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
+        );
+
+        File selectedFile = fileChooser.showOpenDialog(new Stage());
+        if (selectedFile != null) {
+            String newCoverPath = selectedFile.getAbsolutePath();
+            selectedThesis.setCoverPath(newCoverPath); // Update the cover path
+
+            try {
+                thesisDAO.update(selectedThesis); // Save changes to the database
+                showSuccess("Thesis cover updated successfully!");
+                displayThesisCover(newCoverPath); // Refresh the cover display
+                coverPathLabel.setText(newCoverPath); // Update the label
+            } catch (SQLException e) {
+                showError("Error updating thesis cover: " + e.getMessage());
+            }
+        } else {
+            showError("No file selected for the cover.");
+        }
+    }
+
+    private void displayThesisCover(String coverPath) {
+        if (coverPath != null && !coverPath.isEmpty()) {
+            File coverFile = new File(coverPath);
+            if (coverFile.exists()) {
+                thesisCoverImageView.setImage(new javafx.scene.image.Image(coverFile.toURI().toString()));
+            } else {
+                thesisCoverImageView.setImage(null); // Clear the view if the file does not exist
+            }
+        } else {
+            thesisCoverImageView.setImage(null); // Clear the view if no cover path is set
+        }
+    }
+
+    private void clearFields() {
+        titleInput.clear();
+        authorInput.clear();
+        supervisorInput.clear();
+        universityInput.clear();
+        coverPathLabel.setText("No file selected");
+        thesisCoverImageView.setImage(null);
+        editCoverButton.setDisable(true);
+        generateQRButton.setDisable(true);
+    }
+
     @FXML
     public void addThesis() {
+        String bookCoverPath = coverPathLabel.getText();
         try {
             Thesis newThesis = new Thesis(0, titleInput.getText(), authorInput.getText(),
-                    supervisorInput.getText(), universityInput.getText(), "available");
+                    supervisorInput.getText(), universityInput.getText(), "available", bookCoverPath);
             thesisDAO.add(newThesis);
             showSuccess("Thesis added successfully!");
             refreshThesesTable();
@@ -138,13 +204,13 @@ public class ThesisController {
             showError(e.getMessage());
         }
     }
-    
+
     /**
      * Updates the selected thesis's information in the database.
      * Takes values from input fields and updates the corresponding thesis record.
      * Shows error message if no thesis is selected.
      * Refreshes the table view after successful update.
-     * 
+     *
      * @throws SQLException if database operation fails
      */
     @FXML
@@ -172,7 +238,7 @@ public class ThesisController {
      * Deletes the selected thesis from the library system.
      * Removes the thesis record from the database and updates the table view.
      * Shows error message if no thesis is selected.
-     * 
+     *
      * @throws SQLException if database operation fails
      */
     @FXML
@@ -191,7 +257,7 @@ public class ThesisController {
             showError(e.getMessage());
         }
     }
-    
+
     /**
      * Refreshes the theses table with current data from the database.
      * Uses DatabaseTask for asynchronous loading to prevent UI freezing.
@@ -212,10 +278,10 @@ public class ThesisController {
                 }
         );
     }
-    
+
     /**
      * Displays an error message dialog to the user.
-     * 
+     *
      * @param message The error message to be displayed
      */
     private void showError(String message) {
@@ -223,10 +289,10 @@ public class ThesisController {
         alert.setContentText(message);
         alert.show();
     }
-    
+
     /**
      * Displays a success message dialog to the user.
-     * 
+     *
      * @param message The success message to be displayed
      */
     private void showSuccess(String message) {
@@ -234,7 +300,7 @@ public class ThesisController {
         alert.setContentText(message);
         alert.show();
     }
-    
+
     /**
      * Generates a QR code for the selected thesis.
      * Shows a file chooser dialog to save the QR code as a PNG file.
@@ -256,11 +322,11 @@ public class ThesisController {
 
         if (file != null) {
             try {
-                String qrContent = "Type: THESIS, ID: " + selectedThesis.getId() + 
-                                 ", Title: " + selectedThesis.getTitle() +
-                                 ", Author: " + selectedThesis.getAuthor() + 
-                                 ", Supervisor: " + selectedThesis.getSupervisor() +
-                                 ", University: " + selectedThesis.getUniversity();
+                String qrContent = "Type: THESIS, ID: " + selectedThesis.getId() +
+                        ", Title: " + selectedThesis.getTitle() +
+                        ", Author: " + selectedThesis.getAuthor() +
+                        ", Supervisor: " + selectedThesis.getSupervisor() +
+                        ", University: " + selectedThesis.getUniversity();
                 QRCodeGenerator.generateQRCode(qrContent, file.getAbsolutePath());
                 showSuccess("QR Code generated successfully!");
             } catch (Exception e) {

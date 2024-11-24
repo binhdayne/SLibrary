@@ -108,7 +108,7 @@ public class MainController {
         setActiveButton(btnHome);
         contentArea.getChildren().clear();
         try {
-            Node documentManagement = FXMLLoader.load(getClass().getResource("/com/qlthuvien/HomeScreen.fxml"));
+            Node documentManagement = FXMLLoader.load(getClass().getResource("/com/qlthuvien/view_manager/HomeScreen.fxml"));
             contentArea.getChildren().add(documentManagement);
         } catch (IOException e) {
             e.printStackTrace();
@@ -123,7 +123,7 @@ public class MainController {
         setActiveButton(btnDocuments);
         contentArea.getChildren().clear();
         try {
-            Node documentManagement = FXMLLoader.load(getClass().getResource("/com/qlthuvien/DocumentManagement.fxml"));
+            Node documentManagement = FXMLLoader.load(getClass().getResource("/com/qlthuvien/view_manager/DocumentManagement.fxml"));
             contentArea.getChildren().add(documentManagement);
         } catch (IOException e) {
             e.printStackTrace();
@@ -136,7 +136,7 @@ public class MainController {
         setActiveButton(btnUsers);
         contentArea.getChildren().clear();
         try {
-            Node userManagement = FXMLLoader.load(getClass().getResource("/com/qlthuvien/UserManagement.fxml"));
+            Node userManagement = FXMLLoader.load(getClass().getResource("/com/qlthuvien/view_manager/UserManagement.fxml"));
             contentArea.getChildren().add(userManagement);
         } catch (IOException e) {
 
@@ -150,7 +150,7 @@ public class MainController {
         setActiveButton(btnLoans);
         contentArea.getChildren().clear();
         try {
-            Node borrowReturnManagement = FXMLLoader.load(getClass().getResource("/com/qlthuvien/BorrowReturnManagement.fxml"));
+            Node borrowReturnManagement = FXMLLoader.load(getClass().getResource("/com/qlthuvien/view_manager/BorrowReturnManagement.fxml"));
             contentArea.getChildren().add(borrowReturnManagement);
         } catch (IOException e) {
             e.printStackTrace();
@@ -171,7 +171,7 @@ public class MainController {
     public void showLogoutScreen() {
         try {
             // Tải giao diện đăng nhập
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/qlthuvien/FirstScreen.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/qlthuvien/view_manager/FirstScreen.fxml"));
             Scene loginScene = new Scene(loader.load());
 
             // Lấy Stage hiện tại và thay đổi scene sang màn hình đăng nhập

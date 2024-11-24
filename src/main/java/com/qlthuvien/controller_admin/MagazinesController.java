@@ -13,8 +13,8 @@ import com.qlthuvien.model.Magazine;
 import com.qlthuvien.utils.DBConnection;
 import com.qlthuvien.utils.DatabaseTask;
 import com.qlthuvien.utils.QRCodeGenerator;
-import com.qlthuvien.utils.StarAnimationUtil;
 
+import com.qlthuvien.utils.StarAnimationUtil;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -24,6 +24,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -35,7 +36,6 @@ public class MagazinesController {
 
     @FXML
     private TableView<Magazine> magazinesTable;
-
     @FXML
     private TableColumn<Magazine, Integer> idColumn;
     @FXML
@@ -48,16 +48,20 @@ public class MagazinesController {
     private TableColumn<Magazine, Integer> issueNumberColumn;
     @FXML
     private TableColumn<Magazine, String> statusColumn;
-
+    @FXML
+    private ImageView magazineCoverImageView;
+    @FXML
+    private Button selectCoverButton;
+    @FXML
+    private Button editCoverButton;
+    @FXML
+    private Label coverPathLabel;
     @FXML
     private TextField titleInput, publisherInput, authorInput, issueNumberInput;
-
     @FXML
     private Label statusLabel;
-
     @FXML
     private Button generateQRButton;
-
     @FXML
     private VBox starContainer;
 
@@ -65,16 +69,10 @@ public class MagazinesController {
         connection = DBConnection.getConnection();
         magazineDAO = new MagazineDAO(connection);
     }
-    
-    /**
-     * Initializes the controller and sets up the TableView.
-     * Configures column widths, cell value factories, and table selection handling.
-     * Loads initial magazine data and sets up event handlers.
-     */
+
     @FXML
     public void initialize() {
-        
-        // Set column widths based on table size
+        // Set column widths
         idColumn.prefWidthProperty().bind(magazinesTable.widthProperty().multiply(0.05));
         titleColumn.prefWidthProperty().bind(magazinesTable.widthProperty().multiply(0.25));
         authorColumn.prefWidthProperty().bind(magazinesTable.widthProperty().multiply(0.2));
@@ -93,38 +91,119 @@ public class MagazinesController {
         // Load initial data from database
         refreshMagazinesTable();
 
-        // Handle event when clicking on a row in the table
+        // Handle table row selection
         magazinesTable.setOnMouseClicked(event -> {
             Magazine selectedMagazine = magazinesTable.getSelectionModel().getSelectedItem();
             if (selectedMagazine != null) {
-                // Populate input fields with selected magazine data
+                // Populate input fields
                 titleInput.setText(selectedMagazine.getTitle());
                 authorInput.setText(selectedMagazine.getAuthor());
                 publisherInput.setText(selectedMagazine.getPublisher());
                 issueNumberInput.setText(String.valueOf(selectedMagazine.getIssueNumber()));
+
+                // Display the cover and enable buttons
+                displayMagazineCover(selectedMagazine.getCoverPath());
+                coverPathLabel.setText(selectedMagazine.getCoverPath());
                 generateQRButton.setDisable(false);
+                editCoverButton.setDisable(false);
             } else {
+                clearFields();
+                magazineCoverImageView.setImage(null);
+                coverPathLabel.setText("");
                 generateQRButton.setDisable(true);
+                editCoverButton.setDisable(true);
             }
         });
-        // Create Star animation
+
+
+
+        // Create star animation
         if (starContainer != null) {
             Platform.runLater(() -> {
                 StarAnimationUtil.createStarAnimation(starContainer);
             });
         }
+
+        // Add event handlers for cover selection and editing
+        selectCoverButton.setOnAction(event -> selectMagazineCover());
+        editCoverButton.setOnAction(event -> editMagazineCover());
     }
-    
-     /**
-     * Adds a new magazine to the library system.
-     * Creates a new Magazine object from input fields and saves it to the database.
-     * Plays a sound effect on successful addition.
-     * Updates the table view and shows success/error message.
-     * 
-     * @throws SQLException if database operation fails
-     * @throws NumberFormatException if issue number input is invalid
-     * @throws Exception if sound file cannot be played
-     */
+
+    @FXML
+    private void selectMagazineCover() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Magazine Cover Image");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
+        );
+
+        File selectedFile = fileChooser.showOpenDialog(new Stage());
+        if (selectedFile != null) {
+            coverPathLabel.setText(selectedFile.getAbsolutePath());
+            displayMagazineCover(selectedFile.getAbsolutePath()); // Preview the selected cover
+        } else {
+            coverPathLabel.setText(""); // Clear if no file is selected
+        }
+    }
+
+    private void clearFields() {
+        titleInput.clear();
+        authorInput.clear();
+        publisherInput.clear();
+        issueNumberInput.clear();
+        coverPathLabel.setText("No file selected");
+        magazineCoverImageView.setImage(null);
+        editCoverButton.setDisable(true); // Disable Edit Cover button
+    }
+
+
+    @FXML
+    private void editMagazineCover() {
+        Magazine selectedMagazine = magazinesTable.getSelectionModel().getSelectedItem();
+        if (selectedMagazine == null) {
+            showError("No magazine selected to edit the cover.");
+            return;
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select New Magazine Cover Image");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
+        );
+
+        File selectedFile = fileChooser.showOpenDialog(new Stage());
+        if (selectedFile != null) {
+            String newCoverPath = selectedFile.getAbsolutePath();
+            selectedMagazine.setCoverPath(newCoverPath); // Update the magazine's cover path
+
+            try {
+                magazineDAO.update(selectedMagazine); // Save the updated cover path to the database
+                showSuccess("Magazine cover updated successfully!");
+                displayMagazineCover(newCoverPath); // Refresh the cover preview
+                coverPathLabel.setText(newCoverPath); // Update the label with the new path
+            } catch (SQLException e) {
+                showError("Error updating magazine cover: " + e.getMessage());
+            }
+        } else {
+            showError("No file selected for the cover.");
+        }
+    }
+
+
+    private void displayMagazineCover(String coverPath) {
+        if (coverPath != null && !coverPath.isEmpty()) {
+            File coverFile = new File(coverPath);
+            if (coverFile.exists()) {
+                magazineCoverImageView.setImage(new javafx.scene.image.Image(coverFile.toURI().toString()));
+            } else {
+                magazineCoverImageView.setImage(null); // Clear the view if the file does not exist
+            }
+        } else {
+            magazineCoverImageView.setImage(null); // Clear the view if no cover path is set
+        }
+    }
+
+
     @FXML
     public void addMagazine() {
         try {
@@ -133,9 +212,9 @@ public class MagazinesController {
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
-
+            String bookCoverPath = coverPathLabel.getText();
             Magazine newMagazine = new Magazine(0, titleInput.getText(), authorInput.getText(), "available",
-                    Integer.parseInt(issueNumberInput.getText()), publisherInput.getText() );
+                    Integer.parseInt(issueNumberInput.getText()), publisherInput.getText(), bookCoverPath );
             magazineDAO.add(newMagazine);
 
             // Play sound when magazine is added successfully
@@ -151,16 +230,8 @@ public class MagazinesController {
             showError("Failed to play sound: " + e.getMessage());
         }
     }
-    
-    /**
-     * Updates the selected magazine's information in the database.
-     * Takes values from input fields and updates the corresponding magazine record.
-     * Shows error message if no magazine is selected.
-     * Refreshes the table view after successful update.
-     * 
-     * @throws SQLException if database operation fails
-     * @throws NumberFormatException if issue number input is invalid
-     */
+
+
     @FXML
     public void editMagazine() {
         Magazine selectedMagazine = magazinesTable.getSelectionModel().getSelectedItem();
@@ -183,14 +254,7 @@ public class MagazinesController {
             showError("Invalid input for issue number");
         }
     }
-    
-    /**
-     * Deletes the selected magazine from the library system.
-     * Removes the magazine record from the database and updates the table view.
-     * Shows error message if no magazine is selected.
-     * 
-     * @throws SQLException if database operation fails
-     */
+
     @FXML
     public void deleteMagazine() {
         Magazine selectedMagazine = magazinesTable.getSelectionModel().getSelectedItem();
@@ -207,12 +271,7 @@ public class MagazinesController {
             showError(e.getMessage());
         }
     }
-    
-    /**
-     * Refreshes the magazines table with current data from the database.
-     * Uses DatabaseTask for asynchronous loading to prevent UI freezing.
-     * Updates status label to show loading progress.
-     */
+
     private void refreshMagazinesTable() {
         statusLabel.setText("Loading...");
 
@@ -228,35 +287,20 @@ public class MagazinesController {
                 }
         );
     }
-    
-    /**
-     * Displays an error message dialog to the user.
-     * 
-     * @param message The error message to be displayed
-     */
+
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setContentText(message);
         alert.show();
     }
-    
-    /**
-     * Displays a success message dialog to the user.
-     *
-     * @param message The success message to be displayed
-     */
+
+
     private void showSuccess(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);
         alert.show();
     }
-    
-    /**
-     * Generates a QR code for the selected magazine.
-     * Shows a file chooser dialog to save the QR code as a PNG file.
-     * Uses QRCodeGenerator to generate the QR code and save it to the specified file.
-     * Shows success/error message based on the result of the QR code generation.
-     */
+
     @FXML
     public void generateQR() {
         Magazine selectedMagazine = magazinesTable.getSelectionModel().getSelectedItem();
@@ -272,11 +316,11 @@ public class MagazinesController {
 
         if (file != null) {
             try {
-                String qrContent = "Type: MAGAZINE, ID: " + selectedMagazine.getId() + 
-                                 ", Title: " + selectedMagazine.getTitle() +
-                                 ", Author: " + selectedMagazine.getAuthor() + 
-                                 ", Publisher: " + selectedMagazine.getPublisher() +
-                                 ", Issue: " + selectedMagazine.getIssueNumber();
+                String qrContent = "Type: MAGAZINE, ID: " + selectedMagazine.getId() +
+                        ", Title: " + selectedMagazine.getTitle() +
+                        ", Author: " + selectedMagazine.getAuthor() +
+                        ", Publisher: " + selectedMagazine.getPublisher() +
+                        ", Issue: " + selectedMagazine.getIssueNumber();
                 QRCodeGenerator.generateQRCode(qrContent, file.getAbsolutePath());
                 showSuccess("QR Code generated successfully!");
             } catch (Exception e) {

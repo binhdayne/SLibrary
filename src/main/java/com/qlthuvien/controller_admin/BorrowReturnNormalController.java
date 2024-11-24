@@ -1,9 +1,11 @@
 package com.qlthuvien.controller_admin;
 
+import java.security.cert.PolicyNode;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import com.qlthuvien.dao.BorrowReturnDAO;
 import com.qlthuvien.dao.UserDAO;
@@ -12,9 +14,11 @@ import com.qlthuvien.model.BorrowReturn;
 import com.qlthuvien.model.User;
 import com.qlthuvien.model.WaitingBorrow;
 import com.qlthuvien.utils.DBConnection;
-import com.qlthuvien.utils.StarAnimationUtil;
+//import com.qlthuvien.utils.StarAnimationUtil;
 
+import com.qlthuvien.utils.StarAnimationUtil;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -84,7 +88,8 @@ public class BorrowReturnNormalController {
     private BorrowReturnDAO borrowReturnDAO;
     private UserDAO userDAO;
     private WaitingBorrowDAO waitingBorrowDAO;
-
+    @FXML
+    private VBox waitingVBox;
     public BorrowReturnNormalController() {
         connection = DBConnection.getConnection();
         borrowReturnDAO = new BorrowReturnDAO(connection);
@@ -114,7 +119,48 @@ public class BorrowReturnNormalController {
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         refreshBorrowReturnTable();
-        
+
+        // Lấy dữ liệu từ DAO
+        List<Map<String, String>> waitingItems = BorrowReturnDAO.getWaitingBorrowedItems();
+
+// Tạo TableView
+        TableView<Map<String, String>> tableView = new TableView<>();
+
+// Tạo các cột với Callback
+        TableColumn<Map<String, String>, String> membershipIdColumn = new TableColumn<>("Membership ID");
+        membershipIdColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().get("membership_id"))
+        );
+
+        TableColumn<Map<String, String>, String> documentIdColumn = new TableColumn<>("Document ID");
+        documentIdColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().get("document_id"))
+        );
+
+        TableColumn<Map<String, String>, String> documentTypeColumn = new TableColumn<>("Document Type");
+        documentTypeColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().get("document_type"))
+        );
+
+        TableColumn<Map<String, String>, String> borrowDateColumn = new TableColumn<>("Borrow Date");
+        borrowDateColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().get("borrow_date"))
+        );
+
+        TableColumn<Map<String, String>, String> statusColumn = new TableColumn<>("Status");
+        statusColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().get("status"))
+        );
+
+// Thêm các cột vào TableView
+        tableView.getColumns().addAll(membershipIdColumn, documentIdColumn, documentTypeColumn, borrowDateColumn, statusColumn);
+
+// Thêm dữ liệu vào TableView
+        ObservableList<Map<String, String>> observableList = FXCollections.observableArrayList(waitingItems);
+        tableView.setItems(observableList);
+
+// Thêm TableView vào VBox
+        waitingVBox.getChildren().add(tableView);
         // Create Star animation
         if (starContainer != null) {
             Platform.runLater(() -> {
