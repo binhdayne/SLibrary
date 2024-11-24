@@ -44,6 +44,14 @@ public class ThesesDAOTest {
             eq("INSERT INTO theses (title, author, supervisor, university, status) VALUES (?, ?, ?, ?, ?)"),
             eq(Statement.RETURN_GENERATED_KEYS)
         )).thenReturn(mockPreparedStatement);
+
+        lenient().when(mockConnection.prepareStatement(
+            eq("SELECT id, title, author, supervisor, university, status FROM theses")
+        )).thenReturn(mockPreparedStatement);
+
+        lenient().when(mockConnection.prepareStatement(
+            eq("UPDATE theses SET title = ?, author = ?, supervisor = ?, university = ?, status = ? WHERE id = ?")
+        )).thenReturn(mockPreparedStatement);
     }
 
     /**
@@ -111,17 +119,17 @@ public class ThesesDAOTest {
      */
     @Test
     void testGetAllTheses() throws SQLException {
+        // Setup expected data
         List<Thesis> expectedTheses = List.of(
             new Thesis(1, "Title1", "Author1", "available", "Supervisor1", "University1"),
             new Thesis(2, "Title2", "Author2", "available", "Supervisor2", "University2")
         );
 
-        Statement mockStatement = mock(Statement.class);
+        // Create mocks
         ResultSet mockResultSet = mock(ResultSet.class);
+        when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
 
-        when(mockConnection.createStatement()).thenReturn(mockStatement);
-        when(mockStatement.executeQuery(eq("SELECT id, title, author, supervisor, university, status FROM theses"))).thenReturn(mockResultSet);
-
+        // Setup ResultSet behavior - match the order of fields in constructor
         when(mockResultSet.next()).thenReturn(true, true, false);
         when(mockResultSet.getInt("id")).thenReturn(1, 2);
         when(mockResultSet.getString("title")).thenReturn("Title1", "Title2");
@@ -130,9 +138,24 @@ public class ThesesDAOTest {
         when(mockResultSet.getString("supervisor")).thenReturn("Supervisor1", "Supervisor2");
         when(mockResultSet.getString("university")).thenReturn("University1", "University2");
 
+        // Execute test
         List<Thesis> actualTheses = thesisDAO.getAll();
 
-        assertEquals(expectedTheses, actualTheses);
+        // Verify results
+        assertEquals(expectedTheses.size(), actualTheses.size(), "List sizes should match");
+        for (int i = 0; i < expectedTheses.size(); i++) {
+            Thesis expected = expectedTheses.get(i);
+            Thesis actual = actualTheses.get(i);
+            assertEquals(expected.getId(), actual.getId(), "ID should match");
+            assertEquals(expected.getTitle(), actual.getTitle(), "Title should match");
+            assertEquals(expected.getAuthor(), actual.getAuthor(), "Author should match");
+            assertEquals(expected.getStatus(), actual.getStatus(), "Status should match");
+            assertEquals(expected.getSupervisor(), actual.getSupervisor(), "Supervisor should match");
+            assertEquals(expected.getUniversity(), actual.getUniversity(), "University should match");
+        }
+        
+        verify(mockPreparedStatement).executeQuery();
+        verify(mockResultSet, times(3)).next();
     }
 
     /**
@@ -147,7 +170,9 @@ public class ThesesDAOTest {
         PreparedStatement mockPreparedStatement = mock(PreparedStatement.class);
         ResultSet mockResultSet = mock(ResultSet.class);
 
-        when(mockConnection.prepareStatement(eq("SELECT id, title, author, supervisor, university, status FROM theses WHERE id = ?"))).thenReturn(mockPreparedStatement);
+        when(mockConnection.prepareStatement(
+            eq("SELECT id, title, author, supervisor, university, status FROM theses WHERE id = ?"))
+        ).thenReturn(mockPreparedStatement);
         when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
 
         when(mockResultSet.next()).thenReturn(true);
@@ -160,7 +185,17 @@ public class ThesesDAOTest {
 
         Thesis actualThesis = thesisDAO.getById(thesisId);
 
-        assertEquals(expectedThesis, actualThesis);
+        // Compare individual fields instead of the entire object
+        assertEquals(expectedThesis.getId(), actualThesis.getId(), "ID should match");
+        assertEquals(expectedThesis.getTitle(), actualThesis.getTitle(), "Title should match");
+        assertEquals(expectedThesis.getAuthor(), actualThesis.getAuthor(), "Author should match");
+        assertEquals(expectedThesis.getStatus(), actualThesis.getStatus(), "Status should match");
+        assertEquals(expectedThesis.getSupervisor(), actualThesis.getSupervisor(), "Supervisor should match");
+        assertEquals(expectedThesis.getUniversity(), actualThesis.getUniversity(), "University should match");
+
+        // Verify that the prepared statement was called correctly
+        verify(mockPreparedStatement).setInt(1, thesisId);
+        verify(mockPreparedStatement).executeQuery();
     }
 
 }

@@ -33,18 +33,37 @@ public class BooksDAOTest {
 
     private BookDAO bookDAO;
 
+    /**
+     * Set up the mock objects and the BookDAO instance before each test.
+     * @throws SQLException
+     */
     @BeforeEach
     void setUp() throws SQLException {
         bookDAO = new BookDAO(mockConnection);
         lenient().when(mockConnection.prepareStatement(
-            eq("INSERT INTO books (title, author, genre, status) VALUES (?, ?, ?, ?)"),
+            eq("INSERT INTO books (title, author, genre, status, coverPath) VALUES (?, ?, ?, ?, ?)"),
             eq(Statement.RETURN_GENERATED_KEYS)
         )).thenReturn(mockPreparedStatement);
+        lenient().when(mockPreparedStatement.executeUpdate()).thenReturn(1);
+        lenient().when(mockConnection.prepareStatement(
+            eq("UPDATE books SET title = ?, author = ?, genre = ?, status = ?, coverPath = ? WHERE id = ?")
+        )).thenReturn(mockPreparedStatement);
+        lenient().when(mockConnection.prepareStatement(
+            eq("DELETE FROM books WHERE id = ?")
+        )).thenReturn(mockPreparedStatement);
+        lenient().when(mockConnection.prepareStatement(
+            eq("SELECT * FROM books")
+        )).thenReturn(mockPreparedStatement);
+        lenient().when(mockConnection.createStatement()).thenReturn(mock(Statement.class));
     }
 
+    /**
+     * Test the add method of the BookDAO class.
+     * @throws SQLException
+     */
     @Test
     void testAddBook() throws SQLException {
-        Book book = new Book(0, "Title", "Author", "available", "Genre");
+        Book book = new Book(0, "Title", "Author", "available", "Genre", "coverPath");
 
         bookDAO.add(book);
 
@@ -52,15 +71,20 @@ public class BooksDAOTest {
         verify(mockPreparedStatement, times(1)).setString(2, book.getAuthor());
         verify(mockPreparedStatement, times(1)).setString(3, book.getGenre());
         verify(mockPreparedStatement, times(1)).setString(4, book.getStatus());
+        verify(mockPreparedStatement, times(1)).setString(5, book.getBookcover());
         verify(mockPreparedStatement, times(1)).executeUpdate();
     }
 
+    /**
+     * Test the update method of the BookDAO class.
+     * @throws SQLException
+     */
     @Test
     void testUpdateBook() throws SQLException {
         Book book = new Book(1, "Updated Title", "Updated Author", "available", "Updated Genre");
 
         when(mockConnection.prepareStatement(
-            eq("UPDATE books SET title = ?, author = ?, genre = ?, status = ? WHERE id = ?")
+            eq("UPDATE books SET title = ?, author = ?, genre = ?, status = ?, coverPath = ? WHERE id = ?")
         )).thenReturn(mockPreparedStatement);
 
         bookDAO.update(book);
@@ -69,10 +93,15 @@ public class BooksDAOTest {
         verify(mockPreparedStatement, times(1)).setString(2, book.getAuthor());
         verify(mockPreparedStatement, times(1)).setString(3, book.getGenre());
         verify(mockPreparedStatement, times(1)).setString(4, book.getStatus());
-        verify(mockPreparedStatement, times(1)).setInt(5, book.getId());
+        verify(mockPreparedStatement, times(1)).setString(5, book.getBookcover());
+        verify(mockPreparedStatement, times(1)).setInt(6, book.getId());
         verify(mockPreparedStatement, times(1)).executeUpdate();
     }
 
+    /**
+     * Test the delete method of the BookDAO class.
+     * @throws SQLException
+     */
     @Test
     void testDeleteBook() throws SQLException {
         int bookId = 1;
@@ -87,18 +116,22 @@ public class BooksDAOTest {
         verify(mockPreparedStatement, times(1)).executeUpdate();
     }
 
+    /**
+     * Test the getAll method of the BookDAO class.
+     * @throws SQLException
+     */
     @Test
     void testGetAllBooks() throws SQLException {
         List<Book> expectedBooks = List.of(
-            new Book(1, "Title1", "Author1", "available", "Genre1"),
-            new Book(2, "Title2", "Author2", "available", "Genre2")
+            new Book(1, "Title1", "Author1", "available", "Genre1", "coverPath1"),
+            new Book(2, "Title2", "Author2", "available", "Genre2", "coverPath2")
         );
 
-        Statement mockStatement = mock(Statement.class);
+        PreparedStatement mockPreparedStatement = mock(PreparedStatement.class);
         ResultSet mockResultSet = mock(ResultSet.class);
 
-        when(mockConnection.createStatement()).thenReturn(mockStatement);
-        when(mockStatement.executeQuery(eq("SELECT id, title, author, genre, status FROM books"))).thenReturn(mockResultSet);
+        when(mockConnection.prepareStatement(eq("SELECT * FROM books"))).thenReturn(mockPreparedStatement);
+        when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
 
         when(mockResultSet.next()).thenReturn(true, true, false);
         when(mockResultSet.getInt("id")).thenReturn(1, 2);
@@ -106,12 +139,17 @@ public class BooksDAOTest {
         when(mockResultSet.getString("author")).thenReturn("Author1", "Author2");
         when(mockResultSet.getString("status")).thenReturn("available", "available");
         when(mockResultSet.getString("genre")).thenReturn("Genre1", "Genre2");
+        when(mockResultSet.getString("coverPath")).thenReturn("coverPath1", "coverPath2");
 
         List<Book> actualBooks = bookDAO.getAll();
 
         assertEquals(expectedBooks, actualBooks);
     }
 
+    /**
+     * Test the getById method of the BookDAO class.
+     * @throws SQLException
+     */
     @Test
     void testGetBookById() throws SQLException {
         int bookId = 1;

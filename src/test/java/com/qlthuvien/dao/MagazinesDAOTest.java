@@ -1,12 +1,5 @@
 package com.qlthuvien.dao;
 
-import com.qlthuvien.model.Magazine;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,8 +8,19 @@ import java.sql.Statement;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import org.mockito.Mock;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.qlthuvien.model.Magazine;
 
 @ExtendWith(MockitoExtension.class)
 public class MagazinesDAOTest {
@@ -37,8 +41,7 @@ public class MagazinesDAOTest {
     void setUp() throws SQLException {
         magazineDAO = new MagazineDAO(mockConnection);
         lenient().when(mockConnection.prepareStatement(
-                eq("INSERT INTO magazines (title, author, issue_number, publisher, status) VALUES (?, ?, ?, ?, ?)"),
-                eq(Statement.RETURN_GENERATED_KEYS)
+                eq("INSERT INTO magazines (title, author, issue_number, publisher, status) VALUES (?, ?, ?, ?, ?)")
         )).thenReturn(mockPreparedStatement);
     }
 
@@ -66,20 +69,21 @@ public class MagazinesDAOTest {
      */
     @Test
     void testUpdateMagazine() throws SQLException {
-        Magazine magazine = new Magazine(1, "Updated Title", "Updated Author", "available", 2, "Updated Publisher");
+        Magazine magazine = new Magazine(1, "Updated Title", "Updated Author", "available", 2, "Updated Publisher", null);
 
         when(mockConnection.prepareStatement(
-                eq("UPDATE magazines SET title = ?, author = ?, issue_number = ?, publisher = ?, status = ? WHERE id = ?")
+                eq("UPDATE magazines SET title = ?, author = ?, publisher = ?, issue_number = ?, status = ?, coverPath = ? WHERE id = ?")
         )).thenReturn(mockPreparedStatement);
 
         magazineDAO.update(magazine);
 
         verify(mockPreparedStatement, times(1)).setString(1, magazine.getTitle());
         verify(mockPreparedStatement, times(1)).setString(2, magazine.getAuthor());
-        verify(mockPreparedStatement, times(1)).setInt(3, magazine.getIssueNumber());
-        verify(mockPreparedStatement, times(1)).setString(4, magazine.getPublisher());
+        verify(mockPreparedStatement, times(1)).setString(3, magazine.getPublisher());
+        verify(mockPreparedStatement, times(1)).setInt(4, magazine.getIssueNumber());
         verify(mockPreparedStatement, times(1)).setString(5, magazine.getStatus());
-        verify(mockPreparedStatement, times(1)).setInt(6, magazine.getId());
+        verify(mockPreparedStatement, times(1)).setString(6, magazine.getCoverPath());
+        verify(mockPreparedStatement, times(1)).setInt(7, magazine.getId());
         verify(mockPreparedStatement, times(1)).executeUpdate();
     }
 
