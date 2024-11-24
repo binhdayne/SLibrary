@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -9,43 +10,64 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox spacing="20" style="-fx-padding: 20; -fx-background-color: #F9F9F9;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlthuvien.controller_user.HomeTabUser">
+<VBox spacing="10" styleClass="main-container" stylesheets="@styles_user.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlthuvien.controller_user.HomeTabUser">
 
-    <!-- Thanh tìm kiếm -->
-    <HBox alignment="CENTER" spacing="10">
-        <TextField fx:id="searchField" promptText="Title or Author" />
-        <Button fx:id="searchButton" onAction="#searchBooks" text="Search" />
+    <!-- Thanh tìm kiếm cố định ở trên -->
+    <HBox alignment="CENTER" spacing="10" styleClass="search-container" VBox.vgrow="NEVER">
+        <TextField fx:id="searchField" promptText="Title or Author" styleClass="search-field" HBox.hgrow="ALWAYS" />
+        <Button fx:id="searchButton" onAction="#searchBooks" styleClass="search-button" text="Search" />
     </HBox>
 
-    <!-- Tiêu đề -->
-    <Label prefHeight="25.0" prefWidth="103.0" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 1 0 1 20; -fx-text-fill: #333333;" text="All Books">
-        <font>
-            <Font size="11.0" />
-        </font>
-    </Label>
+    <!-- Nội dung chính được cuộn bên dưới -->
+    <VBox spacing="10">
+        <HBox spacing="10" styleClass="content-container" VBox.vgrow="ALWAYS">
+            <!-- Bên trái: Tìm kiếm và danh sách sách -->
+            <VBox prefWidth="400.0" spacing="10" styleClass="left-section" HBox.hgrow="ALWAYS">
+                <!-- Tiêu đề -->
+                <Label styleClass="section-title" text="All Books From API">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font></Label>
 
-    <!-- Danh sách sách -->
-    <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: transparent;">
-        <VBox fx:id="bestsellingBooksList" prefHeight="360.0" prefWidth="393.0" spacing="10" style="-fx-padding: 10;">
-        </VBox>
-    </ScrollPane>
+                <!-- Danh sách sách được cuộn -->
+                <ScrollPane fx:id="bookScrollPane" fitToHeight="true" fitToWidth="true" styleClass="book-list-scroll-pane" stylesheets="@styles_user.css">
+                    <content>
+                        <VBox fx:id="bestsellingBooksList" prefHeight="654.0" prefWidth="412.0" spacing="10.0" style="-fx-border-color: #d1d9e0; -fx-border-width: 2; -fx-border-style: solid;" styleClass="book-list">
+                            <!-- Danh sách các sách sẽ được thêm động tại đây -->
+                        </VBox>
+                    </content>
+                </ScrollPane>
+            </VBox>
 
-    <!-- Chi tiết sách được chọn -->
-    <VBox fx:id="selectedBookDetails" spacing="10" style="-fx-padding: 20; -fx-background-color: #EFEFEF;">
-        <HBox spacing="15">
-            <!-- Bìa sách -->
-            <ImageView fx:id="bookThumbnail" fitHeight="166.0" fitWidth="108.0" />
+            <!-- Bên phải: Thông tin chi tiết sách -->
+            <VBox fx:id="selectedBookDetails" prefHeight="664.0" prefWidth="716.0" spacing="10" styleClass="details-section" HBox.hgrow="ALWAYS">
+            <Label styleClass="section-title" text="Book Information">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Label>
+                <HBox spacing="15">
+                    <!-- Bìa sách -->
+                    <ImageView fx:id="bookThumbnail" fitHeight="166.0" fitWidth="108.0" styleClass="book-thumbnail" />
 
-            <!-- Thông tin sách -->
-            <VBox alignment="TOP_LEFT" spacing="10">
-                <Label fx:id="bookTitleLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Title" />
-                <Label fx:id="bookAuthorLabel" style="-fx-font-size: 14px;" text="Author" />
-                <Label fx:id="bookDescriptionLabel" style="-fx-font-size: 12px; -fx-padding: 5;" text="Description" wrapText="true" />
+                    <!-- Thông tin sách -->
+                    <VBox alignment="TOP_LEFT" spacing="10">
+                        <Label fx:id="bookTitleLabel" styleClass="book-title" text="Title" />
+                        <Label fx:id="bookAuthorLabel" styleClass="book-author" text="Author" />
+                        <Label fx:id="bookDescriptionLabel" styleClass="book-description" text="Description" wrapText="true" />
+                    </VBox>
+                </HBox>
+
+                <!-- ISBN -->
+                <Label fx:id="bookISBNLabel" styleClass="book-isbn" text="ISBN: " />
+
+                <!-- Nút Borrow Book -->
+                <Button fx:id="borrowBookButton" onAction="#borrowBook" styleClass="borrow-button" text="Borrow Book" />
+            <HBox.margin>
+               <Insets />
+            </HBox.margin>
             </VBox>
         </HBox>
-        <Label fx:id="bookISBNLabel" text="ISBN: " />
-
-        <!-- Nút Add Book -->
-        <Button fx:id="borrowBookButton" onAction="#borrowBook" style="-fx-font-size: 14px; -fx-padding: 5 10;" text="Borrow Book" />
     </VBox>
+
 </VBox>

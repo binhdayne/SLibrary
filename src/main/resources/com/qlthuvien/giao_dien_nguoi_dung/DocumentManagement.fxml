@@ -1,104 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox spacing="15" style="-fx-padding: 20;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlthuvien.controller_user.DocumentManagementController">
+<VBox prefHeight="730.0" prefWidth="986.0" spacing="15" style="-fx-padding: 20;" stylesheets="@styles_user.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlthuvien.controller_user.DocumentManagementController">
     <!-- Title -->
-    <Label text="Library Management - Documents" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
-
-    <!-- Tabs for Document Types -->
-    <TabPane VBox.vgrow="ALWAYS">
-        <!-- Books Tab -->
-        <Tab text="Books" closable="false">
-            <VBox spacing="10">
-                <TableView fx:id="booksTable" VBox.vgrow="ALWAYS">
-                    <columns>
-                        <TableColumn fx:id="bookIdColumn" text="ID" />
-                        <TableColumn fx:id="bookTitleColumn" text="Title" />
-                        <TableColumn fx:id="bookAuthorColumn" text="Author" />
-                        <TableColumn fx:id="bookGenreColumn" text="Genre" />
-                        <TableColumn fx:id="bookStatusColumn" text="Status" />
-                    </columns>
-                </TableView>
-            </VBox>
-        </Tab>
-
-        <!-- Magazines Tab -->
-        <Tab text="Magazines" closable="false">
-            <VBox spacing="10">
-                <TableView fx:id="magazinesTable" VBox.vgrow="ALWAYS">
-                    <columns>
-                        <TableColumn fx:id="magazineIdColumn" text="ID" />
-                        <TableColumn fx:id="magazineTitleColumn" text="Title" />
-                        <TableColumn fx:id="magazineAuthorColumn" text="Author" />
-                        <TableColumn fx:id="magazinePublisherColumn" text="Publisher" />
-                        <TableColumn fx:id="issueNumberColumn" text="Issue #" />
-                        <TableColumn fx:id="magazineStatusColumn" text="Status" />
-                    </columns>
-                </TableView>
-            </VBox>
-        </Tab>
-
-        <!-- Theses Tab -->
-        <Tab text="Theses" closable="false">
-            <VBox spacing="10">
-                <TableView fx:id="thesesTable" VBox.vgrow="ALWAYS">
-                    <columns>
-                        <TableColumn fx:id="thesisIdColumn" text="ID" />
-                        <TableColumn fx:id="thesisTitleColumn" text="Title" />
-                        <TableColumn fx:id="thesisAuthorColumn" text="Author" />
-                        <TableColumn fx:id="thesisSupervisorColumn" text="Supervisor" />
-                        <TableColumn fx:id="thesisUniversityColumn" text="University" />
-                        <TableColumn fx:id="thesisStatusColumn" text="Status" />
-                    </columns>
-                </TableView>
-            </VBox>
-        </Tab>
-
-        <!-- Books from API Tab -->
-        <Tab text="Books from API" closable="false">
-            <VBox spacing="10">
-                <TableView fx:id="booksFromAPITable" VBox.vgrow="ALWAYS">
-                    <columns>
-                        <TableColumn fx:id="apiBookIdColumn" text="ID" />
-                        <TableColumn fx:id="apiBookIsbnColumn" text="ISBN" />
-                        <TableColumn fx:id="apiBookTitleColumn" text="Title" />
-                        <TableColumn fx:id="apiBookAuthorColumn" text="Author" />
-                        <TableColumn fx:id="apiBookPublisherColumn" text="Publisher" />
-                        <TableColumn fx:id="apiBookDescriptionColumn" text="Description" />
-                        <TableColumn fx:id="apiBookStatusColumn" text="Status" />
-                    </columns>
-                </TableView>
-            </VBox>
-        </Tab>
-    </TabPane>
-
-    <!-- Input Fields -->
-    <HBox spacing="10" style="-fx-padding: 10;">
-        <VBox spacing="5">
-            <Label text="Title:" />
-            <TextField fx:id="titleInput"  editable="false" />
-        </VBox>
-        <VBox spacing="5">
-            <Label text="Author:" />
-            <TextField fx:id="authorInput"  editable="false" />
-        </VBox>
-        <VBox spacing="5">
-            <Label text="Status:" />
-            <TextField fx:id="statusInput"  editable="false" />
-        </VBox>
-    </HBox>
-
-    <Label fx:id="nameLabel" />
-
-    <!-- Buttons -->
-    <HBox spacing="10" alignment="CENTER" style="-fx-padding: 10;">
-        <Button fx:id="borrowBookButton" text="Borrow Document" disable="true" onAction="#borrowBook" />
-        <Button fx:id="generateQRButton" text="Generate QR Code" disable="true" onAction="#generateQR" />
+    <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Library Management - Documents" />
+    <HBox alignment="CENTER" spacing="10">
+        <TextField fx:id="searchInput" promptText="Search by title or author..." />
+        <Button fx:id="searchButton" text="Search" />
     </HBox>
 
     <!-- Status Label -->
-    <Label fx:id="statusLabel" text="Status: Ready" style="-fx-text-fill: gray;" />
+    <Label fx:id="statusLabel" style="-fx-text-fill: gray;" text="Status: Ready" />
+   <HBox prefHeight="100.0" prefWidth="200.0">
+      <children>
+          <VBox alignment="CENTER" spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-color: #d1d9e0; -fx-border-width: 2; -fx-border-radius: 15; -fx-background-radius: 15;">
+               <Label prefHeight="18.0" prefWidth="166.0" text="Title:" />
+               <TextField fx:id="titleInput" editable="false" style="-fx-border-color: #ffffff;" />
+               <Label prefHeight="18.0" prefWidth="190.0" text="Author:" />
+               <TextField fx:id="authorInput" editable="false" style="-fx-border-color: #ffffff;" />
+               <Label prefHeight="18.0" prefWidth="184.0" text="Status:" />
+               <TextField fx:id="statusInput" editable="false" style="-fx-border-color: #ffffff;" />
+
+               <ImageView fx:id="documentCoverImageView" fitHeight="141.0" fitWidth="156.0" preserveRatio="true" style="-fx-border-color: black; -fx-border-width: 5; -fx-border-style: solid;" />
+
+               <!-- Buttons -->
+             <HBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
+                 <Button fx:id="borrowBookButton" disable="true" onAction="#borrowBook" text="Borrow Document" />
+             </HBox>
+           </VBox>
+         <Label prefHeight="18.0" prefWidth="234.0" />
+          <!-- Tabs for Document Types -->
+          <TabPane fx:id="documentTabPane" stylesheets="@styles_user.css">
+              <tabs>
+                  <Tab fx:id="bookTab" closable="false" text="Books">
+                      <TableView fx:id="booksTable" prefHeight="452.0" prefWidth="544.0" stylesheets="@styles_user.css">
+                          <columns>
+                              <TableColumn fx:id="bookIdColumn" text="ID" />
+                              <TableColumn fx:id="bookTitleColumn" text="Title" />
+                              <TableColumn fx:id="bookAuthorColumn" text="Author" />
+                              <TableColumn fx:id="bookGenreColumn" text="Genre" />
+                              <TableColumn fx:id="bookStatusColumn" text="Status" />
+                          </columns>
+                      </TableView>
+                  </Tab>
+                  <Tab fx:id="magazineTab" closable="false" text="Magazines">
+                      <TableView fx:id="magazinesTable">
+                          <columns>
+                              <TableColumn fx:id="magazineIdColumn" text="ID" />
+                              <TableColumn fx:id="magazineTitleColumn" text="Title" />
+                              <TableColumn fx:id="magazineAuthorColumn" text="Author" />
+                              <TableColumn fx:id="magazinePublisherColumn" text="Publisher" />
+                              <TableColumn fx:id="magazineStatusColumn" text="Status" />
+                              <TableColumn fx:id="issueNumberColumn" text="Issue Number" />
+                          </columns>
+                      </TableView>
+                  </Tab>
+                  <Tab fx:id="thesisTab" closable="false" text="Theses">
+                      <TableView fx:id="thesesTable">
+                          <columns>
+                              <TableColumn fx:id="thesisIdColumn" text="ID" />
+                              <TableColumn fx:id="thesisTitleColumn" text="Title" />
+                              <TableColumn fx:id="thesisAuthorColumn" text="Author" />
+                              <TableColumn fx:id="thesisSupervisorColumn" text="Supervisor" />
+                              <TableColumn fx:id="thesisUniversityColumn" text="University" />
+                              <TableColumn fx:id="thesisStatusColumn" text="Status" />
+                          </columns>
+                      </TableView>
+                  </Tab>
+                  <Tab fx:id="booksFromAPITab" closable="false" text="Books from API">
+                      <TableView fx:id="booksFromAPITable">
+                          <columns>
+                              <TableColumn fx:id="apiBookIdColumn" text="ID" />
+                              <TableColumn fx:id="apiBookIsbnColumn" text="ISBN" />
+                              <TableColumn fx:id="apiBookTitleColumn" text="Title" />
+                              <TableColumn fx:id="apiBookAuthorColumn" text="Author" />
+                              <TableColumn fx:id="apiBookPublisherColumn" text="Publisher" />
+                              <TableColumn fx:id="apiBookDescriptionColumn" text="Description" />
+                              <TableColumn fx:id="apiBookStatusColumn" text="Status" />
+                          </columns>
+                      </TableView>
+                  </Tab>
+              </tabs>
+          </TabPane>
+      </children>
+   </HBox>
+
+
+    <!-- Input Fields -->
+    <HBox spacing="10" style="-fx-padding: 10;">
+        <VBox spacing="5" />
+    </HBox>
+
+    <Label fx:id="nameLabel" />
 </VBox>
