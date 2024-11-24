@@ -9,7 +9,7 @@ This project is a library management system developed in Java. The project is a 
 * The application has a game to choose the correct answer so that users can learn more about knowledge related to VNU library and knowledge related to books
 
 <p align="center">
-<img width="640" height="480" src="https://i.imgur.com/64c19ON.png">
+<img width="640" height="480" src="https://imgur.com/a/JIEr0lw">
 </p>
 
 
