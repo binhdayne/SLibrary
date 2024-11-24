@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="736.0" prefWidth="1031.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlthuvien.controller_user.MainUserController">
+<BorderPane stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlthuvien.controller_user.MainUserController">
     <!-- Left Sidebar Menu -->
     <left>
         <VBox alignment="CENTER" spacing="10" styleClass="menu-sidebar">
@@ -22,9 +22,7 @@
             <Button fx:id="btnHome" onAction="#showHomeScreen" prefHeight="26.0" prefWidth="84.0" styleClass="menu-button" text="Home" />
             <Button fx:id="btnUsers" onAction="#showProfileScreen" prefHeight="26.0" prefWidth="84.0" styleClass="menu-button" text="Profile" />
          <Button fx:id="btnDocuments" onAction="#showDocumentsScreen" prefHeight="26.0" prefWidth="84.0" styleClass="menu-button" text="Documents" />
-            <!-- Button Section -->
-            <Button fx:id="btnGame" text="Game" prefHeight="29.0" prefWidth="82.0" onAction="#onGameButtonClicked" />
-
+            <Button fx:id="btnSettings" onAction="#showSettingsScreen" prefHeight="26.0" prefWidth="84.0" styleClass="menu-button" text="Settings" />
 
             <!-- Logout button -->
             <Button fx:id="btnLogout" onAction="#showLogoutScreen" prefHeight="26.0" prefWidth="84.0" styleClass="menu-button" text="Logout" />
@@ -33,8 +31,13 @@
 
     <!-- Main Content Area -->
     <center>
-        <VBox fx:id="contentArea" alignment="CENTER" spacing="20">
-            <ImageView fx:id="timeImageView" fitHeight="500" fitWidth="1000" preserveRatio="true" />
+        <VBox fx:id="contentArea" alignment="CENTER" spacing="20" styleClass="content-area">
+            <!-- Image Display Section -->
+            <ImageView fitHeight="700" fitWidth="900" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../../../icons/rain.gif" />
+                </image>
+            </ImageView>
         </VBox>
     </center>
 </BorderPane>
