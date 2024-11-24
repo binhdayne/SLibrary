@@ -41,7 +41,8 @@ This project is a library management system developed in Java. The project is a 
 
   ## UML Diagram
 
-  ![java](https://github.com/user-attachments/assets/3f8485d2-76db-4270-aa2f-019d7adc73f8)
+![java](https://github.com/user-attachments/assets/6ae95e5f-159c-4723-ae6b-bd1a8e1e6433)
+
 
   ## How to install ?
 - Step 1: First, you need to download our project and connect it to your MySQL database. In MySQL, you need to create a new schema and run the db_ql_thu_vien.sql script.
