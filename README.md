@@ -1,7 +1,3 @@
-#### Table of Contents
-1.[Java Librabry Management System] (#JLMS)
-2.[Introduction] (#introduction)
-
 # Java Librabry Management System (Java LiMS)  <a name="JLMS"></a>
 
 This project is a library management system developed in Java. The project is a part of the Object-Oriented Programming course at the University of Engineering and Technology, VNU. In this project, we have implemented a library management system that includes the documents and users management, GUI and additional features.
@@ -29,6 +25,21 @@ This project is a library management system developed in Java. The project is a 
 - **Dương Thanh Bình** 
 - **Nguyễn Hải Dương**
 - **Nguyễn Huy Hiệp**
+
+## Features
+**For managers**
+- Chart: helps managers easily manage books and users
+- Document: helps managers easily add, edit, delete books in the library
+- Manage users: add, edit, delete users
+- Loans: Borrow and return by entering information or scanning QR
+**For users**
+- Search for books and borrow on the google book API repository
+- Select and save avatars
+- Dashboard: count the number of borrowed books, the number of returned books, the number of unreturned books along with the user's book borrowing and returning history table
+- The chart is inspired by github to show your diligence in reading books
+- Table of books waiting and can generate QR codes and delete when in waiting status
+- Document: shows all books in the library. Combines a search bar for users.
+- Game: there will be 10 questions to choose the answer related to the library and books
 
   ## How to install ?
 - Step 1: First, you need to download our project and connect it to your MySQL database. In MySQL, you need to create a new schema and run the db_ql_thu_vien.sql script.
