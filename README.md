@@ -3,10 +3,10 @@
 This project is a library management system developed in Java. The project is a part of the Object-Oriented Programming course at the University of Engineering and Technology, VNU. In this project, we have implemented a library management system that includes the documents and users management, GUI and additional features.
 
 # Introduction <a name="introduction"></a>
-*This application helps administrators easily manage books in the library.
-*The application helps users borrow books online and helps users easily search for books available in the library.
-*The application has a section for borrowing books through QR codes, a rank section, and a chart to help users become more interested in reading books.
-*The application has a game to choose the correct answer so that users can learn more about knowledge related to VNU library and knowledge related to books
+* This application helps administrators easily manage books in the library.
+* The application helps users borrow books online and helps users easily search for books available in the library.
+* The application has a section for borrowing books through QR codes, a rank section, and a chart to help users become more interested in reading books.
+* The application has a game to choose the correct answer so that users can learn more about knowledge related to VNU library and knowledge related to books
 
 <p align="center">
 <img width="640" height="480" src="https://i.imgur.com/64c19ON.png">
