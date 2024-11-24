@@ -11,12 +11,15 @@ import com.qlthuvien.model.BorrowReturn;
 import com.qlthuvien.model.User;
 import com.qlthuvien.utils.DBConnection;
 import com.qlthuvien.utils.QRCodeDecoder;
+import com.qlthuvien.utils.StarAnimationUtil;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -37,7 +40,7 @@ public class BorrowReturnWithQRController {
     private String currentStatus;
     
     /**
-     * Initializes database connections and DAOs.
+     * Constructor BorrowReturnWithQRController.        
      */
     public BorrowReturnWithQRController() {
         connection = DBConnection.getConnection();
@@ -46,7 +49,7 @@ public class BorrowReturnWithQRController {
     }
     
     /**
-     * Imports a QR code image and processes its content.
+     * Import QR code.
      */
     @FXML
     private void importQRCode() {
@@ -97,7 +100,7 @@ public class BorrowReturnWithQRController {
     }
     
     /**
-     * Checks the validity of the membership ID and retrieves user information.
+     * Check membership ID.
      */
     @FXML
     private void checkMembershipId() {
@@ -116,7 +119,7 @@ public class BorrowReturnWithQRController {
     }
     
     /**
-     * Processes the transaction based on the current document status.
+     * Process the transaction.
      */
     @FXML
     private void processTransaction() {
@@ -127,7 +130,7 @@ public class BorrowReturnWithQRController {
                     showError("Please enter membership ID.");
                     return;
                 }
-                // Handle borrowing a document
+                // Process borrowing.
                 BorrowReturn newBorrow = new BorrowReturn(
                         membershipId,
                         documentId,
@@ -139,7 +142,7 @@ public class BorrowReturnWithQRController {
                 borrowReturnDAO.borrowDocument(newBorrow);
                 showSuccess("Document borrowed successfully!");
             } else if ("borrowed".equals(currentStatus)) {
-                // Handle returning a document
+                // Process returning.
                 BorrowReturn borrowInfo = borrowReturnDAO.getBorrowInfo(documentType, documentId);
                 borrowInfo.setReturnDate(LocalDate.now());
                 borrowInfo.setStatus("Returned");
@@ -150,34 +153,35 @@ public class BorrowReturnWithQRController {
             showError("Error processing transaction: " + e.getMessage());
         }
     }
-    
-    /**
-     * Displays user information.
-     * @param user The user object to display
-     */
+
     private void displayUserInfo(User user) {
         userNameLabel.setText(user.getName());
         userPhoneLabel.setText(user.getPhone());
         userEmailLabel.setText(user.getEmail());
     }
 
-    /**
-     * Displays an error message dialog.
-     * @param message The error message to display
-     */
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setContentText(message);
         alert.show();
     }
 
-    /**
-     * Displays a success message dialog.
-     * @param message The success message to display
-     */
     private void showSuccess(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);
         alert.show();
+    }
+
+    @FXML
+    private VBox starContainer;
+
+    @FXML
+    public void initialize() {
+        // Create Star animation.
+        if (starContainer != null) {
+            Platform.runLater(() -> {
+                StarAnimationUtil.createStarAnimation(starContainer);
+            });
+        }
     }
 }
