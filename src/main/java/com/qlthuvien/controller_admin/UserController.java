@@ -1,102 +1,108 @@
 package com.qlthuvien.controller_admin;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.qlthuvien.dao.UserDAO;
 import com.qlthuvien.model.User;
 import com.qlthuvien.utils.DBConnection;
-
+import com.qlthuvien.utils.StarAnimationUtil;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 public class UserController {
 
-    @FXML private TableView<User> usersTable;
-    @FXML private TableColumn<User, String> nameColumn;
-    @FXML private TableColumn<User, String> emailColumn;
-    @FXML private TableColumn<User, String> phoneColumn;
-    @FXML private TableColumn<User, String> membershipIdColumn;
-    @FXML private TableColumn<User, String> usernameColumn;
-    @FXML private TableColumn<User, String> passwordColumn;
-
-    @FXML private TextField nameInput;
-    @FXML private TextField emailInput;
-    @FXML private TextField phoneInput;
-    @FXML private TextField membershipIdInput;
-    @FXML private TextField usernameInput;
-    @FXML private TextField passwordInput;
-    @FXML private TextField searchField;
-
+    private Connection connection;
     private UserDAO userDAO;
-    private List<User> allUsers;
+
+    @FXML
+    private TableView<User> usersTable;
+
+    @FXML
+    private TableColumn<User, String> nameColumn;
+    @FXML
+    private TableColumn<User, String> emailColumn;
+    @FXML
+    private TableColumn<User, String> phoneColumn;
+    @FXML
+    private TableColumn<User, String> membershipIdColumn;
+    @FXML
+    private TableColumn<User, String> passwordColumn;
+    @FXML
+    private TableColumn<User, String> usernameColumn;
+    @FXML
+    private VBox starContainer;
+    @FXML
+    private TextField nameInput, emailInput, phoneInput, membershipIdInput, passwordInput, usernameInput;
+
+    @FXML
+    private Label statusLabel;
+
+    public UserController() {
+        connection = DBConnection.getConnection();
+        userDAO = new UserDAO(connection);
+    }
 
     @FXML
     public void initialize() {
-        try {
-            Connection connection = DBConnection.getConnection();
-            userDAO = new UserDAO(connection);
+        // Bind column widths to table view width
+        nameColumn.prefWidthProperty().bind(usersTable.widthProperty().multiply(0.15));
+        emailColumn.prefWidthProperty().bind(usersTable.widthProperty().multiply(0.15));
+        phoneColumn.prefWidthProperty().bind(usersTable.widthProperty().multiply(0.15));
+        membershipIdColumn.prefWidthProperty().bind(usersTable.widthProperty().multiply(0.15));
+        usernameColumn.prefWidthProperty().bind(usersTable.widthProperty().multiply(0.15));
+        passwordColumn.prefWidthProperty().bind(usersTable.widthProperty().multiply(0.15));
 
-            // Thiết lập các cột
-            nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-            emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-            phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone")); 
-            membershipIdColumn.setCellValueFactory(new PropertyValueFactory<>("membershipId"));
-            usernameColumn.setCellValueFactory(new PropertyValueFactory<>("user_name"));
-            passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
+        // Set cell value factories for columns
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        membershipIdColumn.setCellValueFactory(new PropertyValueFactory<>("membershipId"));
+        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
+        passwordColumn.setCellValueFactory(new PropertyValueFactory<>("user_name"));
 
-            // Thêm listener cho searchField
-            searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-                handleSearch();
+        // Load data into the table
+        refreshUsersTable();
+
+        // Handle row selection
+        usersTable.setOnMouseClicked(event -> {
+            User selectedUser = usersTable.getSelectionModel().getSelectedItem();
+            if (selectedUser != null) {
+                nameInput.setText(selectedUser.getName());
+                emailInput.setText(selectedUser.getEmail());
+                phoneInput.setText(selectedUser.getPhone());
+                membershipIdInput.setText(selectedUser.getMembershipId());
+                usernameInput.setText(selectedUser.getUser_name());
+                passwordInput.setText(selectedUser.getPassword());
+            }
+        });
+
+        // create star animation
+
+        if (starContainer != null) {
+            Platform.runLater(() -> {
+                StarAnimationUtil.createStarAnimation(starContainer);
             });
-
-            // Xử lý sự kiện khi chọn user trong bảng
-            usersTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-                if (newSelection != null) {
-                    nameInput.setText(newSelection.getName());
-                    emailInput.setText(newSelection.getEmail());
-                    phoneInput.setText(newSelection.getPhone());
-                    membershipIdInput.setText(newSelection.getMembershipId());
-                    usernameInput.setText(newSelection.getUser_name());
-                    passwordInput.setText(newSelection.getPassword());
-                }
-            });
-
-            refreshUsersTable();
-        } catch (Exception e) {
-            showError("Error initializing: " + e.getMessage());
         }
     }
 
     @FXML
     public void addUser() {
         try {
-            // Validate input
-            if (membershipIdInput.getText().isEmpty() || nameInput.getText().isEmpty() || 
-                usernameInput.getText().isEmpty() || passwordInput.getText().isEmpty()) {
-                showError("Please fill in all required fields");
-                return;
-            }
-
             User newUser = new User(
-                membershipIdInput.getText(),
-                nameInput.getText(),
-                emailInput.getText(),
-                phoneInput.getText(),
-                passwordInput.getText(),
-                usernameInput.getText()
+                    membershipIdInput.getText(),
+                    nameInput.getText(),
+                    emailInput.getText(),
+                    phoneInput.getText(),
+                    usernameInput.getText(),
+                    passwordInput.getText()
             );
-
             userDAO.add(newUser);
             showSuccess("User added successfully!");
-            clearInputs();
             refreshUsersTable();
         } catch (SQLException e) {
             showError(e.getMessage());
@@ -107,18 +113,23 @@ public class UserController {
     public void editUser() {
         User selectedUser = usersTable.getSelectionModel().getSelectedItem();
         if (selectedUser == null) {
-            showError("Please select a user to edit");
+            showError("No user selected");
             return;
         }
 
         try {
+            // Cập nhật thông tin người dùng
             selectedUser.setName(nameInput.getText());
             selectedUser.setEmail(emailInput.getText());
             selectedUser.setPhone(phoneInput.getText());
+            selectedUser.setMembershipId(membershipIdInput.getText());
             selectedUser.setUser_name(usernameInput.getText());
             selectedUser.setPassword(passwordInput.getText());
 
+            // Gọi phương thức update trong DAO
             userDAO.update(selectedUser);
+
+            // Thông báo và làm mới bảng
             showSuccess("User updated successfully!");
             refreshUsersTable();
         } catch (SQLException e) {
@@ -126,45 +137,31 @@ public class UserController {
         }
     }
 
+
     @FXML
     public void deleteUser() {
         User selectedUser = usersTable.getSelectionModel().getSelectedItem();
         if (selectedUser == null) {
-            showError("Please select a user to delete");
+            showError("No user selected");
             return;
         }
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete User");
-        alert.setContentText("Are you sure you want to delete this user?");
-        
-        if (alert.showAndWait().get() == ButtonType.OK) {
-            try {
-                userDAO.delete(selectedUser.getMembershipId());
-                showSuccess("User deleted successfully!");
-                clearInputs();
-                refreshUsersTable();
-            } catch (SQLException e) {
-                showError(e.getMessage());
-            }
+        try {
+            userDAO.delete(selectedUser.getMembershipId());
+            showSuccess("User deleted successfully!");
+            refreshUsersTable();
+        } catch (SQLException e) {
+            showError(e.getMessage());
         }
-    }
-
-    private void clearInputs() {
-        nameInput.clear();
-        emailInput.clear();
-        phoneInput.clear();
-        membershipIdInput.clear();
-        usernameInput.clear();
-        passwordInput.clear();
     }
 
     private void refreshUsersTable() {
         try {
+            // Lấy danh sách toàn bộ người dùng từ cơ sở dữ liệu
             List<User> users = userDAO.getAll();
-            usersTable.getItems().setAll(users);
+            usersTable.getItems().setAll(users); // Hiển thị danh sách trong bảng
         } catch (SQLException e) {
-            showError("Error refreshing table: " + e.getMessage());
+            showError(e.getMessage());
         }
     }
 
@@ -178,27 +175,5 @@ public class UserController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);
         alert.show();
-    }
-
-    @FXML
-    private void handleSearch() {
-        String searchText = searchField.getText().toLowerCase();
-        if (searchText.isEmpty()) {
-            usersTable.getItems().setAll(allUsers); // Hiển thị lại toàn bộ danh sách
-            return;
-        }
-
-        // Lọc danh sách users dựa trên searchText
-        List<User> filteredUsers = allUsers.stream()
-            .filter(user -> 
-                user.getName().toLowerCase().contains(searchText) ||
-                user.getEmail().toLowerCase().contains(searchText) ||
-                user.getPhone().toLowerCase().contains(searchText) ||
-                user.getMembershipId().toLowerCase().contains(searchText) ||
-                user.getUser_name().toLowerCase().contains(searchText)
-            )
-            .collect(Collectors.toList());
-
-        usersTable.getItems().setAll(filteredUsers);
     }
 }
