@@ -15,24 +15,29 @@ public class UserDAO {
 
     // Phương thức thêm user
     public void add(User user) throws SQLException {
-        String query = "INSERT INTO users (membership_id, name, email, phone) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        String sql = "INSERT INTO users (membership_id, name, email, phone, user_name, password) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, user.getMembershipId());
             stmt.setString(2, user.getName());
             stmt.setString(3, user.getEmail());
             stmt.setString(4, user.getPhone());
+            stmt.setString(5, user.getUser_name());
+            stmt.setString(6, user.getPassword());
             stmt.executeUpdate();
         }
     }
 
+
     // Phương thức cập nhật user
     public void update(User user) throws SQLException {
-        String query = "UPDATE users SET name = ?, email = ?, phone = ? WHERE membership_id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        String sql = "UPDATE users SET name = ?, email = ?, phone = ?, user_name = ?, password = ? WHERE membership_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getEmail());
             stmt.setString(3, user.getPhone());
-            stmt.setString(4, user.getMembershipId());
+            stmt.setString(4, user.getUser_name());
+            stmt.setString(5, user.getPassword());
+            stmt.setString(6, user.getMembershipId());
             stmt.executeUpdate();
         }
     }
@@ -57,7 +62,9 @@ public class UserDAO {
                         rs.getString("membership_id"),
                         rs.getString("name"),
                         rs.getString("email"),
-                        rs.getString("phone")
+                        rs.getString("phone"),
+                        rs.getString("password"),
+                        rs.getString("user_name")
                 );
                 users.add(user);
             }
