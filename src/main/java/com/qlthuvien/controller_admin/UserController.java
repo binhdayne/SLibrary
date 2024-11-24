@@ -1,15 +1,23 @@
 package com.qlthuvien.controller_admin;
 
-import com.qlthuvien.dao.UserDAO;
-import com.qlthuvien.model.User;
-import com.qlthuvien.utils.DBConnection;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+
+import com.qlthuvien.dao.UserDAO;
+import com.qlthuvien.model.User;
+import com.qlthuvien.utils.DBConnection;
+import com.qlthuvien.utils.StarAnimationUtil;
+
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 
 public class UserController {
 
@@ -37,6 +45,9 @@ public class UserController {
 
     @FXML
     private Label statusLabel;
+
+    @FXML
+    private VBox starContainer;
 
     public UserController() {
         connection = DBConnection.getConnection();
@@ -76,6 +87,15 @@ public class UserController {
                 passwordInput.setText(selectedUser.getPassword());
             }
         });
+        
+        // create star animation
+        
+        if (starContainer != null) {
+            Platform.runLater(() -> {
+               StarAnimationUtil.createStarAnimation(starContainer);
+            });
+        }
+   
     }
 
     @FXML
@@ -138,9 +158,9 @@ public class UserController {
 
     private void refreshUsersTable() {
         try {
-            // Lấy danh sách toàn bộ người dùng từ cơ sở dữ liệu
+            // Get all users from the database
             List<User> users = userDAO.getAll();
-            usersTable.getItems().setAll(users); // Hiển thị danh sách trong bảng
+            usersTable.getItems().setAll(users); // Display the list in the table
         } catch (SQLException e) {
             showError(e.getMessage());
         }
