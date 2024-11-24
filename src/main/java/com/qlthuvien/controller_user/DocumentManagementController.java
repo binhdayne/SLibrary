@@ -1,5 +1,6 @@
 package com.qlthuvien.controller_user;
 
+import com.qlthuvien.api.GoogleBooksAPI;
 import com.qlthuvien.dao.*;
 import com.qlthuvien.model.*;
 import com.qlthuvien.utils.DBConnection;
@@ -9,6 +10,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -17,6 +20,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class DocumentManagementController {
@@ -27,6 +31,8 @@ public class DocumentManagementController {
     private ThesisDAO thesisDAO;
     private BookFromAPIDAO bookFromAPIDAO;
 
+    @FXML
+    private TableView<BookFromAPI> bookfromAPITable;
     // TableViews for different document types
     @FXML
     private TableView<Book> booksTable;
@@ -36,41 +42,36 @@ public class DocumentManagementController {
     private TableView<Thesis> thesesTable;
     @FXML
     private TableView<BookFromAPI> booksFromAPITable;
-
-    // Columns for books table
     @FXML
     private TableColumn<Book, Integer> bookIdColumn;
     @FXML
     private TableColumn<Book, String> bookTitleColumn, bookAuthorColumn, bookGenreColumn, bookStatusColumn;
-
-    // Columns for magazines table
     @FXML
     private TableColumn<Magazine, Integer> magazineIdColumn, issueNumberColumn;
     @FXML
     private TableColumn<Magazine, String> magazineTitleColumn, magazineAuthorColumn, magazinePublisherColumn, magazineStatusColumn;
-
-    // Columns for theses table
     @FXML
     private TableColumn<Thesis, Integer> thesisIdColumn;
     @FXML
     private TableColumn<Thesis, String> thesisTitleColumn, thesisAuthorColumn, thesisSupervisorColumn, thesisUniversityColumn, thesisStatusColumn;
-
-    // Columns for books_from_api table
     @FXML
     private TableColumn<BookFromAPI, Integer> apiBookIdColumn;
     @FXML
     private TableColumn<BookFromAPI, String> apiBookIsbnColumn, apiBookTitleColumn, apiBookAuthorColumn, apiBookPublisherColumn, apiBookDescriptionColumn, apiBookStatusColumn;
-
+    @FXML
+    private TabPane documentTabPane;
+    @FXML
+    private Tab bookTab, magazineTab, thesisTab, booksFromAPITab;
     @FXML
     private TextField titleInput, authorInput, statusInput;
-
     @FXML
-    private Label statusLabel;
-
+    private Label statusLabel, nameLabel;
     @FXML
-    private Button generateQRButton, borrowBookButton;
+    private TextField searchInput;
     @FXML
-    private Label nameLabel;
+    private Button searchButton, borrowBookButton;
+    @FXML
+    private ImageView documentCoverImageView;
 
     private String userId; // User ID from another FXML (set via label)
 
@@ -88,6 +89,7 @@ public class DocumentManagementController {
 
     @FXML
     public void initialize() {
+        // Setup the tables
         setupBooksTable();
         setupMagazinesTable();
         setupThesesTable();
@@ -95,9 +97,75 @@ public class DocumentManagementController {
 
         refreshAllTables();
 
-        generateQRButton.setDisable(true);
+        searchInput.textProperty().addListener((observable, oldValue, newValue) -> searchAllDocuments(newValue));
+        searchButton.setOnAction(event -> searchAllDocuments(searchInput.getText()));
         borrowBookButton.setDisable(true);
     }
+
+    private void displayCover(String coverPath) {
+        if (coverPath != null && !coverPath.isEmpty()) {
+            File coverFile = new File(coverPath);
+            if (coverFile.exists()) {
+                documentCoverImageView.setImage(new javafx.scene.image.Image(coverFile.toURI().toString()));
+            } else {
+                documentCoverImageView.setImage(null); // Clear the view if the file does not exist
+            }
+        } else {
+            documentCoverImageView.setImage(null); // Clear the view if no cover path is set
+        }
+    }
+
+
+    private void searchAllDocuments(String query) {
+        if (query == null || query.isEmpty()) {
+            refreshAllTables(); // Reload all data if the search query is empty
+            return;
+        }
+
+        Tab selectedTab = documentTabPane.getSelectionModel().getSelectedItem();
+
+        if (selectedTab == bookTab) {
+            // Search in books table
+            CompletableFuture.runAsync(() -> {
+                try {
+                    List<Book> filteredBooks = bookDAO.searchBooksByTitleOrAuthor(query);
+                    Platform.runLater(() -> booksTable.getItems().setAll(filteredBooks));
+                } catch (SQLException e) {
+                    Platform.runLater(() -> showError("Error searching books: " + e.getMessage()));
+                }
+            });
+        } else if (selectedTab == magazineTab) {
+            // Search in magazines table
+            CompletableFuture.runAsync(() -> {
+                try {
+                    List<Magazine> filteredMagazines = magazineDAO.searchMagazinesByTitleOrAuthor(query);
+                    Platform.runLater(() -> magazinesTable.getItems().setAll(filteredMagazines));
+                } catch (SQLException e) {
+                    Platform.runLater(() -> showError("Error searching magazines: " + e.getMessage()));
+                }
+            });
+        } else if (selectedTab == thesisTab) {
+            CompletableFuture.runAsync(() -> {
+                try {
+                    List<Thesis> filteredTheses = thesisDAO.searchThesesByTitleOrAuthor(query);
+                    Platform.runLater(() -> thesesTable.getItems().setAll(filteredTheses));
+                } catch (SQLException e) {
+                    Platform.runLater(() -> showError("Error searching theses: " + e.getMessage()));
+                }
+            });
+        } else if (selectedTab == booksFromAPITab) {
+            // Search in books from API table
+            CompletableFuture.runAsync(() -> {
+                try {
+                    List<BookFromAPI> filteredBooksFromAPI = bookFromAPIDAO.searchBooksAPIByTitleOrAuthor(query);
+                    Platform.runLater(() -> booksFromAPITable.getItems().setAll(filteredBooksFromAPI));
+                } catch (SQLException e) {
+                    Platform.runLater(() -> showError("Error searching books from API: " + e.getMessage()));
+                }
+            });
+        }
+    }
+
 
     private void setupBooksTable() {
         bookIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -109,21 +177,13 @@ public class DocumentManagementController {
         booksTable.setOnMouseClicked(event -> {
             Book selectedBook = booksTable.getSelectionModel().getSelectedItem();
             if (selectedBook != null) {
-                // Hiển thị thông tin sách trong các TextField
                 titleInput.setText(selectedBook.getTitle());
                 authorInput.setText(selectedBook.getAuthor());
                 statusInput.setText(selectedBook.getStatus());
-
+                displayCover(selectedBook.getBookcover()); // Display cover from the database
                 borrowBookButton.setDisable(false);
-                generateQRButton.setDisable(false);
             } else {
-                // Xóa thông tin khi không chọn sách nào
-                titleInput.clear();
-                authorInput.clear();
-                statusInput.clear();
-
-                borrowBookButton.setDisable(true);
-                generateQRButton.setDisable(true);
+                clearInputsAndCover();
             }
         });
     }
@@ -141,18 +201,13 @@ public class DocumentManagementController {
                 titleInput.setText(selectedMagazine.getTitle());
                 authorInput.setText(selectedMagazine.getAuthor());
                 statusInput.setText(selectedMagazine.getStatus());
-
+                displayCover(selectedMagazine.getCoverPath()); // Display cover from the database
                 borrowBookButton.setDisable(false);
-                generateQRButton.setDisable(false);
             } else {
-                titleInput.clear();
-                authorInput.clear();
-                statusInput.clear();
-
-                borrowBookButton.setDisable(true);
-                generateQRButton.setDisable(true);
+                clearInputsAndCover();
             }
         });
+
     }
 
 
@@ -170,16 +225,10 @@ public class DocumentManagementController {
                 titleInput.setText(selectedThesis.getTitle());
                 authorInput.setText(selectedThesis.getAuthor());
                 statusInput.setText(selectedThesis.getStatus());
-
+                displayCover(selectedThesis.getCoverPath()); // Display cover from the database
                 borrowBookButton.setDisable(false);
-                generateQRButton.setDisable(false);
             } else {
-                titleInput.clear();
-                authorInput.clear();
-                statusInput.clear();
-
-                borrowBookButton.setDisable(true);
-                generateQRButton.setDisable(true);
+                clearInputsAndCover();
             }
         });
     }
@@ -200,16 +249,37 @@ public class DocumentManagementController {
                 titleInput.setText(selectedAPIBook.getTitle());
                 authorInput.setText(selectedAPIBook.getAuthor());
                 statusInput.setText(selectedAPIBook.getStatus());
+                fetchAndDisplayBookCover(selectedAPIBook.getIsbn()); // Fetch and display cover via ISBN
                 borrowBookButton.setDisable(false);
-                generateQRButton.setDisable(false);
             } else {
-                titleInput.clear();
-                authorInput.clear();
-                statusInput.clear();
-                borrowBookButton.setDisable(true);
-                generateQRButton.setDisable(true);
+                clearInputsAndCover();
             }
         });
+    }
+
+    private void fetchAndDisplayBookCover(String isbn) {
+        DatabaseTask.run(
+                () -> GoogleBooksAPI.fetchBookByISBN(isbn), // Fetch book details from API
+                book -> {
+                    if (book != null && book.getBookCover() != null) {
+                        Platform.runLater(() -> displayCover(book.getBookCover())); // Update UI on JavaFX thread
+                    } else {
+                        Platform.runLater(() -> documentCoverImageView.setImage(null));
+                    }
+                },
+                exception -> {
+                    System.err.println("Error fetching book cover: " + exception.getMessage());
+                    Platform.runLater(() -> documentCoverImageView.setImage(null));
+                }
+        );
+    }
+
+    private void clearInputsAndCover() {
+        titleInput.clear();
+        authorInput.clear();
+        statusInput.clear();
+        documentCoverImageView.setImage(null); // Clear the ImageView
+        borrowBookButton.setDisable(true);
     }
 
 
@@ -229,32 +299,6 @@ public class DocumentManagementController {
                     statusLabel.setText("Failed to load data");
                 }
         );
-    }
-
-
-    @FXML
-    public void generateQR() {
-        Book selectedBook = booksTable.getSelectionModel().getSelectedItem();
-        if (selectedBook == null) {
-            showError("No book selected");
-            return;
-        }
-
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save QR Code");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG Files", "*.png"));
-        File file = fileChooser.showSaveDialog(new Stage());
-
-        if (file != null) {
-            try {
-                String qrContent = "Type: BOOK, ID: " + selectedBook.getId() + ", Title: " + selectedBook.getTitle() +
-                        ", Author: " + selectedBook.getAuthor() + ", Genre: " + selectedBook.getGenre();
-                QRCodeGenerator.generateQRCode(qrContent, file.getAbsolutePath());
-                showSuccess("QR Code generated successfully!");
-            } catch (Exception e) {
-                showError("Error generating QR code: " + e.getMessage());
-            }
-        }
     }
 
     private void refreshBooksTable() {
@@ -444,6 +488,13 @@ public class DocumentManagementController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information");
         alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void showAlert(String title, String message, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
         alert.setContentText(message);
         alert.showAndWait();
     }
