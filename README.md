@@ -29,6 +29,7 @@ This project is a library management system developed in Java. The project is a 
 - Document: helps managers easily add, edit, delete books in the library
 - Manage users: add, edit, delete users
 - Loans: Borrow and return by entering information or scanning QR
+
 **For users**
 - Search for books and borrow on the google book API repository
 - Select and save avatars
