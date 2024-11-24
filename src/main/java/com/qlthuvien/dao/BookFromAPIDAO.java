@@ -1,6 +1,7 @@
 package com.qlthuvien.dao;
 
 import com.qlthuvien.model.BookFromAPI;
+import com.qlthuvien.model.Thesis;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -27,6 +28,31 @@ public class BookFromAPIDAO extends DocumentDAO<BookFromAPI> {
             bookStmt.setString(7, book.getStatus());
             bookStmt.executeUpdate();
         }
+    }
+
+    public List<BookFromAPI> searchBooksAPIByTitleOrAuthor(String query) throws SQLException {
+        String sql = "SELECT * FROM books_from_api WHERE title LIKE ? OR author LIKE ?";
+        List<BookFromAPI> books = new ArrayList<>();
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, "%" + query + "%");
+            stmt.setString(2, "%" + query + "%");
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    books.add(new BookFromAPI(
+                            rs.getInt("id"),
+                            rs.getString("title"),
+                            rs.getString("author"),
+                            rs.getString("status"),
+                            rs.getString("isbn"),
+                            rs.getString("publisher"),
+                            rs.getString("published_date"),
+                            rs.getString("description")
+                    ));
+                }
+            }
+        }
+        return books;
     }
 
     @Override

@@ -9,33 +9,33 @@ import java.util.List;
 
 public class WaitingBorrowDAO {
 
-private final Connection connection;
+    private final Connection connection;
 
-public WaitingBorrowDAO(Connection connection) {
-    this.connection = connection;
-}
-
-// Hàm lấy danh sách waiting borrow
-public List<BorrowReturn> getWaitingBorrows() throws SQLException {
-    List<BorrowReturn> waitingBorrows = new ArrayList<>();
-    String query = "SELECT * FROM waiting_borrow";
-
-    try (PreparedStatement stmt = connection.prepareStatement(query);
-         ResultSet rs = stmt.executeQuery()) {
-
-        while (rs.next()) {
-            waitingBorrows.add(new BorrowReturn(
-                    rs.getString("membership_id"),
-                    rs.getInt("document_id"),
-                    rs.getString("document_type"),
-                    rs.getTimestamp("borrow_date") != null ? rs.getTimestamp("borrow_date").toLocalDateTime().toLocalDate() : null,
-                    null,
-                    rs.getString("status")
-            ));
-        }
+    public WaitingBorrowDAO(Connection connection) {
+        this.connection = connection;
     }
-    return waitingBorrows;
-}
+
+    // Hàm lấy danh sách waiting borrow
+    public List<BorrowReturn> getWaitingBorrows() throws SQLException {
+        List<BorrowReturn> waitingBorrows = new ArrayList<>();
+        String query = "SELECT * FROM waiting_borrow";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                waitingBorrows.add(new BorrowReturn(
+                        rs.getString("membership_id"),
+                        rs.getInt("document_id"),
+                        rs.getString("document_type"),
+                        rs.getTimestamp("borrow_date") != null ? rs.getTimestamp("borrow_date").toLocalDateTime().toLocalDate() : null,
+                        null,
+                        rs.getString("status")
+                ));
+            }
+        }
+        return waitingBorrows;
+    }
 
 
     public void addToWaitingBorrow(BorrowReturn borrowReturn) throws SQLException {
@@ -247,4 +247,6 @@ public List<BorrowReturn> getWaitingBorrows() throws SQLException {
         }
         return waitingBooks;
     }
+
+
 }

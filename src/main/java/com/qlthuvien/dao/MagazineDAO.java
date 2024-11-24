@@ -12,34 +12,57 @@ public class MagazineDAO extends DocumentDAO<Magazine> {
         super(connection);
     }
 
-    @Override
     public void add(Magazine magazine) throws SQLException {
-        String insertMagazineQuery = "INSERT INTO magazines (title, author, issue_number, publisher, status) VALUES (?, ?, ?, ?, ?)";
-
-        try (PreparedStatement magazineStmt = connection.prepareStatement(insertMagazineQuery, Statement.RETURN_GENERATED_KEYS)) {
-            // Thêm vào bảng magazines
-            magazineStmt.setString(1, magazine.getTitle());
-            magazineStmt.setString(2, magazine.getAuthor());
-            magazineStmt.setInt(3, magazine.getIssueNumber());
-            magazineStmt.setString(4, magazine.getPublisher());
-            magazineStmt.setString(5, magazine.getStatus());
-            magazineStmt.executeUpdate();
-        }
-    }
-
-    @Override
-    public void update(Magazine magazine) throws SQLException {
-        String query = "UPDATE magazines SET title = ?, author = ?, issue_number = ?, publisher = ?, status = ? WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        String sql = "INSERT INTO magazines (title, author, publisher, issue_number, status, coverPath) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, magazine.getTitle());
             stmt.setString(2, magazine.getAuthor());
-            stmt.setInt(3, magazine.getIssueNumber());
-            stmt.setString(4, magazine.getPublisher());
+            stmt.setString(3, magazine.getPublisher());
+            stmt.setInt(4, magazine.getIssueNumber());
             stmt.setString(5, magazine.getStatus());
-            stmt.setInt(6, magazine.getId());
+            stmt.setString(6, magazine.getCoverPath()); // Save the cover path
             stmt.executeUpdate();
         }
     }
+
+    public List<Magazine> searchMagazinesByTitleOrAuthor(String query) throws SQLException {
+        String sql = "SELECT * FROM magazines WHERE title LIKE ? OR author LIKE ?";
+        List<Magazine> magazines = new ArrayList<>();
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, "%" + query + "%");
+            stmt.setString(2, "%" + query + "%");
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    magazines.add(new Magazine(
+                            rs.getInt("id"),
+                            rs.getString("title"),
+                            rs.getString("author"),
+                            rs.getString("status"),
+                            rs.getInt("issue_number"),
+                            rs.getString("publisher"),
+                            rs.getString("coverPath")
+                    ));
+                }
+            }
+        }
+        return magazines;
+    }
+
+    public void update(Magazine magazine) throws SQLException {
+        String sql = "UPDATE magazines SET title = ?, author = ?, publisher = ?, issue_number = ?, status = ?, coverPath = ? WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, magazine.getTitle());
+            stmt.setString(2, magazine.getAuthor());
+            stmt.setString(3, magazine.getPublisher());
+            stmt.setInt(4, magazine.getIssueNumber());
+            stmt.setString(5, magazine.getStatus());
+            stmt.setString(6, magazine.getCoverPath()); // Update the cover path
+            stmt.setInt(7, magazine.getId());
+            stmt.executeUpdate();
+        }
+    }
+
 
     @Override
     public void delete(int magazineId) throws SQLException {
@@ -51,26 +74,26 @@ public class MagazineDAO extends DocumentDAO<Magazine> {
         }
     }
 
-    @Override
     public List<Magazine> getAll() throws SQLException {
-        String query = "SELECT id, title, author, issue_number, publisher, status FROM magazines";
+        String sql = "SELECT * FROM magazines";
         List<Magazine> magazines = new ArrayList<>();
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                Magazine magazine = new Magazine(
+                magazines.add(new Magazine(
                         rs.getInt("id"),
                         rs.getString("title"),
                         rs.getString("author"),
                         rs.getString("status"),
                         rs.getInt("issue_number"),
-                        rs.getString("publisher")
-                );
-                magazines.add(magazine);
+                        rs.getString("publisher"),
+                        rs.getString("coverPath")
+                ));
             }
         }
         return magazines;
     }
+
 
     @Override
     public Magazine getById(int magazineId) throws SQLException {
@@ -85,7 +108,8 @@ public class MagazineDAO extends DocumentDAO<Magazine> {
                             rs.getString("author"),
                             rs.getString("status"),
                             rs.getInt("issue_number"),
-                            rs.getString("publisher")
+                            rs.getString("publisher"),
+                            rs.getString("coverPath")
                     );
                 }
             }

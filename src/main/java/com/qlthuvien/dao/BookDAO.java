@@ -12,29 +12,50 @@ public class BookDAO extends DocumentDAO<Book> {
         super(connection);
     }
 
-    @Override
     public void add(Book book) throws SQLException {
-        String insertBookQuery = "INSERT INTO books (title, author, genre, status) VALUES (?, ?, ?, ?)";
-
-        try (PreparedStatement bookStmt = connection.prepareStatement(insertBookQuery, Statement.RETURN_GENERATED_KEYS)) {
-            // Thêm tài liệu vào bảng books
-            bookStmt.setString(1, book.getTitle());
-            bookStmt.setString(2, book.getAuthor());
-            bookStmt.setString(3, book.getGenre());
-            bookStmt.setString(4, book.getStatus());
-            bookStmt.executeUpdate();
-        }
-    }
-
-    @Override
-    public void update(Book book) throws SQLException {
-        String query = "UPDATE books SET title = ?, author = ?, genre = ?, status = ? WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        String sql = "INSERT INTO books (title, author, genre, status, coverPath) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, book.getTitle());
             stmt.setString(2, book.getAuthor());
             stmt.setString(3, book.getGenre());
             stmt.setString(4, book.getStatus());
-            stmt.setInt(5, book.getId());
+            stmt.setString(5, book.getBookcover()); // Save the book cover path
+            stmt.executeUpdate();
+        }
+    }
+
+    public List<Book> searchBooksByTitleOrAuthor(String query) throws SQLException {
+        String sql = "SELECT * FROM books WHERE title LIKE ? OR author LIKE ?";
+        List<Book> books = new ArrayList<>();
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, "%" + query + "%");
+            stmt.setString(2, "%" + query + "%");
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    books.add(new Book(
+                            rs.getInt("id"),
+                            rs.getString("title"),
+                            rs.getString("author"),
+                            rs.getString("genre"),
+                            rs.getString("status"),
+                            rs.getString("coverPath")
+                    ));
+                }
+            }
+        }
+        return books;
+    }
+
+    public void update(Book book) throws SQLException {
+        String sql = "UPDATE books SET title = ?, author = ?, genre = ?, status = ?, coverPath = ? WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, book.getTitle());
+            stmt.setString(2, book.getAuthor());
+            stmt.setString(3, book.getGenre());
+            stmt.setString(4, book.getStatus());
+            stmt.setString(5, book.getBookcover()); // Update the book cover path
+            stmt.setInt(6, book.getId());
             stmt.executeUpdate();
         }
     }
@@ -49,21 +70,20 @@ public class BookDAO extends DocumentDAO<Book> {
         }
     }
 
-    @Override
     public List<Book> getAll() throws SQLException {
-        String query = "SELECT id, title, author, genre, status FROM books";
+        String sql = "SELECT * FROM books";
         List<Book> books = new ArrayList<>();
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                Book book = new Book(
+                books.add(new Book(
                         rs.getInt("id"),
                         rs.getString("title"),
                         rs.getString("author"),
                         rs.getString("status"),
-                        rs.getString("genre")
-                );
-                books.add(book);
+                        rs.getString("genre"),
+                        rs.getString("coverPath") // Get the book cover path
+                ));
             }
         }
         return books;
@@ -81,7 +101,8 @@ public class BookDAO extends DocumentDAO<Book> {
                             rs.getString("title"),
                             rs.getString("author"),
                             rs.getString("status"),
-                            rs.getString("genre")
+                            rs.getString("genre"),
+                            rs.getString("coverPath")
                     );
                 }
             }

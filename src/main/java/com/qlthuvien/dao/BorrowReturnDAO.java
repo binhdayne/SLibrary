@@ -110,24 +110,52 @@ public class BorrowReturnDAO {
     }
 
     public List<BorrowReturn> getTransactionsByUser(String membershipId) throws SQLException {
+        // Danh sách để lưu trữ các giao dịch BorrowReturn
         List<BorrowReturn> transactions = new ArrayList<>();
-        String query = "SELECT * FROM borrow_return WHERE membership_id = ?";
+
+        // Câu lệnh SQL để truy vấn dữ liệu
+        String query = "SELECT membership_id, document_id, document_type, borrow_date, return_date, status FROM borrow_return WHERE membership_id = ?";
+
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            // Thiết lập giá trị tham số cho câu lệnh SQL
             stmt.setString(1, membershipId);
+
+            // Thực thi câu lệnh SQL
             ResultSet rs = stmt.executeQuery();
+
+            // Lặp qua kết quả truy vấn
             while (rs.next()) {
+                // Lấy giá trị từ các cột trong cơ sở dữ liệu
+                String membershipIdResult = rs.getString("membership_id");
+                int documentId = rs.getInt("document_id");
+                String documentType = rs.getString("document_type");
+                LocalDate borrowDate = rs.getDate("borrow_date").toLocalDate();
+
+                // Kiểm tra và xử lý giá trị null trong cột return_date
+                LocalDate returnDate = rs.getDate("return_date") != null
+                        ? rs.getDate("return_date").toLocalDate()
+                        : null;
+
+                String status = rs.getString("status");
+
+                // Tạo đối tượng BorrowReturn từ dữ liệu và thêm vào danh sách
                 BorrowReturn transaction = new BorrowReturn(
-                        rs.getString("membership_id"),
-                        rs.getInt("document_id"),
-                        rs.getString("document_type"),
-                        rs.getDate("borrow_date").toLocalDate(),
-                        rs.getDate("return_date") != null ? rs.getDate("return_date").toLocalDate() : null,
-                        rs.getString("status")
+                        membershipIdResult,
+                        documentId,
+                        documentType,
+                        borrowDate,
+                        returnDate,
+                        status
                 );
                 transactions.add(transaction);
             }
+        } catch (SQLException e) {
+            // Log lỗi hoặc xử lý ngoại lệ nếu cần
+            System.err.println("Error fetching transactions: " + e.getMessage());
+            throw e;
         }
-        return transactions;
+
+        return transactions; // Trả về danh sách giao dịch
     }
 
     public List<BorrowReturn> getTransactionsByDocumentType(String documentType) throws SQLException {
@@ -269,6 +297,7 @@ public class BorrowReturnDAO {
             }
         }
     }
+
     public static List<Map<String, String>> getWaitingBorrowedItems() {
         List<Map<String, String>> items = new ArrayList<>();
         String sql = "SELECT membership_id, document_id, document_type, borrow_date, status FROM waiting_borrow WHERE status = 'Waiting'";

@@ -76,10 +76,20 @@ public class UserDAO {
                         rs.getString("membership_id"),
                         rs.getString("name"),
                         rs.getString("email"),
-                        rs.getString("phone")
+                        rs.getString("phone"),
+                        rs.getString("avatar")
                 );
             }
         }
         return null;
+    }
+
+    public void updateAvatar(String userId, String avatarPath) throws SQLException {
+        String query = "UPDATE users SET avatar = ? WHERE membership_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, avatarPath);
+            stmt.setString(2, userId);
+            stmt.executeUpdate();
+        }
     }
 }
