@@ -5,24 +5,27 @@ public class User {
     private String name;
     private String email;
     private String phone;
+    private String password;
+    private String user_name;
+    private String avatar;
 
-    /**
-     * Constructor User with 0 parameters.
-     */
-    public User() {
-        this.membershipId = "";
-        this.name = "";
-        this.email = "";
-        this.phone = "";
+    public User(String membershipId, String name, String email, String phone, String password, String user_name) {
+        this.membershipId = membershipId;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+        this.user_name = user_name;
     }
 
-    /**
-     * Constructor User with 4 parameters.
-     * @param membershipId membershipid
-     * @param name tên
-     * @param email email
-     * @param phone sdt
-     */
+    public User(String membershipId, String name, String email, String phone, String avatar) {
+        this.membershipId = membershipId;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.avatar = avatar;
+    }
+
     public User(String membershipId, String name, String email, String phone) {
         this.membershipId = membershipId;
         this.name = name;
@@ -34,7 +37,7 @@ public class User {
         return membershipId;
     }
 
-    public void setMembershipId(String membershipId) {
+    public void setmembershipId(String membershipId) {
         this.membershipId = membershipId;
     }
 
@@ -60,5 +63,33 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public void setMembershipId(String membershipId) {
+        this.membershipId = membershipId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

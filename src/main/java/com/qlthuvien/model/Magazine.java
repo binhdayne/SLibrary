@@ -3,36 +3,15 @@ package com.qlthuvien.model;
 public class Magazine extends Document {
     private int issueNumber;
     private String publisher;
+    private String coverPath;
 
-    /**
-     * Constructor Magazine with 0 parameters.
-     */
-    public Magazine() {
-        super();
-        this.issueNumber = 0;
-        this.publisher = "";
-    }
-
-    /**
-     * Constructor Magazine with 2 parameters.
-     * @param issueNumber so phat hanh
-     * @param publisher nha xuat ban
-     */
-    public Magazine(int issueNumber, String publisher) {
-        super();
+    public Magazine(int id, String title, String author, String status, int issueNumber, String publisher, String coverPath) {
+        super(id, title, author, status);
         this.issueNumber = issueNumber;
         this.publisher = publisher;
+        this.coverPath = coverPath;
     }
 
-    /**
-     * Constructor Magazine with 6 parameters.
-     * @param id id
-     * @param title tieu de
-     * @param author tac gia
-     * @param status trang thai
-     * @param issueNumber so phat hanh
-     * @param publisher nha xuat ban
-     */
     public Magazine(int id, String title, String author, String status, int issueNumber, String publisher) {
         super(id, title, author, status);
         this.issueNumber = issueNumber;
@@ -55,9 +34,14 @@ public class Magazine extends Document {
         this.publisher = publisher;
     }
 
-    /**
-     * print Information of Magazine.
-     */
+    public String getCoverPath() {
+        return coverPath;
+    }
+
+    public void setCoverPath(String coverPath) {
+        this.coverPath = coverPath;
+    }
+
     @Override
     public void printInfo() {
         System.out.println("Magazine [ID=" + getId() + ", Title=" + getTitle() + ", Author=" + getAuthor() +
