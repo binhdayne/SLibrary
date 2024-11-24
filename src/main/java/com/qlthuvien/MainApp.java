@@ -10,9 +10,10 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FirstScreen.fxml"));
+        // Fixing URL which is suitable for view_manager.
+        Parent root = FXMLLoader.load(getClass().getResource("/com/qlthuvien/view_manager/FirstScreen.fxml"));
         primaryStage.setTitle("Library Management System");
-        primaryStage.setScene(new Scene(root, 1100, 600));
+        primaryStage.setScene(new Scene(root, 835, 520));
         primaryStage.show();
     }
 
