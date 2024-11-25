@@ -40,7 +40,15 @@ This project is a library management system developed in Java. The project is a 
 - Game: there will be 10 questions to choose the answer related to the library and books
 
   ## Demo Videos
-  
+  **For managers**
+
+https://github.com/user-attachments/assets/16eec470-ad9b-405e-81a2-5eada91800f6
+
+
+https://github.com/user-attachments/assets/00798199-2337-427a-8824-74327524f7b6
+
+
+
 
   ## UML Diagram
 ![java](https://github.com/user-attachments/assets/6ae95e5f-159c-4723-ae6b-bd1a8e1e6433)
