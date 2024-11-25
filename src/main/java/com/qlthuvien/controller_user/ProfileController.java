@@ -35,7 +35,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.time.format.TextStyle;
 import java.util.Locale;
-public class ProfileController {
+public class ProfileController extends BaseController{
 
     @FXML
     private TableView<BorrowReturn> borrowReturnTable;
@@ -67,7 +67,13 @@ public class ProfileController {
     private Button editButton, saveButton;
 
     @FXML
-    private Label totalBorrowedLabel, totalReturnedLabel, pendingReturnsLabel, nearestDueDateLabel;
+    private Label totalBorrowedLabel;
+    @FXML
+    private Label totalReturnedLabel;
+    @FXML
+    private Label pendingReturnsLabel;
+    @FXML
+    private Label nearestDueDateLabel;
 
     @FXML
     private TableView<WaitingBorrow> waitingBorrowTable;
@@ -82,8 +88,13 @@ public class ProfileController {
     @FXML
     private ImageView avatarImageView;
     @FXML
-    private Button deleteWaitingButton, generateQRButton, saveAvatarButton, chooseAvatarButton;
-
+    private Button deleteWaitingButton;
+    @FXML
+    private Button saveAvatarButton;
+    @FXML
+    private Button chooseAvatarButton;
+    @FXML
+    private Button  generateQRButton;
 
 
     @FXML
@@ -316,17 +327,17 @@ public class ProfileController {
         phoneField.setText("N/A");
     }
 
-    private void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setContentText(message);
-        alert.show();
-    }
-
-    private void showSuccess(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText(message);
-        alert.show();
-    }
+//    private void showError(String message) {
+//        Alert alert = new Alert(Alert.AlertType.ERROR);
+//        alert.setContentText(message);
+//        alert.show();
+//    }
+//
+//    private void showSuccess(String message) {
+//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//        alert.setContentText(message);
+//        alert.show();
+//    }
     private void updateDashboard(String membershipId) {
         try {
             // Get user transactions

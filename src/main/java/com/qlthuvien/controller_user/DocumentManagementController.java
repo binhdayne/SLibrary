@@ -23,7 +23,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class DocumentManagementController {
+public class DocumentManagementController extends BaseController {
 
     private Connection connection;
     private BookDAO bookDAO;
@@ -249,7 +249,7 @@ public class DocumentManagementController {
                 titleInput.setText(selectedAPIBook.getTitle());
                 authorInput.setText(selectedAPIBook.getAuthor());
                 statusInput.setText(selectedAPIBook.getStatus());
-                fetchAndDisplayBookCover(selectedAPIBook.getIsbn()); // Fetch and display cover via ISBN
+                fetchAndDisplayBookCover(selectedAPIBook.getIsbn());
                 borrowBookButton.setDisable(false);
             } else {
                 clearInputsAndCover();
@@ -259,10 +259,10 @@ public class DocumentManagementController {
 
     private void fetchAndDisplayBookCover(String isbn) {
         DatabaseTask.run(
-                () -> GoogleBooksAPI.fetchBookByISBN(isbn), // Fetch book details from API
+                () -> GoogleBooksAPI.fetchBookByISBN(isbn),
                 book -> {
                     if (book != null && book.getBookCover() != null) {
-                        Platform.runLater(() -> displayCover(book.getBookCover())); // Update UI on JavaFX thread
+                        Platform.runLater(() -> displayCover(book.getBookCover()));
                     } else {
                         Platform.runLater(() -> documentCoverImageView.setImage(null));
                     }
@@ -278,7 +278,7 @@ public class DocumentManagementController {
         titleInput.clear();
         authorInput.clear();
         statusInput.clear();
-        documentCoverImageView.setImage(null); // Clear the ImageView
+        documentCoverImageView.setImage(null);
         borrowBookButton.setDisable(true);
     }
 
@@ -368,7 +368,7 @@ public class DocumentManagementController {
         // Kiểm tra tài liệu được chọn từ bảng nào
         Object selectedDocument = getSelectedDocument();
 
-        // Check if no document is selected
+        // Kiểm tra nếu sách ko được chọn
         if (selectedDocument == null) {
             showError("No document selected.");
             return;
@@ -472,30 +472,30 @@ public class DocumentManagementController {
 
 
 
-    private void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setContentText(message);
-        alert.show();
-    }
+//    private void showError(String message) {
+//        Alert alert = new Alert(Alert.AlertType.ERROR);
+//        alert.setContentText(message);
+//        alert.show();
+//    }
 
-    private void showSuccess(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText(message);
-        alert.show();
-    }
+//    private void showSuccess(String message) {
+//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//        alert.setContentText(message);
+//        alert.show();
+//    }
 
-    private void showInfo(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+//    private void showInfo(String message) {
+//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//        alert.setTitle("Information");
+//        alert.setHeaderText(null);
+//        alert.setContentText(message);
+//        alert.showAndWait();
+//    }
 
-    private void showAlert(String title, String message, Alert.AlertType alertType) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+//    private void showAlert(String title, String message, Alert.AlertType alertType) {
+//        Alert alert = new Alert(alertType);
+//        alert.setTitle(title);
+//        alert.setContentText(message);
+//        alert.showAndWait();
+//    }
 }

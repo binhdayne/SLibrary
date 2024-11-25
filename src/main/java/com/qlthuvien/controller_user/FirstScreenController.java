@@ -14,7 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalTime;
 
-public class FirstScreenController {
+public class FirstScreenController extends BaseController {
 
     @FXML
     private ImageView avatarImageView;

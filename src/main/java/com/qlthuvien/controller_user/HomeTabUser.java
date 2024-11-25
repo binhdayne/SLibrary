@@ -24,7 +24,7 @@ import javafx.application.Platform;
 import java.sql.*;
 import java.util.concurrent.CompletableFuture;
 
-public class HomeTabUser {
+public class HomeTabUser extends BaseController{
 
     @FXML
     private TextField searchField;
@@ -93,15 +93,15 @@ public class HomeTabUser {
         });
     }
 
-    private void showError(String message) {
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText(message);
-            alert.show();
-        });
-    }
+//    private void showError(String message) {
+//        Platform.runLater(() -> {
+//            Alert alert = new Alert(Alert.AlertType.ERROR);
+//            alert.setTitle("Error");
+//            alert.setHeaderText(null);
+//            alert.setContentText(message);
+//            alert.show();
+//        });
+//    }
 
     private String fetchBooksData(String query) throws Exception {
         String encodedQuery = URLEncoder.encode(query, "UTF-8");
@@ -270,11 +270,11 @@ public class HomeTabUser {
         });
     }
 
-    private void showInfo(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+//    private void showInfo(String message) {
+//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//        alert.setTitle("Information");
+//        alert.setHeaderText(null);
+//        alert.setContentText(message);
+//        alert.showAndWait();
+//    }
 }

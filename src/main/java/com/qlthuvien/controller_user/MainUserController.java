@@ -26,7 +26,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class MainUserController {
+public class MainUserController extends BaseController{
 
     @FXML
     private VBox contentArea;
@@ -99,12 +99,12 @@ public class MainUserController {
                 avatarImageView.setImage(avatarImage);
             } catch (Exception e) {
                 // Hiển thị ảnh mặc định nếu xảy ra lỗi
-                avatarImageView.setImage(new Image(getClass().getResourceAsStream("/icons/default-avatar.png")));
+                avatarImageView.setImage(new Image(getClass().getResourceAsStream("/icons/users.png")));
                 System.err.println("Error loading avatar image: " + e.getMessage());
             }
         } else {
             // Hiển thị ảnh mặc định nếu avatarPath rỗng hoặc null
-            avatarImageView.setImage(new Image(getClass().getResourceAsStream("/icons/default-avatar.png")));
+            avatarImageView.setImage(new Image(getClass().getResourceAsStream("/icons/users.png")));
         }
     }
 
@@ -258,7 +258,7 @@ private void showDocumentsScreen() {
     public void showLogoutScreen() {
         try {
             // Tải giao diện đăng nhập
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/qlthuvien/FirstScreen.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/qlthuvien/view_manager/FirstScreen.fxml"));
             Scene loginScene = new Scene(loader.load());
 
             // Lấy Stage hiện tại và thay đổi scene sang màn hình đăng nhập
