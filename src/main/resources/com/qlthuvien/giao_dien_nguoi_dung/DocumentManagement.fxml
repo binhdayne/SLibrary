@@ -7,23 +7,26 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox prefHeight="730.0" prefWidth="986.0" spacing="15" style="-fx-padding: 20;" stylesheets="@styles_user.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlthuvien.controller_user.DocumentManagementController">
+<VBox prefHeight="650.0" prefWidth="1375.0" spacing="15" style="-fx-padding: 20;" stylesheets="@styles_user.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlthuvien.controller_user.DocumentManagementController">
     <!-- Title -->
     <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Library Management - Documents" />
     <HBox alignment="CENTER" spacing="10">
-        <TextField fx:id="searchInput" promptText="Search by title or author..." />
-        <Button fx:id="searchButton" text="Search" />
+        <TextField fx:id="searchInput" promptText="Search by title or author..." styleClass="custom-textfield" />
+        <Button fx:id="searchButton" styleClass="select-button" text="Search" />
+
     </HBox>
 
     <!-- Status Label -->
     <Label fx:id="statusLabel" style="-fx-text-fill: gray;" text="Status: Ready" />
-   <HBox prefHeight="100.0" prefWidth="200.0">
+   <HBox prefHeight="457.0" prefWidth="946.0">
       <children>
-          <VBox alignment="CENTER" spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-color: #d1d9e0; -fx-border-width: 2; -fx-border-radius: 15; -fx-background-radius: 15;">
+          <VBox alignment="CENTER" prefHeight="447.0" prefWidth="191.0" spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-color: #d1d9e0; -fx-border-width: 2; -fx-border-radius: 15; -fx-background-radius: 15;">
                <Label prefHeight="18.0" prefWidth="166.0" text="Title:" />
                <TextField fx:id="titleInput" editable="false" style="-fx-border-color: #ffffff;" />
                <Label prefHeight="18.0" prefWidth="190.0" text="Author:" />
@@ -31,11 +34,11 @@
                <Label prefHeight="18.0" prefWidth="184.0" text="Status:" />
                <TextField fx:id="statusInput" editable="false" style="-fx-border-color: #ffffff;" />
 
-               <ImageView fx:id="documentCoverImageView" fitHeight="141.0" fitWidth="156.0" preserveRatio="true" style="-fx-border-color: black; -fx-border-width: 5; -fx-border-style: solid;" />
+                     <ImageView fx:id="documentCoverImageView" fitHeight="168.0" fitWidth="154.0" preserveRatio="true" style="-fx-border-color: black; -fx-border-width: 5; -fx-border-style: solid;" />
 
                <!-- Buttons -->
              <HBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
-                 <Button fx:id="borrowBookButton" disable="true" onAction="#borrowBook" text="Borrow Document" />
+                 <Button fx:id="borrowBookButton" disable="true" onAction="#borrowBook" styleClass="select-button" text="Borrow Document" />
              </HBox>
            </VBox>
          <Label prefHeight="18.0" prefWidth="234.0" />
@@ -65,7 +68,7 @@
                           </columns>
                       </TableView>
                   </Tab>
-                  <Tab fx:id="thesisTab" closable="false" text="Theses">
+                  <Tab fx:id="thesisTab" closable="false" text="Thesis">
                       <TableView fx:id="thesesTable">
                           <columns>
                               <TableColumn fx:id="thesisIdColumn" text="ID" />
@@ -92,6 +95,106 @@
                   </Tab>
               </tabs>
           </TabPane>
+         <VBox prefHeight="453.0" prefWidth="117.0" />
+         <VBox prefHeight="458.0" prefWidth="229.0">
+            <children>
+               <HBox prefHeight="100.0" prefWidth="200.0">
+                  <children>
+                     <VBox prefHeight="64.0" prefWidth="230.0" style="-fx-border-color: #d1d9e0; -fx-border-width: 2;">
+                        <children>
+                           <Label text="Book">
+                              <font>
+                                 <Font name="System Bold" size="12.0" />
+                              </font>
+                           </Label>
+                           <ImageView fitHeight="56.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../../icons/bookicon.png" />
+                              </image>
+                           </ImageView>
+                             <Label fx:id="availableBooksLabel" alignment="TOP_LEFT" prefHeight="8.0" prefWidth="235.0" text="0 available">
+                              <font>
+                                 <Font name="System Bold" size="12.0" />
+                              </font>
+                           </Label>
+                        </children>
+                     </VBox>
+                  </children>
+               </HBox>
+               <Label />
+               <HBox prefHeight="100.0" prefWidth="200.0">
+                  <children>
+                     <VBox prefHeight="100.0" prefWidth="233.0" style="-fx-border-color: #d1d9e0; -fx-border-width: 2;">
+                        <children>
+                           <Label text="Magazine">
+                              <font>
+                                 <Font name="System Bold" size="12.0" />
+                              </font>
+                           </Label>
+                           <ImageView fitHeight="56.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../../icons/magazine.png" />
+                              </image>
+                           </ImageView>
+                             <Label fx:id="availableMagazinesLabel" alignment="TOP_LEFT" prefHeight="18.0" prefWidth="221.0" text="0 available">
+                              <font>
+                                 <Font name="System Bold" size="12.0" />
+                              </font>
+                           </Label>
+                        </children>
+                     </VBox>
+                  </children>
+               </HBox>
+               <Label />
+               <HBox prefHeight="100.0" prefWidth="200.0">
+                  <children>
+                     <VBox prefHeight="100.0" prefWidth="233.0" style="-fx-border-color: #d1d9e0; -fx-border-width: 2;">
+                        <children>
+                           <Label text="Thesis">
+                              <font>
+                                 <Font name="System Bold" size="12.0" />
+                              </font>
+                           </Label>
+                           <ImageView fitHeight="56.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../../icons/thesis.png" />
+                              </image>
+                           </ImageView>
+                             <Label fx:id="availableThesesLabel" alignment="TOP_LEFT" prefHeight="18.0" prefWidth="233.0" text="0 available">
+                              <font>
+                                 <Font name="System Bold" size="12.0" />
+                              </font>
+                           </Label>
+                        </children>
+                     </VBox>
+                  </children>
+               </HBox>
+               <Label />
+               <HBox prefHeight="100.0" prefWidth="200.0">
+                  <children>
+                     <VBox prefHeight="100.0" prefWidth="233.0" style="-fx-border-color: #d1d9e0; -fx-border-width: 2;">
+                        <children>
+                           <Label text="API Book">
+                              <font>
+                                 <Font name="System Bold" size="12.0" />
+                              </font>
+                           </Label>
+                           <ImageView fitHeight="56.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../../icons/thesis.png" />
+                              </image>
+                           </ImageView>
+                             <Label fx:id="availableBooksFromAPILabel" alignment="TOP_LEFT" prefHeight="18.0" prefWidth="231.0" text="0 available">
+                              <font>
+                                 <Font name="System Bold" size="12.0" />
+                              </font>
+                           </Label>
+                        </children>
+                     </VBox>
+                  </children>
+               </HBox>
+            </children>
+         </VBox>
       </children>
    </HBox>
 
