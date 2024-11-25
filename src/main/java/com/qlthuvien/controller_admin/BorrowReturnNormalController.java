@@ -294,22 +294,24 @@ public class BorrowReturnNormalController {
                 return;
             }
 
+            // Cập nhật thông tin trả sách
             selectedTransaction.setReturnDate(returnDate);
             selectedTransaction.setStatus("Returned");
             borrowReturnDAO.returnDocument(selectedTransaction);
-            showSuccess("Document returned successfully!");
-            refreshBorrowReturnTableForUser(membershipIdInput.getText());
-        } catch (SQLException e) {
-            showError(e.getMessage());
-        }
-    }
 
-    private void refreshBorrowReturnTable() {
-        try {
-            List<BorrowReturn> transactions = borrowReturnDAO.getAll();
-            borrowReturnTable.getItems().setAll(transactions);
+            // Xóa sách khỏi bảng waiting_borrow
+            waitingBorrowDAO.deleteFromWaitingBorrow(
+                    selectedTransaction.getDocumentId(),
+                    selectedTransaction.getDocumentType());
+
+            // Thông báo thành công
+            showSuccess("Document returned successfully!");
+
+            // Làm mới bảng
+            refreshBorrowReturnTableForUser(membershipIdInput.getText());
+            refreshBorrowReturnTableForUser(membershipIdInput.getText()); // Làm mới bảng WaitingBorrow
         } catch (SQLException e) {
-            showError(e.getMessage());
+            showError("Error: " + e.getMessage());
         }
     }
 
