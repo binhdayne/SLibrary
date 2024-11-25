@@ -207,3 +207,27 @@
     -fx-background-color: transparent; /* Nền nút tăng giảm */
     -fx-background-image: none; /* Xóa ảnh nền nút tăng giảm */
 }
+
+.button.select-button {
+    -fx-background-color: #f6f8fa; /* Background color */
+    -fx-border-color: lightgray;   /* Border color */
+    -fx-border-width: 1;           /* Border width */
+    -fx-background-radius: 5;      /* Background radius */
+    -fx-border-radius: 5;          /* Border radius */
+    -fx-padding: 5 10;             /* Padding */
+}
+
+.custom-textfield {
+    -fx-background-color: #f6f8fa; /* Background color */
+    -fx-border-color: lightgray;   /* Border color */
+    -fx-border-width: 1;           /* Border width */
+    -fx-background-radius: 5;      /* Background radius */
+    -fx-border-radius: 5;          /* Border radius */
+    -fx-padding: 5 10;             /* Padding */
+    -fx-font-size: 14px;           /* Font size */
+}
+
+.custom-textfield:focused {
+    -fx-border-color: #007bff; /* Border color when focused */
+    -fx-background-color: #ffffff; /* Background color when focused */
+}
