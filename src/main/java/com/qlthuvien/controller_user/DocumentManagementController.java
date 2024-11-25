@@ -72,6 +72,15 @@ public class DocumentManagementController extends BaseController {
     private Button searchButton, borrowBookButton;
     @FXML
     private ImageView documentCoverImageView;
+    @FXML
+    private Label availableBooksLabel;
+    @FXML
+    private Label availableMagazinesLabel;
+    @FXML
+    private Label availableThesesLabel;
+    @FXML
+    private Label availableBooksFromAPILabel;
+
 
     private String userId; // User ID from another FXML (set via label)
 
@@ -96,11 +105,33 @@ public class DocumentManagementController extends BaseController {
         setupBooksFromAPITable();
 
         refreshAllTables();
+        countAvailableDocuments();
 
         searchInput.textProperty().addListener((observable, oldValue, newValue) -> searchAllDocuments(newValue));
         searchButton.setOnAction(event -> searchAllDocuments(searchInput.getText()));
         borrowBookButton.setDisable(true);
     }
+
+    private void countAvailableDocuments() {
+        CompletableFuture.runAsync(() -> {
+            try {
+                int availableBooks = bookDAO.countAvailable();
+                int availableMagazines = magazineDAO.countAvailable();
+                int availableTheses = thesisDAO.countAvailable();
+                int availableBooksFromAPI = bookFromAPIDAO.countAvailable();
+
+                Platform.runLater(() -> {
+                    availableBooksLabel.setText("Books: " + availableBooks + " available");
+                    availableMagazinesLabel.setText("Magazines: " + availableMagazines + " available");
+                    availableThesesLabel.setText("Theses: " + availableTheses + " available");
+                    availableBooksFromAPILabel.setText("API Books: " + availableBooksFromAPI + " available");
+                });
+            } catch (SQLException e) {
+                Platform.runLater(() -> showError("Error counting available documents: " + e.getMessage()));
+            }
+        });
+    }
+
 
     private void displayCover(String coverPath) {
         if (coverPath != null && !coverPath.isEmpty()) {
@@ -458,6 +489,7 @@ public class DocumentManagementController extends BaseController {
                         Platform.runLater(() -> {
                             setStatus(selectedDocument, "Waiting");
                             refreshTable(documentType);
+                            countAvailableDocuments();
                             showSuccess("Document has been reserved successfully!");
                         });
                     } else {
