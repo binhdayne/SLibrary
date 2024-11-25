@@ -37,8 +37,7 @@ This project is a library management system developed in Java. The project is a 
 - The chart is inspired by github to show your diligence in reading books
 - Table of books waiting and can generate QR codes and delete when in waiting status
 - Document: shows all books in the library. Combines a search bar for users.
-- GamVideos
-https://github.com/user-attachments/assets/0871825c-071e-45a2-ac73-283211418c28
+- Game: there will be 10 questions to choose the answer related to the library and books
 
   ## UML Diagram
 ![java](https://github.com/user-attachments/assets/6ae95e5f-159c-4723-ae6b-bd1a8e1e6433)
