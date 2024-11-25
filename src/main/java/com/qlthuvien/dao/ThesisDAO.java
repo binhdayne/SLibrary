@@ -25,6 +25,18 @@ public class ThesisDAO extends DocumentDAO<Thesis> {
         }
     }
 
+    public int countAvailable() throws SQLException {
+        String query = "SELECT COUNT(*) FROM theses WHERE status = 'available'";
+        try (PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        }
+    }
+
+
     public List<Thesis> searchThesesByTitleOrAuthor(String query) throws SQLException {
         String sql = "SELECT * FROM theses WHERE title LIKE ? OR author LIKE ?";
         List<Thesis> theses = new ArrayList<>();

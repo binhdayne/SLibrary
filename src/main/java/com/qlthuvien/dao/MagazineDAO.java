@@ -25,6 +25,18 @@ public class MagazineDAO extends DocumentDAO<Magazine> {
         }
     }
 
+    public int countAvailable() throws SQLException {
+        String query = "SELECT COUNT(*) FROM magazines WHERE status = 'available'";
+        try (PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        }
+    }
+
+
     public List<Magazine> searchMagazinesByTitleOrAuthor(String query) throws SQLException {
         String sql = "SELECT * FROM magazines WHERE title LIKE ? OR author LIKE ?";
         List<Magazine> magazines = new ArrayList<>();

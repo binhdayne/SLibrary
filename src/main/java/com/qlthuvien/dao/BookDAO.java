@@ -47,6 +47,18 @@ public class BookDAO extends DocumentDAO<Book> {
         return books;
     }
 
+    public int countAvailable() throws SQLException {
+        String query = "SELECT COUNT(*) FROM books WHERE status = 'available'";
+        try (PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        }
+    }
+
+
     public void update(Book book) throws SQLException {
         String sql = "UPDATE books SET title = ?, author = ?, genre = ?, status = ?, coverPath = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {

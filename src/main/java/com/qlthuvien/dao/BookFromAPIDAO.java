@@ -30,6 +30,18 @@ public class BookFromAPIDAO extends DocumentDAO<BookFromAPI> {
         }
     }
 
+    public int countAvailable() throws SQLException {
+        String query = "SELECT COUNT(*) FROM books_from_api WHERE status = 'available'";
+        try (PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        }
+    }
+
+
     public List<BookFromAPI> searchBooksAPIByTitleOrAuthor(String query) throws SQLException {
         String sql = "SELECT * FROM books_from_api WHERE title LIKE ? OR author LIKE ?";
         List<BookFromAPI> books = new ArrayList<>();
