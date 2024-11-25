@@ -54,12 +54,17 @@
                       <TextField fx:id="phoneField" disable="true" promptText="Enter phone number" />
                   </HBox>
                   <HBox spacing="10">
-                      <Button fx:id="editButton" onAction="#enableEdit" text="Edit"
-                              style="-fx-background-color: #f6f8fa; -fx-border-color: lightgray; -fx-border-width: 1;
-               -fx-background-radius: 5; -fx-border-radius: 5; -fx-padding: 5 10;" />
-                      <Button fx:id="saveButton" disable="true" onAction="#saveUserInfo" text="Save"
-                              style="-fx-background-color: #f6f8fa; -fx-border-color: lightgray; -fx-border-width: 1;
-               -fx-background-radius: 5; -fx-border-radius: 5; -fx-padding: 5 10;" />
+
+
+
+                      <!--                      <Button fx:id="editButton" onAction="#enableEdit" text="Edit"-->
+<!--                              style="-fx-background-color: #f6f8fa; -fx-border-color: lightgray; -fx-border-width: 1;-->
+<!--               -fx-background-radius: 5; -fx-border-radius: 5; -fx-padding: 5 10;" />-->
+<!--                      <Button fx:id="saveButton" disable="true" onAction="#saveUserInfo" text="Save"-->
+<!--                              style="-fx-background-color: #f6f8fa; -fx-border-color: lightgray; -fx-border-width: 1;-->
+<!--               -fx-background-radius: 5; -fx-border-radius: 5; -fx-padding: 5 10;" />-->
+
+
 
                   </HBox>
               </VBox>
