@@ -23,6 +23,14 @@ This project is a library management system developed in Java. The project is a 
 - **Nguyễn Hải Dương**
 - **Nguyễn Huy Hiệp**
 
+## Contribution
+
+- **Dương Thanh Bình**
+  
+- **Nguyễn Hải Dương**
+  
+- **Nguyễn Huy Hiệp**
+
 ## Features
 **For managers**
 - Chart: helps managers easily manage books and users
