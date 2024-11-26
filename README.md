@@ -76,7 +76,8 @@ https://github.com/user-attachments/assets/df70a145-053d-437d-9a48-9274faad9cf7
 
 
   ## UML Diagram
-![java](https://github.com/user-attachments/assets/6ae95e5f-159c-4723-ae6b-bd1a8e1e6433)
+![java](https://github.com/user-attachments/assets/ccc16ab6-f813-4852-8eab-19bc996fc002)
+
 
 
   ## How to install ?
