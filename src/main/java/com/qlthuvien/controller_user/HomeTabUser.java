@@ -55,13 +55,13 @@ public class HomeTabUser extends BaseController{
     }
 
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/slibrary"; // Thay bằng URL của bạn
-    private static final String DB_USER = "root"; // Tên tài khoản MySQL
-    private static final String DB_PASSWORD = "14112005"; // Mật khẩu MySQL
-
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-    }
+//    private static final String DB_URL = "jdbc:mysql://localhost:3306/slibrary"; // Thay bằng URL của bạn
+//    private static final String DB_USER = "root"; // Tên tài khoản MySQL
+//    private static final String DB_PASSWORD = "14112005"; // Mật khẩu MySQL
+//
+//    private Connection getConnection() throws SQLException {
+//        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+//    }
     private static final String GOOGLE_BOOKS_API_URL = "https://www.googleapis.com/books/v1/volumes?q=";
 
     @FXML
@@ -204,6 +204,7 @@ public class HomeTabUser extends BaseController{
 
     @FXML
     private void borrowBook() {
+        DBConnection dbConnection = new DBConnection();
         String isbn = bookISBNLabel.getText().replace("ISBN: ", "").trim(); // Lấy ISBN từ bookISBNLabel
         if (isbn.isEmpty()) {
             showError("No book selected or ISBN not available.");
@@ -216,7 +217,7 @@ public class HomeTabUser extends BaseController{
         }
 
         CompletableFuture.runAsync(() -> {
-            try (Connection connection = getConnection()) {
+            try (Connection connection = dbConnection.getConnection()) {
                 // Kiểm tra tổng số lượng tài liệu "Borrowed" hoặc "Waiting" của người dùng
                 String countQuery = """
                 SELECT 
