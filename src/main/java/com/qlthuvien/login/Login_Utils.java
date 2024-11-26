@@ -1,5 +1,6 @@
 package com.qlthuvien.login;
 import com.qlthuvien.controller_user.MainUserController;
+import com.qlthuvien.utils.DBConnection;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -29,7 +30,7 @@ public class Login_Utils {
         Map<String, String> userInfo = new HashMap<>();
 
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/slibrary", "root", "password");
+            connection = DBConnection.getConnection();
             preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE membership_id = ?");
             preparedStatement.setString(1, userId);
             resultSet = preparedStatement.executeQuery();
@@ -63,7 +64,7 @@ public class Login_Utils {
             // Lấy controller và truyền dữ liệu vào
             MainUserController controller = loader.getController();
             controller.setmembershipId(membership_id);
-            
+
 
             // Phát âm thanh
             File soundFile = new File(audioFile); // Sử dụng file .wav thay vì .mp3
@@ -109,7 +110,7 @@ public class Login_Utils {
         ResultSet resultSet = null;
 
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/slibrary", "root", "17102005");
+            connection = DBConnection.getConnection();
             preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE user_name = ?");
             preparedStatement.setString(1, username);
             resultSet = preparedStatement.executeQuery();
@@ -213,7 +214,7 @@ public class Login_Utils {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/slibrary", "root", "17102005");
+            connection = DBConnection.getConnection();
             preparedStatement = connection.prepareStatement("SELECT password FROM manager WHERE manager = ?");
             preparedStatement.setString(1,manager);
             resultSet = preparedStatement.executeQuery();
@@ -226,7 +227,7 @@ public class Login_Utils {
                 while (resultSet.next()){
                     String retrievedPassword = resultSet.getString("password");
                     if (password.equals(retrievedPassword)){
-                        changeScene2(event, "com/qlthuvien/MainLayout.fxml", "Welcome", "src/main/resources/icons/preview.wav");
+                        changeScene2(event, "com/qlthuvien/view_manager/MainLayout.fxml", "Welcome", "src/main/resources/icons/preview.wav");
 
                     } else {
                         System.out.println("Wrong password");
