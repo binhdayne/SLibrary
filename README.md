@@ -26,8 +26,15 @@ This project is a library management system developed in Java. The project is a 
 ## Contribution
 
 - **Dương Thanh Bình**
+- Create User's functions: User's Controllers, edit fxml-files for , Update Dao.java and model for Users,
+-  Edit fxml-files for Admin(manager) and User
+-  
   
 - **Nguyễn Hải Dương**
+- Fix and update User's controllers, edit fxml-files, edit Dao.java and model for Users
+- Edit fxml-files
+- Additional function: Charts management in admin's view, game
+- 
   
 - **Nguyễn Huy Hiệp**
 
