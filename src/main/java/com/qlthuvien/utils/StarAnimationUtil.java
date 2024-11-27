@@ -48,7 +48,7 @@ public class StarAnimationUtil {
         double middleZoneEnd = width - edgeZone;
         
         // Print the container's width
-        System.out.println("Container width: " + width);
+        //System.out.println("Container width: " + width);
 
         // Generate a random value to determine the position
         double randomValue = random.nextDouble();
@@ -65,7 +65,7 @@ public class StarAnimationUtil {
         }
         
         // Print the startX value
-        System.out.println("StartX: " + startX);
+        //System.out.println("StartX: " + startX);
 
         // Set the star's position
         star.setTranslateX(startX);

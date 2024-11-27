@@ -99,12 +99,12 @@ public class MainUserController extends BaseController{
                 avatarImageView.setImage(avatarImage);
             } catch (Exception e) {
                 // Hiển thị ảnh mặc định nếu xảy ra lỗi
-                avatarImageView.setImage(new Image(getClass().getResourceAsStream("/icons/users.png")));
+                avatarImageView.setImage(new Image(getClass().getResourceAsStream("/icons/default.jpg")));
                 System.err.println("Error loading avatar image: " + e.getMessage());
             }
         } else {
             // Hiển thị ảnh mặc định nếu avatarPath rỗng hoặc null
-            avatarImageView.setImage(new Image(getClass().getResourceAsStream("/icons/users.png")));
+            avatarImageView.setImage(new Image(getClass().getResourceAsStream("/icons/default.jpg")));
         }
     }
 
@@ -119,17 +119,17 @@ public class MainUserController extends BaseController{
         fadeTransition.play();
     }
 
-private String getImagePath(LocalTime time) {
-    if (time.isAfter(LocalTime.of(4, 59)) && time.isBefore(LocalTime.of(12, 0))) {
-        return getClass().getResource("/icons/Gmning.gif").toExternalForm();
-    } else if (time.isAfter(LocalTime.of(11, 59)) && time.isBefore(LocalTime.of(18, 0))) {
-        return getClass().getResource("/icons/Gatn.gif").toExternalForm();
-    } else if (time.isAfter(LocalTime.of(17, 59)) && time.isBefore(LocalTime.of(23, 0))) {
-        return getClass().getResource("/icons/Gev.gif").toExternalForm();
-    } else {
-        return getClass().getResource("/icons/Gn.gif").toExternalForm();
+    private String getImagePath(LocalTime time) {
+        if (time.isAfter(LocalTime.of(4, 59)) && time.isBefore(LocalTime.of(12, 0))) {
+            return getClass().getResource("/icons/Gmning.gif").toExternalForm();
+        } else if (time.isAfter(LocalTime.of(11, 59)) && time.isBefore(LocalTime.of(18, 0))) {
+            return getClass().getResource("/icons/Gatn.gif").toExternalForm();
+        } else if (time.isAfter(LocalTime.of(17, 59)) && time.isBefore(LocalTime.of(23, 0))) {
+            return getClass().getResource("/icons/Gev.gif").toExternalForm();
+        } else {
+            return getClass().getResource("/icons/Gn.gif").toExternalForm();
+        }
     }
-}
     @FXML
     public void initialize() {
         setActiveButton(btnHome);
@@ -179,33 +179,33 @@ private String getImagePath(LocalTime time) {
         }
     }
 
-// Sự kiện khi nhấn nút Documents
-@FXML
-private void showDocumentsScreen() {
-    setActiveButton(btnDocuments);
-    contentArea.getChildren().clear();
-    try {
-        // Tải FXML của DocumentManagement
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/qlthuvien/giao_dien_nguoi_dung/DocumentManagement.fxml"));
-        Node borrowBookScreen = loader.load();
+    // Sự kiện khi nhấn nút Documents
+    @FXML
+    private void showDocumentsScreen() {
+        setActiveButton(btnDocuments);
+        contentArea.getChildren().clear();
+        try {
+            // Tải FXML của DocumentManagement
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/qlthuvien/giao_dien_nguoi_dung/DocumentManagement.fxml"));
+            Node borrowBookScreen = loader.load();
 
-        // Lấy controller từ FXMLLoader
-        DocumentManagementController documentController = loader.getController();
+            // Lấy controller từ FXMLLoader
+            DocumentManagementController documentController = loader.getController();
 
-        // Gán userId vào controller
-        String currentUserId = getUserId(); // Hàm này trả về userId thực tế của người dùng
-        if (currentUserId != null && !currentUserId.isEmpty()) {
-            documentController.setUserId(currentUserId); // Truyền userId
-        } else {
-            System.err.println("Error: User ID is null or empty.");
+            // Gán userId vào controller
+            String currentUserId = getUserId(); // Hàm này trả về userId thực tế của người dùng
+            if (currentUserId != null && !currentUserId.isEmpty()) {
+                documentController.setUserId(currentUserId); // Truyền userId
+            } else {
+                System.err.println("Error: User ID is null or empty.");
+            }
+
+            // Thêm giao diện DocumentManagement vào contentArea
+            contentArea.getChildren().add(borrowBookScreen);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        // Thêm giao diện DocumentManagement vào contentArea
-        contentArea.getChildren().add(borrowBookScreen);
-    } catch (IOException e) {
-        e.printStackTrace();
     }
-}
 
 
     @FXML
@@ -287,5 +287,5 @@ private void showDocumentsScreen() {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        }
+    }
 }

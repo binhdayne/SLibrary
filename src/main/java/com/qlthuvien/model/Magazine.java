@@ -1,7 +1,5 @@
 package com.qlthuvien.model;
 
-import java.util.Objects;
-
 public class Magazine extends Document {
     private int issueNumber;
     private String publisher;
@@ -44,30 +42,10 @@ public class Magazine extends Document {
         this.coverPath = coverPath;
     }
 
-
     @Override
     public void printInfo() {
         System.out.println("Magazine [ID=" + getId() + ", Title=" + getTitle() + ", Author=" + getAuthor() +
                 ", Issue Number=" + issueNumber + ", Publisher=" + publisher + ", Status=" + getStatus() + "]");
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Magazine magazine = (Magazine) o;
-        return issueNumber == magazine.issueNumber &&
-               Objects.equals(getId(), magazine.getId()) &&
-               Objects.equals(getTitle(), magazine.getTitle()) &&
-               Objects.equals(getAuthor(), magazine.getAuthor()) &&
-               Objects.equals(getStatus(), magazine.getStatus()) &&
-               Objects.equals(publisher, magazine.publisher) &&
-               Objects.equals(coverPath, magazine.coverPath);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getAuthor(), getStatus(), issueNumber, publisher, coverPath);
     }
 }
 

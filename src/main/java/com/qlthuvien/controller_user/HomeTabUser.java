@@ -55,7 +55,7 @@ public class HomeTabUser extends BaseController{
     }
 
 
-//    private static final String DB_URL = "jdbc:mysql://localhost:3306/slibrary"; // Thay bằng URL của bạn
+    //    private static final String DB_URL = "jdbc:mysql://localhost:3306/slibrary"; // Thay bằng URL của bạn
 //    private static final String DB_USER = "root"; // Tên tài khoản MySQL
 //    private static final String DB_PASSWORD = "14112005"; // Mật khẩu MySQL
 //

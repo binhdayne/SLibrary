@@ -179,7 +179,7 @@ public class ProfileController extends BaseController{
             }
         });
 
-        avatarImageView.setImage(new Image(getClass().getResourceAsStream("/icons/users.png")));
+        avatarImageView.setImage(new Image(getClass().getResourceAsStream("/icons/default.jpg")));
     }
 
     public void generateContributionCalendar(List<BorrowReturn> transactions) {
@@ -327,7 +327,7 @@ public class ProfileController extends BaseController{
         phoneField.setText("N/A");
     }
 
-//    private void showError(String message) {
+    //    private void showError(String message) {
 //        Alert alert = new Alert(Alert.AlertType.ERROR);
 //        alert.setContentText(message);
 //        alert.show();

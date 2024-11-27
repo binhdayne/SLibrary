@@ -82,12 +82,12 @@ public class FirstScreenController extends BaseController {
                 avatarImageView.setImage(avatarImage);
             } catch (Exception e) {
                 // Load a default avatar if there is an error
-                avatarImageView.setImage(new Image(getClass().getResourceAsStream("/icons/default-avatar.png")));
+                avatarImageView.setImage(new Image(getClass().getResourceAsStream("/icons/default.jpg")));
                 System.err.println("Error loading avatar: " + e.getMessage());
             }
         } else {
             // Load a default avatar if no avatar is available
-            avatarImageView.setImage(new Image(getClass().getResourceAsStream("/icons/default-avatar.png")));
+            avatarImageView.setImage(new Image(getClass().getResourceAsStream("/icons/default.jpg")));
         }
     }
 

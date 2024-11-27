@@ -245,10 +245,10 @@ public class BorrowReturnNormalController {
                 return;
             }
 
-            if (waitingBorrowDAO.hasExpiredWaiting(membershipId)) {
-                showError("You have expired waiting documents. Please resolve them before borrowing.");
-                return;
-            }
+//            if (waitingBorrowDAO.hasExpiredWaiting(membershipId)) {
+//                showError("You have expired waiting documents. Please resolve them before borrowing.");
+//                return;
+//            }
 
             // Create a BorrowReturn object
             BorrowReturn newBorrow = new BorrowReturn(
@@ -312,6 +312,15 @@ public class BorrowReturnNormalController {
             refreshBorrowReturnTableForUser(membershipIdInput.getText()); // Làm mới bảng WaitingBorrow
         } catch (SQLException e) {
             showError("Error: " + e.getMessage());
+        }
+    }
+
+    private void refreshBorrowReturnTable() {
+        try {
+            List<BorrowReturn> transactions = borrowReturnDAO.getAll();
+            borrowReturnTable.getItems().setAll(transactions);
+        } catch (SQLException e) {
+            showError(e.getMessage());
         }
     }
 

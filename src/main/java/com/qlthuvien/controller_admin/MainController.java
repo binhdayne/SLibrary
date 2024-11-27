@@ -1,26 +1,21 @@
 package com.qlthuvien.controller_admin;
 
-import java.io.IOException;
-import java.util.Map;
-
-import com.qlthuvien.dao.ChartDAO;
-
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.PieChart;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import com.qlthuvien.dao.ChartDAO;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 public class MainController {
 

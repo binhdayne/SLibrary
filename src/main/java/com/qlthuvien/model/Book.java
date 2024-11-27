@@ -1,7 +1,5 @@
 package com.qlthuvien.model;
 
-import java.util.Objects;
-
 public class Book extends Document {
     private String genre;
     private String bookcover;
@@ -36,24 +34,6 @@ public class Book extends Document {
     public void printInfo() {
         System.out.println("Book [ID=" + getId() + ", Title=" + getTitle() + ", Author=" + getAuthor() +
                 ", Genre=" + genre + ", Status=" + getStatus() + "]");
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return getId() == book.getId() &&
-               Objects.equals(getTitle(), book.getTitle()) &&
-               Objects.equals(getAuthor(), book.getAuthor()) &&
-               Objects.equals(getStatus(), book.getStatus()) &&
-               Objects.equals(getGenre(), book.getGenre()) &&
-               Objects.equals(getBookcover(), book.getBookcover());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getAuthor(), getStatus(), getGenre(), getBookcover());
     }
 }
 

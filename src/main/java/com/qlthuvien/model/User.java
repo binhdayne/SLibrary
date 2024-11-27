@@ -9,6 +9,8 @@ public class User {
     private String user_name;
     private String avatar;
 
+
+
     public User(String membershipId, String name, String email, String phone, String password, String user_name) {
         this.membershipId = membershipId;
         this.name = name;
@@ -28,6 +30,13 @@ public class User {
 
     public User(String membershipId, String name, String email, String phone) {
         this.membershipId = membershipId;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+    }
+
+    public User( String name, String email, String phone) {
+
         this.name = name;
         this.email = email;
         this.phone = phone;

@@ -125,7 +125,7 @@ public class MagazinesController {
         }
 
         // Add event handlers for cover selection and editing
-        selectCoverButton.setOnAction(event -> selectMagazineCover());
+//        selectCoverButton.setOnAction(event -> selectMagazineCover());
         editCoverButton.setOnAction(event -> editMagazineCover());
     }
 

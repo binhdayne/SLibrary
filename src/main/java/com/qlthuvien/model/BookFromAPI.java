@@ -1,7 +1,5 @@
 package com.qlthuvien.model;
 
-import java.util.Objects;
-
 public class BookFromAPI extends Document {
     private String isbn;
     private String publisher;
@@ -71,25 +69,5 @@ public class BookFromAPI extends Document {
         System.out.println("Book [ID=" + getId() + ", Title=" + getTitle() + ", Author=" + getAuthor() +
                 ", ISBN=" + isbn + ", Publisher=" + publisher + ", Published Date=" + publishedDate +
                 ", Description=" + description + ", Status=" + getStatus() + "]");
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BookFromAPI that = (BookFromAPI) o;
-        return getId() == that.getId() &&
-               Objects.equals(getIsbn(), that.getIsbn()) &&
-               Objects.equals(getTitle(), that.getTitle()) &&
-               Objects.equals(getAuthor(), that.getAuthor()) &&
-               Objects.equals(getPublisher(), that.getPublisher()) &&
-               Objects.equals(getPublishedDate(), that.getPublishedDate()) &&
-               Objects.equals(getDescription(), that.getDescription()) &&
-               Objects.equals(getStatus(), that.getStatus());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getIsbn(), getTitle(), getAuthor(), getPublisher(), getPublishedDate(), getDescription(), getStatus());
     }
 }

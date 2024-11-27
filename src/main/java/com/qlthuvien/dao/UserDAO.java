@@ -42,6 +42,164 @@ public class UserDAO {
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void updateUser(User user) throws SQLException {
+        String sql = "UPDATE users SET name = ?, email = ?, phone = ? WHERE membership_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getEmail());
+            stmt.setString(3, user.getPhone());
+//            stmt.setString(4, user.getUser_name());
+//            stmt.setString(5, user.getPassword());
+//            stmt.setString(6, user.getMembershipId());
+            stmt.executeUpdate();
+        }
+    }
+
     // Phương thức xóa user
     public void delete(String membershipId) throws SQLException {
         String query = "DELETE FROM users WHERE membership_id = ?";

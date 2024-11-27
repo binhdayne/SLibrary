@@ -101,7 +101,7 @@ public class BooksController {
         }
 
         editCoverButton.setOnAction(event -> editBookCover());
-        selectCoverButton.setOnAction(event -> selectBookCover());
+//        selectCoverButton.setOnAction(event -> selectBookCover());
     }
 
     @FXML

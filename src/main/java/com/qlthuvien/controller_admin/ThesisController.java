@@ -114,7 +114,7 @@ public class ThesisController {
             });
         }
 
-        selectCoverButton.setOnAction(event -> selectThesisCover());
+//        selectCoverButton.setOnAction(event -> selectThesisCover());
         editCoverButton.setOnAction(event -> editThesisCover());
     }
 
