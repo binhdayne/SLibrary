@@ -67,7 +67,7 @@
                 <Button onAction="#addThesis" styleClass="action-button" text="Add Thesis" />
                 <Button onAction="#editThesis" styleClass="action-button" text="Edit Thesis" />
                 <Button onAction="#deleteThesis" styleClass="action-button" text="Delete Thesis" />
-            <Button fx:id="selectCoverButton" text="Select Cover" />
+<!--            <Button fx:id="selectCoverButton" text="Select Cover" />-->
                 <Button fx:id="generateQRButton" disable="true" onAction="#generateQR" styleClass="action-button" text="Generate QR Code" />
             </HBox>
 

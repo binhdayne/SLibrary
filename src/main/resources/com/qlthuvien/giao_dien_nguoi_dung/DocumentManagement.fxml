@@ -24,179 +24,179 @@
 
     <!-- Status Label -->
     <Label fx:id="statusLabel" style="-fx-text-fill: gray;" text="Status: Ready" />
-   <HBox prefHeight="457.0" prefWidth="946.0">
-      <children>
-          <VBox alignment="CENTER" prefHeight="447.0" prefWidth="191.0" spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-color: #d1d9e0; -fx-border-width: 2; -fx-border-radius: 15; -fx-background-radius: 15;">
-               <Label prefHeight="18.0" prefWidth="166.0" text="Title:" />
-               <TextField fx:id="titleInput" editable="false" style="-fx-border-color: #ffffff;" />
-               <Label prefHeight="18.0" prefWidth="190.0" text="Author:" />
-               <TextField fx:id="authorInput" editable="false" style="-fx-border-color: #ffffff;" />
-               <Label prefHeight="18.0" prefWidth="184.0" text="Status:" />
-               <TextField fx:id="statusInput" editable="false" style="-fx-border-color: #ffffff;" />
+    <HBox prefHeight="457.0" prefWidth="946.0">
+        <children>
+            <VBox alignment="CENTER" prefHeight="447.0" prefWidth="191.0" spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-color: #d1d9e0; -fx-border-width: 2; -fx-border-radius: 15; -fx-background-radius: 15;">
+                <Label prefHeight="18.0" prefWidth="166.0" text="Title:" />
+                <TextField fx:id="titleInput" editable="false" style="-fx-border-color: #ffffff;" />
+                <Label prefHeight="18.0" prefWidth="190.0" text="Author:" />
+                <TextField fx:id="authorInput" editable="false" style="-fx-border-color: #ffffff;" />
+                <Label prefHeight="18.0" prefWidth="184.0" text="Status:" />
+                <TextField fx:id="statusInput" editable="false" style="-fx-border-color: #ffffff;" />
 
-                     <ImageView fx:id="documentCoverImageView" fitHeight="168.0" fitWidth="154.0" preserveRatio="true" style="-fx-border-color: black; -fx-border-width: 5; -fx-border-style: solid;" />
+                <ImageView fx:id="documentCoverImageView" fitHeight="168.0" fitWidth="154.0" preserveRatio="true" style="-fx-border-color: black; -fx-border-width: 5; -fx-border-style: solid;" />
 
-               <!-- Buttons -->
-             <HBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
-                 <Button fx:id="borrowBookButton" disable="true" onAction="#borrowBook" styleClass="select-button" text="Borrow Document" />
-             </HBox>
-           </VBox>
-         <Label prefHeight="18.0" prefWidth="234.0" />
-          <!-- Tabs for Document Types -->
-          <TabPane fx:id="documentTabPane" stylesheets="@styles_user.css">
-              <tabs>
-                  <Tab fx:id="bookTab" closable="false" text="Books">
-                      <TableView fx:id="booksTable" prefHeight="452.0" prefWidth="544.0" stylesheets="@styles_user.css">
-                          <columns>
-                              <TableColumn fx:id="bookIdColumn" text="ID" />
-                              <TableColumn fx:id="bookTitleColumn" text="Title" />
-                              <TableColumn fx:id="bookAuthorColumn" text="Author" />
-                              <TableColumn fx:id="bookGenreColumn" text="Genre" />
-                              <TableColumn fx:id="bookStatusColumn" text="Status" />
-                          </columns>
-                      </TableView>
-                  </Tab>
-                  <Tab fx:id="magazineTab" closable="false" text="Magazines">
-                      <TableView fx:id="magazinesTable">
-                          <columns>
-                              <TableColumn fx:id="magazineIdColumn" text="ID" />
-                              <TableColumn fx:id="magazineTitleColumn" text="Title" />
-                              <TableColumn fx:id="magazineAuthorColumn" text="Author" />
-                              <TableColumn fx:id="magazinePublisherColumn" text="Publisher" />
-                              <TableColumn fx:id="magazineStatusColumn" text="Status" />
-                              <TableColumn fx:id="issueNumberColumn" text="Issue Number" />
-                          </columns>
-                      </TableView>
-                  </Tab>
-                  <Tab fx:id="thesisTab" closable="false" text="Thesis">
-                      <TableView fx:id="thesesTable">
-                          <columns>
-                              <TableColumn fx:id="thesisIdColumn" text="ID" />
-                              <TableColumn fx:id="thesisTitleColumn" text="Title" />
-                              <TableColumn fx:id="thesisAuthorColumn" text="Author" />
-                              <TableColumn fx:id="thesisSupervisorColumn" text="Supervisor" />
-                              <TableColumn fx:id="thesisUniversityColumn" text="University" />
-                              <TableColumn fx:id="thesisStatusColumn" text="Status" />
-                          </columns>
-                      </TableView>
-                  </Tab>
-                  <Tab fx:id="booksFromAPITab" closable="false" text="Books from API">
-                      <TableView fx:id="booksFromAPITable">
-                          <columns>
-                              <TableColumn fx:id="apiBookIdColumn" text="ID" />
-                              <TableColumn fx:id="apiBookIsbnColumn" text="ISBN" />
-                              <TableColumn fx:id="apiBookTitleColumn" text="Title" />
-                              <TableColumn fx:id="apiBookAuthorColumn" text="Author" />
-                              <TableColumn fx:id="apiBookPublisherColumn" text="Publisher" />
-                              <TableColumn fx:id="apiBookDescriptionColumn" text="Description" />
-                              <TableColumn fx:id="apiBookStatusColumn" text="Status" />
-                          </columns>
-                      </TableView>
-                  </Tab>
-              </tabs>
-          </TabPane>
-         <VBox prefHeight="453.0" prefWidth="117.0" />
-         <VBox prefHeight="458.0" prefWidth="229.0">
-            <children>
-               <HBox prefHeight="100.0" prefWidth="200.0">
-                  <children>
-                     <VBox prefHeight="64.0" prefWidth="230.0" style="-fx-border-color: #d1d9e0; -fx-border-width: 2;">
+                <!-- Buttons -->
+                <HBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
+                    <Button fx:id="borrowBookButton" disable="true" onAction="#borrowBook" styleClass="select-button" text="Borrow Document" />
+                </HBox>
+            </VBox>
+            <Label prefHeight="18.0" prefWidth="234.0" />
+            <!-- Tabs for Document Types -->
+            <TabPane fx:id="documentTabPane" stylesheets="@styles_user.css">
+                <tabs>
+                    <Tab fx:id="bookTab" closable="false" text="Books">
+                        <TableView fx:id="booksTable" prefHeight="452.0" prefWidth="544.0" stylesheets="@styles_user.css">
+                            <columns>
+                                <TableColumn fx:id="bookIdColumn" text="ID" />
+                                <TableColumn fx:id="bookTitleColumn" text="Title" />
+                                <TableColumn fx:id="bookAuthorColumn" text="Author" />
+                                <TableColumn fx:id="bookGenreColumn" text="Genre" />
+                                <TableColumn fx:id="bookStatusColumn" text="Status" />
+                            </columns>
+                        </TableView>
+                    </Tab>
+                    <Tab fx:id="magazineTab" closable="false" text="Magazines">
+                        <TableView fx:id="magazinesTable">
+                            <columns>
+                                <TableColumn fx:id="magazineIdColumn" text="ID" />
+                                <TableColumn fx:id="magazineTitleColumn" text="Title" />
+                                <TableColumn fx:id="magazineAuthorColumn" text="Author" />
+                                <TableColumn fx:id="magazinePublisherColumn" text="Publisher" />
+                                <TableColumn fx:id="magazineStatusColumn" text="Status" />
+                                <TableColumn fx:id="issueNumberColumn" text="Issue Number" />
+                            </columns>
+                        </TableView>
+                    </Tab>
+                    <Tab fx:id="thesisTab" closable="false" text="Thesis">
+                        <TableView fx:id="thesesTable">
+                            <columns>
+                                <TableColumn fx:id="thesisIdColumn" text="ID" />
+                                <TableColumn fx:id="thesisTitleColumn" text="Title" />
+                                <TableColumn fx:id="thesisAuthorColumn" text="Author" />
+                                <TableColumn fx:id="thesisSupervisorColumn" text="Supervisor" />
+                                <TableColumn fx:id="thesisUniversityColumn" text="University" />
+                                <TableColumn fx:id="thesisStatusColumn" text="Status" />
+                            </columns>
+                        </TableView>
+                    </Tab>
+                    <Tab fx:id="booksFromAPITab" closable="false" text="Books from API">
+                        <TableView fx:id="booksFromAPITable">
+                            <columns>
+                                <TableColumn fx:id="apiBookIdColumn" text="ID" />
+                                <TableColumn fx:id="apiBookIsbnColumn" text="ISBN" />
+                                <TableColumn fx:id="apiBookTitleColumn" text="Title" />
+                                <TableColumn fx:id="apiBookAuthorColumn" text="Author" />
+                                <TableColumn fx:id="apiBookPublisherColumn" text="Publisher" />
+                                <TableColumn fx:id="apiBookDescriptionColumn" text="Description" />
+                                <TableColumn fx:id="apiBookStatusColumn" text="Status" />
+                            </columns>
+                        </TableView>
+                    </Tab>
+                </tabs>
+            </TabPane>
+            <VBox prefHeight="453.0" prefWidth="117.0" />
+            <VBox prefHeight="458.0" prefWidth="229.0">
+                <children>
+                    <HBox prefHeight="100.0" prefWidth="200.0">
                         <children>
-                           <Label text="Book">
-                              <font>
-                                 <Font name="System Bold" size="12.0" />
-                              </font>
-                           </Label>
-                           <ImageView fitHeight="56.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                 <Image url="@../../../icons/bookicon.png" />
-                              </image>
-                           </ImageView>
-                             <Label fx:id="availableBooksLabel" alignment="TOP_LEFT" prefHeight="8.0" prefWidth="235.0" text="0 available">
-                              <font>
-                                 <Font name="System Bold" size="12.0" />
-                              </font>
-                           </Label>
+                            <VBox prefHeight="64.0" prefWidth="230.0" style="-fx-border-color: #d1d9e0; -fx-border-width: 2;">
+                                <children>
+                                    <Label text="Book">
+                                        <font>
+                                            <Font name="System Bold" size="12.0" />
+                                        </font>
+                                    </Label>
+                                    <ImageView fitHeight="56.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../../../icons/book.jpg" />
+                                        </image>
+                                    </ImageView>
+                                    <Label fx:id="availableBooksLabel" alignment="TOP_LEFT" prefHeight="8.0" prefWidth="235.0" text="0 available">
+                                        <font>
+                                            <Font name="System Bold" size="12.0" />
+                                        </font>
+                                    </Label>
+                                </children>
+                            </VBox>
                         </children>
-                     </VBox>
-                  </children>
-               </HBox>
-               <Label />
-               <HBox prefHeight="100.0" prefWidth="200.0">
-                  <children>
-                     <VBox prefHeight="100.0" prefWidth="233.0" style="-fx-border-color: #d1d9e0; -fx-border-width: 2;">
+                    </HBox>
+                    <Label />
+                    <HBox prefHeight="100.0" prefWidth="200.0">
                         <children>
-                           <Label text="Magazine">
-                              <font>
-                                 <Font name="System Bold" size="12.0" />
-                              </font>
-                           </Label>
-                           <ImageView fitHeight="56.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                 <Image url="@../../../icons/magazine.png" />
-                              </image>
-                           </ImageView>
-                             <Label fx:id="availableMagazinesLabel" alignment="TOP_LEFT" prefHeight="18.0" prefWidth="221.0" text="0 available">
-                              <font>
-                                 <Font name="System Bold" size="12.0" />
-                              </font>
-                           </Label>
+                            <VBox prefHeight="100.0" prefWidth="233.0" style="-fx-border-color: #d1d9e0; -fx-border-width: 2;">
+                                <children>
+                                    <Label text="Magazine">
+                                        <font>
+                                            <Font name="System Bold" size="12.0" />
+                                        </font>
+                                    </Label>
+                                    <ImageView fitHeight="56.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../../../icons/magazine.jpg" />
+                                        </image>
+                                    </ImageView>
+                                    <Label fx:id="availableMagazinesLabel" alignment="TOP_LEFT" prefHeight="18.0" prefWidth="221.0" text="0 available">
+                                        <font>
+                                            <Font name="System Bold" size="12.0" />
+                                        </font>
+                                    </Label>
+                                </children>
+                            </VBox>
                         </children>
-                     </VBox>
-                  </children>
-               </HBox>
-               <Label />
-               <HBox prefHeight="100.0" prefWidth="200.0">
-                  <children>
-                     <VBox prefHeight="100.0" prefWidth="233.0" style="-fx-border-color: #d1d9e0; -fx-border-width: 2;">
+                    </HBox>
+                    <Label />
+                    <HBox prefHeight="100.0" prefWidth="200.0">
                         <children>
-                           <Label text="Thesis">
-                              <font>
-                                 <Font name="System Bold" size="12.0" />
-                              </font>
-                           </Label>
-                           <ImageView fitHeight="56.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                 <Image url="@../../../icons/thesis.png" />
-                              </image>
-                           </ImageView>
-                             <Label fx:id="availableThesesLabel" alignment="TOP_LEFT" prefHeight="18.0" prefWidth="233.0" text="0 available">
-                              <font>
-                                 <Font name="System Bold" size="12.0" />
-                              </font>
-                           </Label>
+                            <VBox prefHeight="100.0" prefWidth="233.0" style="-fx-border-color: #d1d9e0; -fx-border-width: 2;">
+                                <children>
+                                    <Label text="Thesis">
+                                        <font>
+                                            <Font name="System Bold" size="12.0" />
+                                        </font>
+                                    </Label>
+                                    <ImageView fitHeight="56.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../../../icons/thesis.jpg" />
+                                        </image>
+                                    </ImageView>
+                                    <Label fx:id="availableThesesLabel" alignment="TOP_LEFT" prefHeight="18.0" prefWidth="233.0" text="0 available">
+                                        <font>
+                                            <Font name="System Bold" size="12.0" />
+                                        </font>
+                                    </Label>
+                                </children>
+                            </VBox>
                         </children>
-                     </VBox>
-                  </children>
-               </HBox>
-               <Label />
-               <HBox prefHeight="100.0" prefWidth="200.0">
-                  <children>
-                     <VBox prefHeight="100.0" prefWidth="233.0" style="-fx-border-color: #d1d9e0; -fx-border-width: 2;">
+                    </HBox>
+                    <Label />
+                    <HBox prefHeight="100.0" prefWidth="200.0">
                         <children>
-                           <Label text="API Book">
-                              <font>
-                                 <Font name="System Bold" size="12.0" />
-                              </font>
-                           </Label>
-                           <ImageView fitHeight="56.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                 <Image url="@../../../icons/thesis.png" />
-                              </image>
-                           </ImageView>
-                             <Label fx:id="availableBooksFromAPILabel" alignment="TOP_LEFT" prefHeight="18.0" prefWidth="231.0" text="0 available">
-                              <font>
-                                 <Font name="System Bold" size="12.0" />
-                              </font>
-                           </Label>
+                            <VBox prefHeight="100.0" prefWidth="233.0" style="-fx-border-color: #d1d9e0; -fx-border-width: 2;">
+                                <children>
+                                    <Label text="API Book">
+                                        <font>
+                                            <Font name="System Bold" size="12.0" />
+                                        </font>
+                                    </Label>
+                                    <ImageView fitHeight="56.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../../../icons/api.jpg" />
+                                        </image>
+                                    </ImageView>
+                                    <Label fx:id="availableBooksFromAPILabel" alignment="TOP_LEFT" prefHeight="18.0" prefWidth="231.0" text="0 available">
+                                        <font>
+                                            <Font name="System Bold" size="12.0" />
+                                        </font>
+                                    </Label>
+                                </children>
+                            </VBox>
                         </children>
-                     </VBox>
-                  </children>
-               </HBox>
-            </children>
-         </VBox>
-      </children>
-   </HBox>
+                    </HBox>
+                </children>
+            </VBox>
+        </children>
+    </HBox>
 
 
     <!-- Input Fields -->

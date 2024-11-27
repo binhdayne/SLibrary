@@ -64,7 +64,7 @@
                 <Button onAction="#addBook" text="Add Book" />
                 <Button onAction="#editBook" text="Edit Book" />
                 <Button onAction="#deleteBook" text="Delete Book" />
-            <Button fx:id="selectCoverButton" text="Select Cover" />
+<!--            <Button fx:id="selectCoverButton" text="Select Cover" />-->
                 <Button fx:id="generateQRButton" disable="true" onAction="#generateQR" text="Generate QR" />
             </HBox>
             

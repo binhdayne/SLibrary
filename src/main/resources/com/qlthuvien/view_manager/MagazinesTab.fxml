@@ -65,7 +65,7 @@
                 <Button onAction="#addMagazine" styleClass="action-button" text="Add Magazine" />
                 <Button onAction="#editMagazine" styleClass="action-button" text="Edit Magazine" />
                 <Button onAction="#deleteMagazine" styleClass="action-button" text="Delete Magazine" />
-            <Button fx:id="selectCoverButton" text="Select Cover" />
+<!--            <Button fx:id="selectCoverButton" text="Select Cover" />-->
                 <Button fx:id="generateQRButton" disable="true" onAction="#generateQR" styleClass="action-button" text="Generate QR Code" />
             </HBox>
             

@@ -11,91 +11,201 @@
 <VBox spacing="15" style="-fx-padding: 20;" stylesheets="@styles_user.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlthuvien.controller_user.FirstScreenController">
             <HBox prefHeight="659.0" prefWidth="831.0">
                 <children>
-                    <VBox alignment="CENTER" prefHeight="353.0" prefWidth="270.0" spacing="15" style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-border-color: #d1d9e0; -fx-border-width: 0 0 0 0; -fx-border-style: solid;">
-                        <!-- Avatar -->
-                        <ImageView fx:id="avatarImageView" fitHeight="316.0" fitWidth="324.0" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, black, 10, 0.5, 0, 0); -fx-border-color: white; -fx-border-width: 2;">
-                            <clip>
-                                <Circle fx:id="avatarClip" centerX="150" centerY="150" radius="150" />
-                            </clip>
-                        </ImageView>
-
-                        <!-- User Info -->
-                        <Label fx:id="userNameLabel" style="-fx-font-size: 16; -fx-text-fill: #000000;" text="User Name" />
-                        <Label fx:id="userIdLabel" style="-fx-font-size: 14; -fx-text-fill: #555555;" text="ID: " />
-                    </VBox>
-                    <Label prefHeight="18.0" prefWidth="177.0" />
-                    <VBox prefHeight="432.0" prefWidth="514.0">
+                    <HBox prefHeight="659.0" prefWidth="831.0">
                         <children>
-                            <HBox prefHeight="76.0" prefWidth="173.0">
-                                <children>
-                                    <Label prefHeight="76.0" prefWidth="367.0" text="Welcome to Slibrary">
-                                        <font>
-                                            <Font size="25.0" />
-                                        </font>
-                                    </Label>
-                                    <Label />
-                                </children>
-                            </HBox>
-                            <Label prefHeight="45.0" prefWidth="178.0" text="This is library made by: " textAlignment="CENTER">
-                                <font>
-                                    <Font size="16.0" />
-                                </font>
-                            </Label>
-                            <HBox prefHeight="37.0" prefWidth="464.0">
-                                <children>
-                                    <ImageView fitHeight="36.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
-                                        <image>
-                                            <Image url="@../../../icons/hiep.png" />
-                                        </image>
-                                        <clip>
-                                            <Circle fx:id="clipHiep" centerX="15" centerY="15" radius="15" />
-                                        </clip>
-                                    </ImageView>
-                                    <Label prefHeight="30.0" prefWidth="156.0" text="  Nguyễn Huy Hiệp">
-                                        <font>
-                                            <Font size="15.0" />
-                                        </font>
-                                    </Label>
-                                </children>
-                            </HBox>
-                            <HBox prefHeight="37.0" prefWidth="464.0">
-                                <children>
-                                    <ImageView fitHeight="34.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
-                                        <image>
-                                            <Image url="@../../../icons/binh.jpg" />
-                                        </image>
-                                        <clip>
-                                            <Circle fx:id="clipBinh" centerX="15" centerY="15" radius="15" />
-                                        </clip>
-                                    </ImageView>
-                                    <Label prefHeight="30.0" prefWidth="161.0" text="  Dương Thanh Bình">
-                                        <font>
-                                            <Font size="15.0" />
-                                        </font>
-                                    </Label>
-                                </children>
-                            </HBox>
-                            <HBox prefHeight="37.0" prefWidth="464.0">
-                                <children>
-                                    <ImageView fitHeight="29.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                        <image>
-                                            <Image url="@../../../icons/duong.png" />
-                                        </image>
-                                        <clip>
-                                            <Circle fx:id="clipDuong" centerX="15" centerY="15" radius="15" />
-                                        </clip>
-                                    </ImageView>
-                                    <Label prefHeight="30.0" prefWidth="165.0" text="  Nguyễn Hải Dương">
-                                        <font>
-                                            <Font size="15.0" />
-                                        </font>
-                                    </Label>
-                                </children>
-                            </HBox>
+                            <VBox alignment="CENTER" prefHeight="353.0" prefWidth="270.0" spacing="15" style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-border-color: #d1d9e0; -fx-border-width: 0 0 0 0; -fx-border-style: solid;">
+                                <!-- Avatar -->
+                                <ImageView fx:id="avatarImageView" fitHeight="316.0" fitWidth="324.0" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, black, 10, 0.5, 0, 0); -fx-border-color: white; -fx-border-width: 2;">
+                                    <clip>
+                                        <Circle fx:id="avatarClip" centerX="150" centerY="150" radius="150" />
+                                    </clip>
+                                </ImageView>
 
+                                <!-- User Info -->
+                                <Label fx:id="userNameLabel" style="-fx-font-size: 16; -fx-text-fill: #000000;" text="User Name" />
+                                <Label fx:id="userIdLabel" style="-fx-font-size: 14; -fx-text-fill: #555555;" text="ID: " />
+                            </VBox>
+                            <Label prefHeight="18.0" prefWidth="177.0" />
+                            <VBox prefHeight="432.0" prefWidth="514.0">
+                                <children>
+                                    <HBox prefHeight="76.0" prefWidth="173.0">
+                                        <children>
+                                            <Label prefHeight="76.0" prefWidth="367.0" text="Welcome to Slibrary">
+                                                <font>
+                                                    <Font name="System Bold" size="25.0" />
+                                                </font>
+                                            </Label>
+                                            <Label />
+                                        </children>
+                                    </HBox>
+                                    <Label prefHeight="45.0" prefWidth="178.0" text="This is library made by: " textAlignment="CENTER">
+                                        <font>
+                                            <Font size="16.0" />
+                                        </font>
+                                    </Label>
+                                    <HBox prefHeight="37.0" prefWidth="464.0">
+                                        <children>
+                                            <ImageView fitHeight="36.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@../../../icons/hiep.png" />
+                                                </image>
+                                                <clip>
+                                                    <Circle fx:id="clipHiep" centerX="15" centerY="15" radius="15" />
+                                                </clip>
+                                            </ImageView>
+                                            <Label prefHeight="30.0" prefWidth="156.0" text="  Nguyễn Huy Hiệp">
+                                                <font>
+                                                    <Font size="15.0" />
+                                                </font>
+                                            </Label>
+                                        </children>
+                                    </HBox>
+                                    <HBox prefHeight="37.0" prefWidth="464.0">
+                                        <children>
+                                            <ImageView fitHeight="34.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@../../../icons/binh.jpg" />
+                                                </image>
+                                                <clip>
+                                                    <Circle fx:id="clipBinh" centerX="15" centerY="15" radius="15" />
+                                                </clip>
+                                            </ImageView>
+                                            <Label prefHeight="30.0" prefWidth="161.0" text="  Dương Thanh Bình">
+                                                <font>
+                                                    <Font size="15.0" />
+                                                </font>
+                                            </Label>
+                                        </children>
+                                    </HBox>
+                                    <HBox prefHeight="37.0" prefWidth="464.0">
+                                        <children>
+                                            <ImageView fitHeight="29.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@../../../icons/duong.png" />
+                                                </image>
+                                                <clip>
+                                                    <Circle fx:id="clipDuong" centerX="15" centerY="15" radius="15" />
+                                                </clip>
+                                            </ImageView>
+                                            <Label prefHeight="30.0" prefWidth="165.0" text="  Nguyễn Hải Dương">
+                                                <font>
+                                                    <Font size="15.0" />
+                                                </font>
+                                            </Label>
+                                        </children>
+                                    </HBox>
+                                    <Label prefHeight="76.0" prefWidth="367.0" text="The books you might enjoy">
+                                        <font>
+                                            <Font size="20.0" />
+                                        </font>
+                                    </Label>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="66.0" prefWidth="317.0" spacing="10">
+                                        <!-- Book Cover Image -->
+                                        <ImageView fitHeight="91.0" fitWidth="75.0" preserveRatio="true">
+                                            <image>
+                                                <Image url="@../../../icons/bookCover1.png" />
+                                            </image>
+                                        </ImageView>
+
+                                        <!-- Book Information -->
+                                        <VBox alignment="TOP_LEFT" spacing="5">
+                                            <Label text="Tên sách: The Great Gatsby">
+                                                <font>
+                                                    <Font size="16.0" />
+                                                </font>
+                                            </Label>
+                                            <Label text="Tác giả: F. Scott Fitzgerald">
+                                                <font>
+                                                    <Font size="14.0" />
+                                                </font>
+                                            </Label>
+                                            <Label text="ISBN: 978-3-16-148410-0">
+                                                <font>
+                                                    <Font size="14.0" />
+                                                </font>
+                                            </Label>
+                                            <Label text="Thông tin liên quan: Cuốn sách kể về những trải nghiệm của Nick Carraway ở Long Island vào mùa hè năm 1922.">
+                                                <font>
+                                                    <Font size="14.0" />
+                                                </font>
+                                            </Label>
+                                        </VBox>
+                                    </HBox>
+                                    <Label />
+                                    <HBox alignment="CENTER_LEFT" prefHeight="66.0" prefWidth="317.0" spacing="10">
+                                        <children>
+                                            <ImageView fitHeight="91.0" fitWidth="75.0" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@../../../icons/bookCover1.png" />
+                                                </image>
+                                            </ImageView>
+                                            <VBox alignment="TOP_LEFT" spacing="5">
+                                                <children>
+                                                    <Label text="Tên sách: The Great Gatsby">
+                                                        <font>
+                                                            <Font size="16.0" />
+                                                        </font>
+                                                    </Label>
+                                                    <Label text="Tác giả: F. Scott Fitzgerald">
+                                                        <font>
+                                                            <Font size="14.0" />
+                                                        </font>
+                                                    </Label>
+                                                    <Label text="ISBN: 978-3-16-148410-0">
+                                                        <font>
+                                                            <Font size="14.0" />
+                                                        </font>
+                                                    </Label>
+                                                    <Label text="Thông tin liên quan: Cuốn sách kể về những trải nghiệm của Nick Carraway ở Long Island vào mùa hè năm 1922.">
+                                                        <font>
+                                                            <Font size="14.0" />
+                                                        </font>
+                                                    </Label>
+                                                </children>
+                                            </VBox>
+                                        </children>
+                                    </HBox>
+                                    <Label />
+                                    <HBox alignment="CENTER_LEFT" prefHeight="73.0" prefWidth="336.0" spacing="10">
+                                        <children>
+                                            <ImageView fitHeight="91.0" fitWidth="75.0" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@../../../icons/bookCover1.png" />
+                                                </image>
+                                            </ImageView>
+                                            <VBox alignment="TOP_LEFT" prefHeight="117.0" prefWidth="302.0" spacing="5">
+                                                <children>
+                                                    <Label text="Tên sách: The Great Gatsby">
+                                                        <font>
+                                                            <Font size="16.0" />
+                                                        </font>
+                                                    </Label>
+                                                    <Label text="Tác giả: F. Scott Fitzgerald">
+                                                        <font>
+                                                            <Font size="14.0" />
+                                                        </font>
+                                                    </Label>
+                                                    <Label text="ISBN: 978-3-16-148410-0">
+                                                        <font>
+                                                            <Font size="14.0" />
+                                                        </font>
+                                                    </Label>
+                                                    <Label text="Thông tin liên quan: Cuốn sách kể về những trải nghiệm của Nick Carraway ở Long Island vào mùa hè năm 1922.">
+                                                        <font>
+                                                            <Font size="14.0" />
+                                                        </font>
+                                                    </Label>
+                                                </children>
+                                            </VBox>
+                                        </children>
+                                    </HBox>
+
+
+                                </children>
+                            </VBox>
+                            <ImageView fx:id="timeImageView" fitHeight="72.0" fitWidth="83.0" preserveRatio="true" style="-fx-border-color: #ddd; -fx-border-width: 2; -fx-border-radius: 10;" />
                         </children>
-                    </VBox>
-                    <ImageView fx:id="timeImageView" fitHeight="72.0" fitWidth="83.0" preserveRatio="true" style="-fx-border-color: #ddd; -fx-border-width: 2; -fx-border-radius: 10;" />
+                    </HBox>
                 </children>
             </HBox>
 </VBox>

@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="736.0" prefWidth="1031.0" style="-fx-background-image: url('./icons/background pixel deep ocean-export.png'); -fx-background-size: cover; -fx-background-repeat: no-repeat; -fx-background-position: center;" stylesheets="@styles_user.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlthuvien.controller_user.MainUserController">
+<BorderPane prefHeight="736.0" prefWidth="1031.0" style="; -fx-background-size: cover; -fx-background-repeat: no-repeat; -fx-background-position: center;" stylesheets="@styles_user.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlthuvien.controller_user.MainUserController">
 
     <left>
         <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER" />

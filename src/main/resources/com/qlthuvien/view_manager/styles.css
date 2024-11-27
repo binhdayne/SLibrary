@@ -31,7 +31,7 @@
 .button {
     -fx-background-color: #70C2B4; /* Màu xanh lá cây nhạt */
     -fx-text-fill: white; /* Chữ trắng */
-   /*?*/
+    /*?*/
 }
 /*}*/
 
@@ -98,10 +98,10 @@
 /* Style cho ngôi sao */
 .star {
     -fx-font-size: 24px;
-    -fx-text-fill: linear-gradient(from 0% 0% to 100% 100%, 
-                                 gold 0%, 
-                                 yellow 50%, 
-                                 white 100%);
+    -fx-text-fill: linear-gradient(from 0% 0% to 100% 100%,
+    gold 0%,
+    yellow 50%,
+    white 100%);
     -fx-effect: dropshadow(gaussian, rgba(255,215,0,0.8), 10, 0.6, 0, 0);
     -fx-padding: 5px;
     -fx-alignment: center;
