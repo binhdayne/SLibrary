@@ -21,31 +21,8 @@ This project is a library management system developed in Java. The project is a 
 
 
 ## Contributors:
-### 1. Dương Thanh Bình 23020516ibrabry Management System (Java LiMS)  <a name="JLMS"></a>
-
-This project is a library management system developed in Java. The project is a part of the Object-Oriented Programming course at the University of Engineering and Technology, VNU. In this project, we have implemented a library management system that includes the documents and users management, GUI and additional features.
-
-# Introduction <a name="introduction"></a>
-* This application helps administrators easily manage books in the library.
-* The application helps users borrow books online and helps users easily search for books available in the library.
-* The application has a section for borrowing books through QR codes, a rank section, and a chart to help users become more interested in reading books.
-* The application has a game to choose the correct answer so that users can learn more about knowledge related to VNU library and knowledge related to books
-
-![yrNpBwo](https://github.com/user-attachments/assets/637eae22-00b3-4ae0-8d88-1e93f0290ab0)
-
-## Built with 
-
-- Language: Java
-- Database: MySQL Server
-- Build tool: Maven
-- Design pattern: MVC Model, UML Diagram
-- Operating system: Windows
-- Source version control: Git
-
-## Contributors:
 ### 1. Dương Thanh Bình 23020516
 
-- 
 - 
 - 
 - 
