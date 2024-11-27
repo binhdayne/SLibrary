@@ -1,137 +1,124 @@
 package com.qlthuvien.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import static org.mockito.ArgumentMatchers.eq;
-import org.mockito.Mock;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import org.mockito.junit.jupiter.MockitoExtension;
-
 import com.qlthuvien.model.Book;
 
-@ExtendWith(MockitoExtension.class)
-public class BooksDAOTest {
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-    @Mock
-    private Connection mockConnection;
+public class BookDAO extends DocumentDAO<Book> {
 
-    @Mock
-    private PreparedStatement mockPreparedStatement;
-
-    private BookDAO bookDAO;
-
-    @BeforeEach
-    void setUp() throws SQLException {
-        bookDAO = new BookDAO(mockConnection);
-        lenient().when(mockConnection.prepareStatement(
-            eq("INSERT INTO books (title, author, genre, status) VALUES (?, ?, ?, ?)"),
-            eq(Statement.RETURN_GENERATED_KEYS)
-        )).thenReturn(mockPreparedStatement);
+    public BookDAO(Connection connection) {
+        super(connection);
     }
 
-    @Test
-    void testAddBook() throws SQLException {
-        Book book = new Book(0, "Title", "Author", "available", "Genre");
-
-        bookDAO.add(book);
-
-        verify(mockPreparedStatement, times(1)).setString(1, book.getTitle());
-        verify(mockPreparedStatement, times(1)).setString(2, book.getAuthor());
-        verify(mockPreparedStatement, times(1)).setString(3, book.getGenre());
-        verify(mockPreparedStatement, times(1)).setString(4, book.getStatus());
-        verify(mockPreparedStatement, times(1)).executeUpdate();
+    public void add(Book book) throws SQLException {
+        String sql = "INSERT INTO books (title, author, genre, status, coverPath) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, book.getTitle());
+            stmt.setString(2, book.getAuthor());
+            stmt.setString(3, book.getGenre());
+            stmt.setString(4, book.getStatus());
+            stmt.setString(5, book.getBookcover()); // Save the book cover path
+            stmt.executeUpdate();
+        }
     }
 
-    @Test
-    void testUpdateBook() throws SQLException {
-        Book book = new Book(1, "Updated Title", "Updated Author", "available", "Updated Genre");
+    public List<Book> searchBooksByTitleOrAuthor(String query) throws SQLException {
+        String sql = "SELECT * FROM books WHERE title LIKE ? OR author LIKE ?";
+        List<Book> books = new ArrayList<>();
 
-        when(mockConnection.prepareStatement(
-            eq("UPDATE books SET title = ?, author = ?, genre = ?, status = ? WHERE id = ?")
-        )).thenReturn(mockPreparedStatement);
-
-        bookDAO.update(book);
-
-        verify(mockPreparedStatement, times(1)).setString(1, book.getTitle());
-        verify(mockPreparedStatement, times(1)).setString(2, book.getAuthor());
-        verify(mockPreparedStatement, times(1)).setString(3, book.getGenre());
-        verify(mockPreparedStatement, times(1)).setString(4, book.getStatus());
-        verify(mockPreparedStatement, times(1)).setInt(5, book.getId());
-        verify(mockPreparedStatement, times(1)).executeUpdate();
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, "%" + query + "%");
+            stmt.setString(2, "%" + query + "%");
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    books.add(new Book(
+                            rs.getInt("id"),
+                            rs.getString("title"),
+                            rs.getString("author"),
+                            rs.getString("genre"),
+                            rs.getString("status"),
+                            rs.getString("coverPath")
+                    ));
+                }
+            }
+        }
+        return books;
     }
 
-    @Test
-    void testDeleteBook() throws SQLException {
-        int bookId = 1;
-
-        when(mockConnection.prepareStatement(
-            eq("DELETE FROM books WHERE id = ?")
-        )).thenReturn(mockPreparedStatement);
-
-        bookDAO.delete(bookId);
-
-        verify(mockPreparedStatement, times(1)).setInt(1, bookId);
-        verify(mockPreparedStatement, times(1)).executeUpdate();
+    public int countAvailable() throws SQLException {
+        String query = "SELECT COUNT(*) FROM books WHERE status = 'available'";
+        try (PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        }
     }
 
-    @Test
-    void testGetAllBooks() throws SQLException {
-        List<Book> expectedBooks = List.of(
-            new Book(1, "Title1", "Author1", "available", "Genre1"),
-            new Book(2, "Title2", "Author2", "available", "Genre2")
-        );
 
-        Statement mockStatement = mock(Statement.class);
-        ResultSet mockResultSet = mock(ResultSet.class);
-
-        when(mockConnection.createStatement()).thenReturn(mockStatement);
-        when(mockStatement.executeQuery(eq("SELECT id, title, author, genre, status FROM books"))).thenReturn(mockResultSet);
-
-        when(mockResultSet.next()).thenReturn(true, true, false);
-        when(mockResultSet.getInt("id")).thenReturn(1, 2);
-        when(mockResultSet.getString("title")).thenReturn("Title1", "Title2");
-        when(mockResultSet.getString("author")).thenReturn("Author1", "Author2");
-        when(mockResultSet.getString("status")).thenReturn("available", "available");
-        when(mockResultSet.getString("genre")).thenReturn("Genre1", "Genre2");
-
-        List<Book> actualBooks = bookDAO.getAll();
-
-        assertEquals(expectedBooks, actualBooks);
+    public void update(Book book) throws SQLException {
+        String sql = "UPDATE books SET title = ?, author = ?, genre = ?, status = ?, coverPath = ? WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, book.getTitle());
+            stmt.setString(2, book.getAuthor());
+            stmt.setString(3, book.getGenre());
+            stmt.setString(4, book.getStatus());
+            stmt.setString(5, book.getBookcover()); // Update the book cover path
+            stmt.setInt(6, book.getId());
+            stmt.executeUpdate();
+        }
     }
 
-    @Test
-    void testGetBookById() throws SQLException {
-        int bookId = 1;
-        Book expectedBook = new Book(bookId, "Title1", "Author1", "available", "Genre1");
+    @Override
+    public void delete(int bookId) throws SQLException {
+        String deleteBookQuery = "DELETE FROM books WHERE id = ?";
 
-        PreparedStatement mockPreparedStatement = mock(PreparedStatement.class);
-        ResultSet mockResultSet = mock(ResultSet.class);
+        try (PreparedStatement bookStmt = connection.prepareStatement(deleteBookQuery)) {
+            bookStmt.setInt(1, bookId);
+            bookStmt.executeUpdate();
+        }
+    }
 
-        when(mockConnection.prepareStatement(eq("SELECT id, title, author, genre, status FROM books WHERE id = ?"))).thenReturn(mockPreparedStatement);
-        when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
+    public List<Book> getAll() throws SQLException {
+        String sql = "SELECT * FROM books";
+        List<Book> books = new ArrayList<>();
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                books.add(new Book(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getString("status"),
+                        rs.getString("genre"),
+                        rs.getString("coverPath") // Get the book cover path
+                ));
+            }
+        }
+        return books;
+    }
 
-        when(mockResultSet.next()).thenReturn(true);
-        when(mockResultSet.getInt("id")).thenReturn(bookId);
-        when(mockResultSet.getString("title")).thenReturn("Title1");
-        when(mockResultSet.getString("author")).thenReturn("Author1");
-        when(mockResultSet.getString("status")).thenReturn("available");
-        when(mockResultSet.getString("genre")).thenReturn("Genre1");
-
-        Book actualBook = bookDAO.getById(bookId);
-
-        assertEquals(expectedBook, actualBook);
+    @Override
+    public Book getById(int bookId) throws SQLException {
+        String query = "SELECT id, title, author, genre, status FROM books WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, bookId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Book(
+                            rs.getInt("id"),
+                            rs.getString("title"),
+                            rs.getString("author"),
+                            rs.getString("status"),
+                            rs.getString("genre"),
+                            rs.getString("coverPath")
+                    );
+                }
+            }
+        }
+        return null;
     }
 }
