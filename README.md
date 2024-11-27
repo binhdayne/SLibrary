@@ -12,41 +12,10 @@ This project is a library management system developed in Java. The project is a 
 
 ## Built with 
 
-- [Java](https://www.java.com/en/) - The programming language used
-- [JavaFX](https://openjfx.io/) - The GUI library used
-- [MySQL](https://dev.mysql.com/) - The database used
-- [JDBC](https://www.oracle.com/java/technologies/jdbc.html) - The Java database connectivity used
-- Build tool: Maven
-- Design pattern: MVC Model, UML Diagram
-- Operating system: Windows
-- Source version control: Git
-
-## Team members  <a name="author"></a>
-
-- **Dương Thanh Bình** 
-- **Nguyễn Hải Dương**
-- **Nguyễn Huy Hiệp**
-
-## Contribution
-
-### 1. Dương Thanh Bình - 23020516
-
-- Create User's functions: User's Controllers , Update Dao.java and model for Users,
--  Edit fxml-files for Admin(manager) and User
--  
-  
-### 2. Nguyễn Hải Dương - 23020523
-
-- Fix and update User's controllers, edit Dao.java and model for Users
-- Edit fxml-files
-- Additional function: Charts management in admin's view, game, animations, sounds
-- Create and Update Login systems.
-  
-### 3. Nguyễn Huy Hiệp - 23020534
-
--
--
-- 
+- Management
+- Create Multithreading
+- Foundation of API
+- Creative Funtions (Star Animation, QR Code...)
 
 ## Features
 **For managers**
