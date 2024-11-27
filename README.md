@@ -23,20 +23,21 @@ This project is a library management system developed in Java. The project is a 
 ## Contributors:
 ### 1. Dương Thanh Bình 23020516
 
-- 
-- 
+- Create User's functions: User's Controllers , Update Dao.java and model for Users,
+- Edit fxml-files for Admin(manager) and User
 - 
 
-### 2. Nguyễn Hải Dương 230205 
+### 2. Nguyễn Hải Dương 23020523 
 
-- 
-- 
-- 
+- Fix and update User's controllers, edit Dao.java and model for Users
+- Additional function: Charts management in admin's view, game, animations, sounds
+- Create and Update Login systems.
 
 ### 3. Nguyễn Huy Hiệp 23020534
-- 
--
-- 
+
+- Create Manager's functions : Manager's contrillers,...
+- Edit DAOS And Models For Managers
+- Create Function (QR Code, Star Animation,...), Unit Test
 
 
 ## Features
